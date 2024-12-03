@@ -4,5 +4,6 @@ public class Main{
         library.displayBooks();
         library.addBook();
         library.displayBooks();
+        library.findAll();
     }
 }

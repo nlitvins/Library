@@ -36,4 +36,8 @@ public class Library {
             System.out.println(book);
         }
     }
+
+    public List<Book> findAll() {
+        return books;
+    }
 }
