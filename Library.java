@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Library {
 
-    public static final List<Book> books = new ArrayList<>();
+    private static final List<Book> books = new ArrayList<>();
 
     public Library() {
         books.add(new Book(1231, "Fiona", "Mike", true));
@@ -17,6 +17,25 @@ public class Library {
         for (Book book : books) {
             System.out.println(book);
         }
+    }
+
+    //    library.books.add(new Book(newId, newTitle, newAuthor, false));
+    public Book addBook(int newId, String newTitle, String newAuthor) {
+//        for (Book book : books) {
+        Book book = new Book(newId, newTitle, newAuthor, false);
+        books.add(book);
+        return book;
+//        }
+
+    }
+
+    public Book findById(int searchId) {
+        for (Book book : books) {
+            if (searchId == book.getId()) {
+                return book;
+            }
+        }
+        return null;
     }
 
     public List<Book> findAll() {
