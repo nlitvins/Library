@@ -14,9 +14,7 @@ public class Library {
 
     public Book addBook(int newId, String newTitle, String newAuthor) {
         Book book = new Book(newId, newTitle, newAuthor, false);
-        books.add(book);
-        return book;
-        this.addBook();
+        return this.addBook(book);
     }
 
     public Book addBook(Book book) {
