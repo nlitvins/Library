@@ -28,11 +28,17 @@ public class Main{
         int searchId = Integer.parseInt(scanner.nextLine());
     }
 
+    public static void displayBooks() {
+        System.out.println("Library books: ");
+        for (Book book : library.findAll()) {
+            System.out.println(book);
+        }
+    }
 
     public static void main(String[] args){
-        library.displayBooks();
+        displayBooks();
         addBook();
-        library.displayBooks();
+        displayBooks();
         Book result = library.findById(1221);
         library.findAll();
     }

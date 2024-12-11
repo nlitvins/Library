@@ -12,21 +12,10 @@ public class Library {
         books.add(new Book(1234, "Prince Charming", "Ivan", false));
     }
 
-    public void displayBooks() {
-        System.out.println("Library books: ");
-        for (Book book : books) {
-            System.out.println(book);
-        }
-    }
-
-    //    library.books.add(new Book(newId, newTitle, newAuthor, false));
     public Book addBook(int newId, String newTitle, String newAuthor) {
-//        for (Book book : books) {
         Book book = new Book(newId, newTitle, newAuthor, false);
         books.add(book);
         return book;
-//        }
-
     }
 
     public Book findById(int searchId) {
