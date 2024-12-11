@@ -16,6 +16,12 @@ public class Library {
         Book book = new Book(newId, newTitle, newAuthor, false);
         books.add(book);
         return book;
+        this.addBook();
+    }
+
+    public Book addBook(Book book) {
+        books.add(book);
+        return book;
     }
 
     public Book findById(int searchId) {
