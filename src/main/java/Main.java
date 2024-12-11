@@ -16,7 +16,7 @@ public class Main{
         System.out.print("Enter book author: ");
         final String newAuthor = scanner.nextLine();
 
-        Book book = library.addBook(newId, newTitle, newAuthor);
+        Book book = library.addBook(new Book(newId, newTitle, newAuthor, false));
         System.out.println("Book added successfully: ");
         System.out.println(book);
     }
