@@ -9,15 +9,13 @@ class LibraryTest {
 
     @Test
     void addBook() {
-        Book idCheck = sut.findById(1237);
-        assertNull(idCheck);
-
+        assertNull(sut.findById(1237));
         Book book = new Book(1237, "Idiot", "Chehov", false);
-        Book result = sut.addBook(book);
-        assertEquals(book, result);
 
-        Book idCheck1 = sut.findById(1237);
-        assertEquals(book, idCheck1);
+        Book result = sut.addBook(book);
+
+        assertEquals(book, result);
+        assertEquals(book, sut.findById(1237));
     }
 
     @Test
