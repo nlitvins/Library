@@ -4,9 +4,14 @@ class LibraryTest {
 
     private final Library sut = new Library();
 
+    //Проверка по ид, добавление книги, Проверка по ид.
     @Test
     void addBook() {
-        var result = sut.addBook(1237, "Idiot", "Chehov");
+        Book book = new Book(1237, "Idiot", "Chehov", false);
+
+        var result = sut.addBook(book);
+
+//        assertEquals();
     }
 
     @Test
