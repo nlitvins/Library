@@ -1,17 +1,23 @@
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 class LibraryTest {
 
     private final Library sut = new Library();
 
-    //Проверка по ид, добавление книги, Проверка по ид.
     @Test
     void addBook() {
+        Book idCheck = sut.findById(1237);
+        assertNull(idCheck);
+
         Book book = new Book(1237, "Idiot", "Chehov", false);
+        Book result = sut.addBook(book);
+        assertEquals(book, result);
 
-        var result = sut.addBook(book);
-
-//        assertEquals();
+        Book idCheck1 = sut.findById(1237);
+        assertEquals(book, idCheck1);
     }
 
     @Test
