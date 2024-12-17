@@ -10,6 +10,9 @@ public class Library {
         books.add(new Book(1232, "Shrek", "John", true));
         books.add(new Book(1233, "Lord Farquaad", "Jack", true));
         books.add(new Book(1234, "Prince Charming", "Ivan", false));
+
+        books.remove(1);
+
     }
 
     public Book addBook(Book book) {
@@ -29,4 +32,14 @@ public class Library {
     public List<Book> findAll() {
         return books;
     }
+
+    public void deleteById(int searchId) {
+        for (Book book : books) {
+            if (searchId == book.getId()) {
+                books.remove(book);
+                break;
+            }
+        }
+    }
 }
+
