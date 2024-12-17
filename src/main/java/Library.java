@@ -12,8 +12,7 @@ public class Library {
         books.add(new Book(1234, "Prince Charming", "Ivan", false));
     }
 
-    public Book addBook(int newId, String newTitle, String newAuthor) {
-        Book book = new Book(newId, newTitle, newAuthor, false);
+    public Book addBook(Book book) {
         books.add(book);
         return book;
     }
