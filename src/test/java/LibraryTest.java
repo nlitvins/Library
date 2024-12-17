@@ -1,11 +1,20 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class LibraryTest {
 
-    private final Library sut = new Library();
+    private Library sut;
+
+    @BeforeEach
+    void setup() {
+        sut = new Library();
+    }
 
     @Test
     void addBook() {
@@ -20,13 +29,21 @@ class LibraryTest {
 
     @Test
     void findById() {
-        var result = sut.findById(1233);
+        Book result = sut.findById(1233);
+
+        Book expected = new Book(1233, "Lord Farquaad", "Jack", true);
+        assertEquals(result, expected);
     }
 
     @Test
     void findAll() {
-        var result = sut.findAll();
+        List<Book> result = sut.findAll();
+
+        List<Book> expected = new ArrayList<>();
+        expected.add(new Book(1231, "Fiona", "Mike", true));
+        expected.add(new Book(1232, "Shrek", "John", true));
+        expected.add(new Book(1233, "Lord Farquaad", "Jack", true));
+        expected.add(new Book(1234, "Prince Charming", "Ivan", false));
+        assertEquals(expected, result);
     }
-
-
 }
