@@ -32,7 +32,7 @@ class LibraryTest {
         Book result = sut.findById(1233);
 
         Book expected = new Book(1233, "Lord Farquaad", "Jack", true);
-        assertEquals(result, expected);
+        assertEquals(expected, result);
     }
 
     @Test
