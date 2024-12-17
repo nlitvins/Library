@@ -29,4 +29,14 @@ public class Library {
     public List<Book> findAll() {
         return books;
     }
+
+    public void deleteById(int searchId) {
+        for (Book book : books) {
+            if (searchId == book.getId()) {
+                books.remove(book);
+                break;
+            }
+        }
+    }
 }
+

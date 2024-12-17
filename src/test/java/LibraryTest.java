@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class LibraryTest {
 
@@ -45,5 +44,15 @@ class LibraryTest {
         expected.add(new Book(1233, "Lord Farquaad", "Jack", true));
         expected.add(new Book(1234, "Prince Charming", "Ivan", false));
         assertEquals(expected, result);
+    }
+
+    @Test
+    void deleteById() {
+        assertNotNull(sut.findById(1231));
+
+        sut.deleteById(1231);
+
+        Book result = sut.findById(1231);
+        assertNull(result);
     }
 }
