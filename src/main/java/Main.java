@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main{
+public class Main {
 
     private static final Library library = new Library();
 
@@ -35,11 +35,11 @@ public class Main{
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         displayBooks();
         addBook();
         displayBooks();
-        Book result = library.findById(1221);
+        Book result = library.findById(1231);
         library.findAll();
     }
 }
