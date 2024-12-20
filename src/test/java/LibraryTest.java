@@ -29,6 +29,15 @@ class LibraryTest {
     }
 
     @Test
+    void whenAddBookExistsThenThrowException() {
+        assertNotNull(sut.findById(1231));
+        Book book = new Book(1231, "Idiot", "Chehov", false);
+
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.addBook(book));
+        assertEquals("ID already exists", thrown.getMessage());
+    }
+
+    @Test
     void findById() {
         Book result = sut.findById(1233);
 

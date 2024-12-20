@@ -13,18 +13,14 @@ public class Library {
     }
 
     public Book addBook(Book book) {
-        books.put(book.getId(), book);
+        if (books.putIfAbsent(book.getId(), book) != null) {
+            throw new RuntimeException("ID already exists");
+        }
         return book;
     }
 
     public Book findById(int searchId) {
-        Book book = books.get(searchId);
-        if (book != null) {
-            System.out.println("Book found: " + book);
-        } else {
-            System.out.println("Book with number: " + searchId + " not found.");
-        }
-        return book;
+        return books.get(searchId);
     }
 
     public List<Book> findAll() {

@@ -16,9 +16,13 @@ public class Main {
         System.out.print("Enter book author: ");
         final String newAuthor = scanner.nextLine();
 
-        Book book = library.addBook(new Book(newId, newTitle, newAuthor, false));
-        System.out.println("Book added successfully: ");
-        System.out.println(book);
+        try {
+            Book book = library.addBook(new Book(newId, newTitle, newAuthor, false));
+            System.out.println("Book added successfully: ");
+            System.out.println(book);
+        } catch (RuntimeException exception) {
+            System.err.println("Book can't be added: " + exception.getMessage());
+        }
     }
 
     public static void searchId() {
