@@ -1,42 +1,34 @@
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Library {
 
-    private static final List<Book> books = new ArrayList<>();
+    private final HashMap<Integer, Book> books = new HashMap<>();
 
     public Library() {
-        books.add(new Book(1231, "Fiona", "Mike", true));
-        books.add(new Book(1232, "Shrek", "John", true));
-        books.add(new Book(1233, "Lord Farquaad", "Jack", true));
-        books.add(new Book(1234, "Prince Charming", "Ivan", false));
+        books.put(1231, new Book(1231, "Fiona", "Mike", true));
+        books.put(1232, new Book(1232, "Shrek", "John", true));
+        books.put(1233, new Book(1233, "Lord Farquaad", "Jack", true));
+        books.put(1234, new Book(1234, "Prince Charming", "Ivan", false));
     }
 
     public Book addBook(Book book) {
-        books.add(book);
+        if (books.putIfAbsent(book.getId(), book) != null) {
+            throw new RuntimeException("ID already exists");
+        }
         return book;
     }
 
     public Book findById(int searchId) {
-        for (Book book : books) {
-            if (searchId == book.getId()) {
-                return book;
-            }
-        }
-        return null;
+        return books.get(searchId);
     }
 
     public List<Book> findAll() {
-        return books;
+        return books.values().stream().toList();
     }
 
     public void deleteById(int searchId) {
-        for (Book book : books) {
-            if (searchId == book.getId()) {
-                books.remove(book);
-                break;
-            }
-        }
+        Book book = books.get(searchId);
+        books.remove(searchId, book);
     }
 }
-

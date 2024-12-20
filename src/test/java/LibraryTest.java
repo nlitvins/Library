@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LibraryTest {
@@ -27,6 +29,15 @@ class LibraryTest {
     }
 
     @Test
+    void whenAddBookExistsThenThrowException() {
+        assertNotNull(sut.findById(1231));
+        Book book = new Book(1231, "Idiot", "Chehov", false);
+
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.addBook(book));
+        assertEquals("ID already exists", thrown.getMessage());
+    }
+
+    @Test
     void findById() {
         Book result = sut.findById(1233);
 
@@ -43,7 +54,7 @@ class LibraryTest {
         expected.add(new Book(1232, "Shrek", "John", true));
         expected.add(new Book(1233, "Lord Farquaad", "Jack", true));
         expected.add(new Book(1234, "Prince Charming", "Ivan", false));
-        assertEquals(expected, result);
+        assertThat(result, containsInAnyOrder(expected.toArray()));
     }
 
     @Test
