@@ -5,10 +5,11 @@ public class Main {
     private static final Library library = new Library();
 
     public static void addBook() {
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter book ID: ");
-        final int newId = Integer.parseInt(scanner.nextLine());
+        final int newId = readInt(scanner);
 
         System.out.print("Enter book title: ");
         final String newTitle = scanner.nextLine();
@@ -25,33 +26,58 @@ public class Main {
         }
     }
 
+    private static int readInt(Scanner scanner) {
+        do {
+            String value = scanner.nextLine();
+            try {
+                return Integer.parseInt(value);
+            } catch (Exception ignored) {
+                System.out.print("Book ID must be integer: ");
+            }
+        } while (true);
+    }
+
     public static void actionMenu() {
         System.out.println("Add new book - print 1");
         System.out.println("Display books - print 2");
         System.out.println("Find book by id - print 3");
         System.out.println("Delete book by id - print 4");
         System.out.println("Update book status - print 5");
+        System.out.println("Exit - print 6 ");
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Choose action: ");
-        final int action = Integer.parseInt(scanner.nextLine());
+        System.out.print("Choose action: ");
+        String action = (scanner.nextLine());
 
-        if (action == 1) {
-            addBook();
-            actionMenu();
-        } else if (action == 2) {
-            displayBooks();
-            actionMenu();
-        } else if (action == 3) {
-            searchBookById();
-            actionMenu();
-        } else if (action == 4) {
-            library.deleteById(1234);
-            actionMenu();
-        } else {
-            System.out.println("Incorrect input");
-            actionMenu();
+        switch (action) {
+            case "1" -> {
+                addBook();
+                actionMenu();
+            }
+            case "2" -> {
+                displayBooks();
+                actionMenu();
+            }
+            case "3" -> {
+                searchBookById();
+                actionMenu();
+            }
+            case "4" -> {
+                deleteBookById();
+                actionMenu();
+            }
+            case "5" -> {
+                updateBookStatusById();
+                actionMenu();
+            }
+            case "6" -> {
+                return;
+            }
+            case null, default -> {
+                System.out.println("Incorrect input");
+                actionMenu();
+            }
         }
     }
 
@@ -77,6 +103,14 @@ public class Main {
         library.deleteById(searchId);
     }
 
+    public static void updateBookStatusById() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter book ID: ");
+        int searchId = Integer.parseInt(scanner.nextLine());
+        library.updateBookStatus(searchId);
+    }
+
 
     public static void displayBooks() {
         System.out.println("Library books: ");
@@ -88,10 +122,5 @@ public class Main {
 
     public static void main(String[] args) {
         actionMenu();
-//        displayBooks();
-//        addBook();
-//        displayBooks();
-        Book result = library.findById(1231);
-//        library.findAll();
     }
 }
