@@ -3,13 +3,12 @@ import java.util.Scanner;
 public class Main {
 
     private static final Library library = new Library();
+    private static final Scanner scanner = new Scanner(System.in);
 
     private static void addBook() {
 
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Enter book ID: ");
-        final int newId = readInt(scanner);
+        final int newId = readInt();
 
         System.out.print("Enter book title: ");
         final String newTitle = scanner.nextLine();
@@ -26,13 +25,13 @@ public class Main {
         }
     }
 
-    private static int readInt(Scanner scanner) {
+    private static int readInt() {
         do {
             String value = scanner.nextLine();
             try {
                 return Integer.parseInt(value);
             } catch (Exception ignored) {
-                System.out.print("Book ID must be integer: ");
+                System.out.print("Input must be an integer: ");
             }
         } while (true);
     }
@@ -45,7 +44,7 @@ public class Main {
         System.out.println("Update book status - print 5");
         System.out.println("Exit - print 6 ");
 
-        Scanner scanner = new Scanner(System.in);
+
 
         System.out.print("Choose action: ");
         String action = (scanner.nextLine());
@@ -82,10 +81,9 @@ public class Main {
     }
 
     private static void searchBookById() {
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter book ID: ");
-        int searchId = readInt(scanner);
+        int searchId = readInt();
         Book book = library.findById(searchId);
         if (book == null) {
             System.out.println("Book don't exist");
@@ -95,19 +93,17 @@ public class Main {
     }
 
     private static void deleteBookById() {
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter book ID: ");
-        int deleteId = readInt(scanner);
+        int deleteId = readInt();
         library.deleteById(deleteId);
         System.out.println("Book with id " + deleteId + " deleted ");
     }
 
     private static void updateBookStatusById() {
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter book ID: ");
-        int updateId = readInt(scanner);
+        int updateId = readInt();
         library.updateBookStatus(updateId);
     }
 
