@@ -44,8 +44,6 @@ public class Main {
         System.out.println("Update book status - print 5");
         System.out.println("Exit - print 6 ");
 
-
-
         System.out.print("Choose action: ");
         String action = (scanner.nextLine());
 
