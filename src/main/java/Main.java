@@ -4,7 +4,7 @@ public class Main {
 
     private static final Library library = new Library();
 
-    public static void addBook() {
+    private static void addBook() {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -37,7 +37,7 @@ public class Main {
         } while (true);
     }
 
-    public static void actionMenu() {
+    private static void actionMenu() {
         System.out.println("Add new book - print 1");
         System.out.println("Display books - print 2");
         System.out.println("Find book by id - print 3");
@@ -81,12 +81,11 @@ public class Main {
         }
     }
 
-
-    public static void searchBookById() {
+    private static void searchBookById() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter book ID: ");
-        int searchId = Integer.parseInt(scanner.nextLine());
+        int searchId = readInt(scanner);
         Book book = library.findById(searchId);
         if (book == null) {
             System.out.println("Book don't exist");
@@ -95,30 +94,29 @@ public class Main {
         }
     }
 
-    public static void deleteBookById() {
+    private static void deleteBookById() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter book ID: ");
-        int searchId = Integer.parseInt(scanner.nextLine());
-        library.deleteById(searchId);
+        int deleteId = readInt(scanner);
+        library.deleteById(deleteId);
+        System.out.println("Book with id " + deleteId + " deleted ");
     }
 
-    public static void updateBookStatusById() {
+    private static void updateBookStatusById() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter book ID: ");
-        int searchId = Integer.parseInt(scanner.nextLine());
-        library.updateBookStatus(searchId);
+        int updateId = readInt(scanner);
+        library.updateBookStatus(updateId);
     }
 
-
-    public static void displayBooks() {
+    private static void displayBooks() {
         System.out.println("Library books: ");
         for (Book book : library.findAll()) {
             System.out.println(book);
         }
     }
-
 
     public static void main(String[] args) {
         actionMenu();
