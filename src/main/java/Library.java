@@ -27,19 +27,19 @@ public class Library {
         return books.values().stream().toList();
     }
 
-    public void deleteById(int searchId) {
-        Book book = books.get(searchId);
-        books.remove(searchId, book);
+    public void deleteById(int deleteId) {
+        Book book = books.get(deleteId);
+        books.remove(deleteId, book);
     }
 
-    public Book updateBookStatus(int searchID) {
-        Book book = books.get(searchID);
+    public Book updateBookStatus(int updateId) {
+        Book book = books.get(updateId);
         if (book == null) {
             throw new RuntimeException("Book don't exist");
         }
 
         book.setBorrowed(!book.isBorrowed());
-        books.put(searchID, book);
+        books.put(updateId, book);
         return book;
     }
 }
