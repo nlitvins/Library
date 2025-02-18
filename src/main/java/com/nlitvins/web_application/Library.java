@@ -1,3 +1,5 @@
+package com.nlitvins.web_application;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class Library {
     public Book updateBookStatus(int updateId) {
         Book book = books.get(updateId);
         if (book == null) {
-            throw new RuntimeException("Book don't exist");
+            throw new RuntimeException("com.nlitvins.web_application.Book don't exist");
         }
 
         book.setBorrowed(!book.isBorrowed());
@@ -43,3 +45,4 @@ public class Library {
         return book;
     }
 }
+ 

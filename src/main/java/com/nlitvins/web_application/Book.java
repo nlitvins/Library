@@ -1,3 +1,5 @@
+package com.nlitvins.web_application;
+
 import java.util.Objects;
 
 public class Book {
@@ -48,7 +50,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book: " +
+        return "com.nlitvins.web_application.Book: " +
                 "id: " + id +
                 ", " + title +
                 ", " + author +
