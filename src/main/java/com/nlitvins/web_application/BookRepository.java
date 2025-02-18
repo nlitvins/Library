@@ -1,11 +1,16 @@
+package com.nlitvins.web_application;
+
+import org.springframework.stereotype.Repository;
+
 import java.util.HashMap;
 import java.util.List;
 
-public class Library {
+@Repository
+public class BookRepository {
 
     private final HashMap<Integer, Book> books = new HashMap<>();
 
-    public Library() {
+    public BookRepository() {
         books.put(1231, new Book(1231, "Fiona", "Mike", true));
         books.put(1232, new Book(1232, "Shrek", "John", true));
         books.put(1233, new Book(1233, "Lord Farquaad", "Jack", true));
@@ -27,9 +32,9 @@ public class Library {
         return books.values().stream().toList();
     }
 
-    public void deleteById(int deleteId) {
+    public boolean deleteById(int deleteId) {
         Book book = books.get(deleteId);
-        books.remove(deleteId, book);
+        return books.remove(deleteId, book);
     }
 
     public Book updateBookStatus(int updateId) {
@@ -43,3 +48,4 @@ public class Library {
         return book;
     }
 }
+ 

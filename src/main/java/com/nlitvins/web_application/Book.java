@@ -1,3 +1,5 @@
+package com.nlitvins.web_application;
+
 import java.util.Objects;
 
 public class Book {
