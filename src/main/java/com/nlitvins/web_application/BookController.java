@@ -1,5 +1,6 @@
 package com.nlitvins.web_application;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,22 +18,26 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/books", produces = APPLICATION_JSON_VALUE)
 public class BookController {
 
-    private static final Library library = new Library();
+    private final BookRepository bookRepository;
+
+    public BookController(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     @GetMapping
     public List<Book> books() {
-        return library.findAll();
+        return bookRepository.findAll();
     }
 
     @GetMapping("/{getId}")
     public Book findBook(@PathVariable int getId) {
-        return library.findById(getId);
+        return bookRepository.findById(getId);
     }
 
     @PostMapping
     public Book postBook(@RequestBody Book book) {
 
-        return library.addBook(
+        return bookRepository.addBook(
                 new Book(
                         book.getId(),
                         book.getTitle(),
@@ -42,15 +47,18 @@ public class BookController {
     }
 
     @DeleteMapping("/{getId}")
-    public Book deleteBook(@PathVariable int getId) {
-
-        library.deleteById(getId);
-
-        return null;
+    public ResponseEntity<Void> deleteBook(@PathVariable int getId) {
+        boolean isDeleted = bookRepository.deleteById(getId);
+        if (isDeleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{getId}")
     public Book reserveBook(@PathVariable int getId) {
-        return library.updateBookStatus(getId);
+        return bookRepository.updateBookStatus(getId);
+
     }
 }

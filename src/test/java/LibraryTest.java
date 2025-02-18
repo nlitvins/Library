@@ -1,5 +1,5 @@
 import com.nlitvins.web_application.Book;
-import com.nlitvins.web_application.Library;
+import com.nlitvins.web_application.BookRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class LibraryTest {
 
-    private Library sut;
+    private BookRepository sut;
 
     @BeforeEach
     void setup() {
-        sut = new Library();
+        sut = new BookRepository();
     }
 
     @Test
