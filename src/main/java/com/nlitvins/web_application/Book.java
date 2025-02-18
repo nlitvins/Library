@@ -50,7 +50,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "com.nlitvins.web_application.Book: " +
+        return "Book: " +
                 "id: " + id +
                 ", " + title +
                 ", " + author +
