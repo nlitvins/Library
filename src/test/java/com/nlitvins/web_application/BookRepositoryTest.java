@@ -1,5 +1,5 @@
-import com.nlitvins.web_application.Book;
-import com.nlitvins.web_application.BookRepository;
+package com.nlitvins.web_application;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class LibraryTest {
+class BookRepositoryTest {
 
     private BookRepository sut;
 
@@ -84,6 +84,6 @@ class LibraryTest {
     void whenUpdateStatusBookDontExistsThenThrowException() {
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.updateBookStatus(1255));
 
-        assertEquals("com.nlitvins.web_application.Book don't exist", thrown.getMessage());
+        assertEquals("Book don't exist", thrown.getMessage());
     }
 }
