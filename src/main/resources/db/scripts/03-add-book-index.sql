@@ -1,1 +1,0 @@
-CREATE INDEX idx_title_author ON books (author);
