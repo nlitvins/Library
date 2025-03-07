@@ -8,13 +8,23 @@ public class Book {
     private String title;
     private String author;
     private boolean isBorrowed;
+    private int quantity;
 
     public Book(int id, String title, String author, boolean isBorrowed) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.isBorrowed = isBorrowed;
+        this.quantity = 1;
     }
+
+    public Book() {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.quantity = quantity;
+    }
+
 
     public int getId() {
         return id;
@@ -46,6 +56,14 @@ public class Book {
 
     public void setBorrowed(boolean borrowed) {
         isBorrowed = borrowed;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 
     @Override
