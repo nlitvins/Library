@@ -4,7 +4,7 @@ VALUES (1, 'Mike', 'Louis'),
        (3, 'Jack', 'Trans'),
        (4, 'Ivan', 'Tolstoy');
 
-INSERT INTO books(id, title, author, quantity)
+INSERT INTO books(id, title, author_id, quantity)
 VALUES (1, 'Fiona', 1, 1),
        (2, 'Shrek', 4, 2),
        (3, 'Lord Farquaad', 3, 3),

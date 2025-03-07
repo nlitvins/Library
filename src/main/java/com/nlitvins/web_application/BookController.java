@@ -19,8 +19,10 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class BookController {
 
     private final BookRepository bookRepository;
+    private final BookJpaRepository bookJpaRepository;
 
-    public BookController(BookRepository bookRepository) {
+    public BookController(BookJpaRepository bookJpaRepository, BookRepository bookRepository) {
+        this.bookJpaRepository = bookJpaRepository;
         this.bookRepository = bookRepository;
     }
 
@@ -31,7 +33,8 @@ public class BookController {
 
     @GetMapping("/{getId}")
     public Book findBook(@PathVariable int getId) {
-        return bookRepository.findById(getId);
+        BookEntity bookEntity = bookJpaRepository.getReferenceById(getId);
+        return Mapper.toBook(bookEntity);
     }
 
     @PostMapping
