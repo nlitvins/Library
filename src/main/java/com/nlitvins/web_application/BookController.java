@@ -28,7 +28,8 @@ public class BookController {
 
     @GetMapping
     public List<Book> books() {
-        return bookRepository.findAll();
+        List<BookEntity> bookEntities = bookJpaRepository.findAll();
+        return Mapper.toList(bookEntities);
     }
 
     @GetMapping("/{getId}")
