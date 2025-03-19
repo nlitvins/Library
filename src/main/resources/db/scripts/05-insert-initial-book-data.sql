@@ -17,8 +17,8 @@ VALUES (1, 'John', 'Doe', 'johndoe', 'password123', 'johndoe@example.com', '2000
        (3, 'Alice', 'Johnson', 'alicejohnson', 'alicePass1', 'alicej@example.com', '20001113', '190203-27316'),
        (4, 'Bob', 'Williams', 'bobwilliams', 'bobSecure2024', 'bobw@example.com', '20001114', '190204-27317');
 
-INSERT INTO reservations(id, user_id, book_id, date, term, status)
-VALUES (1, 2, 3, '2025-03-05', '2025-03-06', 1),
-       (2, 1, 4, '2025-03-07', '2025-03-08', 2),
-       (3, 4, 2, '2025-03-10', '2025-03-11', 1),
-       (4, 3, 1, '2025-03-12', '2025-03-13', 3);
+INSERT INTO reservations(id, user_id, book_id, created_date, term, status)
+VALUES (1, 2, 3, '2025-03-05 14:30:00', '2025-03-06 14:30:00', 1),
+       (2, 1, 4, '2025-03-07 14:30:00', '2025-03-08 14:30:00', 2),
+       (3, 4, 2, '2025-03-10 14:30:00', '2025-03-11 14:30:00', 1),
+       (4, 3, 1, '2025-03-12 14:30:00', '2025-03-13 14:30:00', 3);

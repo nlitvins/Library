@@ -29,40 +29,40 @@ public class BookController {
     @GetMapping
     public List<Book> books() {
         List<BookEntity> bookEntities = bookJpaRepository.findAll();
-        return Mapper.toList(bookEntities);
+        return Mapper.bookToList(bookEntities);
     }
 
-    @GetMapping("/{getId}")
-    public Book findBook(@PathVariable int getId) {
-        BookEntity bookEntity = bookJpaRepository.getReferenceById(getId);
+    @PutMapping("/{putId}")
+    public Book findBook(@PathVariable int putId) {
+        BookEntity bookEntity = bookJpaRepository.getReferenceById(putId);
         return Mapper.toBook(bookEntity);
     }
 
     @PostMapping
     public Book postBook(@RequestBody Book book) {
+        BookEntity bookEntity = new BookEntity();
 
-        return bookRepository.addBook(
-                new Book(
-                        book.getId(),
-                        book.getTitle(),
-                        book.getAuthor(),
-                        false
-                ));
+        bookEntity.setTitle(book.getTitle());
+        bookEntity.setAuthor(Integer.parseInt(book.getAuthor()));
+        bookEntity.setQuantity(book.getQuantity());
+
+        BookEntity savedBookEntity = bookJpaRepository.save(bookEntity);
+        return Mapper.toBook(savedBookEntity);
     }
 
-    @DeleteMapping("/{getId}")
-    public ResponseEntity<Void> deleteBook(@PathVariable int getId) {
-        boolean isDeleted = bookRepository.deleteById(getId);
-        if (isDeleted) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping("/{bookId}")
+    public ResponseEntity<Void> deleteBook(@PathVariable int bookId) {
+        bookJpaRepository.deleteById(bookId);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{getId}")
-    public Book reserveBook(@PathVariable int getId) {
+    public Book updateBook(@PathVariable int getId) {
         return bookRepository.updateBookStatus(getId);
-
     }
+
+//    @PutMapping("/{reserve}")
+//    public Book reserveBook(){
+//
+//    }
 }

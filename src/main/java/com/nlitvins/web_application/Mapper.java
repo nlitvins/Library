@@ -23,7 +23,7 @@ public class Mapper {
         return book;
     }
 
-    public static List<Book> toList(List<BookEntity> bookEntities) {
+    public static List<Book> bookToList(List<BookEntity> bookEntities) {
 
         List<Book> books = new ArrayList<>();
         for (int index = bookEntities.size() - 1; index >= 0; index--) {
@@ -32,5 +32,25 @@ public class Mapper {
             books.add(mapper);
         }
         return books;
+    }
+
+    public static List<UserEntity> userToList(List<UserEntity> userEntities) {
+
+        List<UserEntity> users = new ArrayList<>();
+        for (int index = userEntities.size() - 1; index >= 0; index--) {
+            UserEntity get = userEntities.get(index);
+            users.add(get);
+        }
+        return users;
+    }
+
+    public static List<ReservationEntity> reservationToList(List<ReservationEntity> reservationEntities) {
+
+        List<ReservationEntity> reservations = new ArrayList<>();
+        for (int index = reservationEntities.size() - 1; index >= 0; index--) {
+            ReservationEntity get = reservationEntities.get(index);
+            reservations.add(get);
+        }
+        return reservations;
     }
 }
