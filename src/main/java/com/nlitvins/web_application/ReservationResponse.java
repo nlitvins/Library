@@ -2,8 +2,7 @@ package com.nlitvins.web_application;
 
 import java.time.LocalDateTime;
 
-public class Reservation {
-
+public class ReservationResponse {
     private int id;
     private int userId;
     private int bookId;
@@ -77,4 +76,5 @@ public class Reservation {
     public void setUpdatedDate(LocalDateTime updatedDate) {
         this.updatedDate = updatedDate;
     }
+
 }

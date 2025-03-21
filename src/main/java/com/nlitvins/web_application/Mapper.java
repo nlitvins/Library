@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Mapper {
 
-    public static BookEntity toEntity(Book book) {
+    public static BookEntity bookToEntity(Book book) {
         BookEntity bookEntity = new BookEntity();
         bookEntity.setId(book.getId());
         bookEntity.setTitle(book.getTitle());
@@ -14,7 +14,7 @@ public class Mapper {
         return bookEntity;
     }
 
-    public static Book toBook(BookEntity bookEntity) {
+    public static Book entityToBook(BookEntity bookEntity) {
         Book book = new Book();
         book.setId(bookEntity.getId());
         book.setTitle(bookEntity.getTitle());
@@ -23,12 +23,27 @@ public class Mapper {
         return book;
     }
 
+    public static Reservation entityToReservation(ReservationEntity reservationEntity) {
+        Reservation reservation = new Reservation();
+
+        reservation.setId(reservationEntity.getId());
+        reservation.setUserId(reservationEntity.getUserId());
+        reservation.setBookId(reservationEntity.getBookId());
+        reservation.setCreatedDate(reservationEntity.getCreatedDate());
+        reservation.setTermDate(reservationEntity.getTermDate());
+        reservation.setStatus(reservationEntity.getStatus());
+        reservation.setExtensionCount(reservationEntity.getExtensionCount());
+        reservation.setUpdatedDate(reservationEntity.getUpdatedDate());
+        return reservation;
+    }
+
+
     public static List<Book> bookToList(List<BookEntity> bookEntities) {
 
         List<Book> books = new ArrayList<>();
         for (int index = bookEntities.size() - 1; index >= 0; index--) {
             BookEntity get = bookEntities.get(index);
-            Book mapper = toBook(get);
+            Book mapper = entityToBook(get);
             books.add(mapper);
         }
         return books;

@@ -31,16 +31,17 @@ public class ReservationController {
     public Reservation reserveBook(@RequestBody Reservation reservation) {
         ReservationEntity reservationEntity = new ReservationEntity();
 
-        reservationEntity.setId(reservationEntity.getId());
-        reservationEntity.setUserId(reservationEntity.getUserId());
-        reservationEntity.setBookId(reservationEntity.getBookId());
-        reservationEntity.setCreatedDate(reservationEntity.getCreatedDate());
-        reservationEntity.setTermDate(reservationEntity.getTermDate());
-        reservationEntity.setStatus(reservationEntity.getStatus());
-        reservationEntity.setUpdatedDate(reservationEntity.getUpdatedDate());
+        reservationEntity.setId(reservation.getId());
+        reservationEntity.setUserId(reservation.getUserId());
+        reservationEntity.setBookId(reservation.getBookId());
+        reservationEntity.setCreatedDate(reservation.getCreatedDate());
+        reservationEntity.setTermDate(reservation.getTermDate());
+        reservationEntity.setStatus(reservation.getStatus());
+        reservationEntity.setExtensionCount(reservation.getExtensionCount());
+        reservationEntity.setUpdatedDate(reservation.getUpdatedDate());
 
         ReservationEntity savedReservationEntity = reservationRepository.save(reservationEntity);
-        return savedReservationEntity;
+        return Mapper.entityToReservation(savedReservationEntity);
 
     }
 }

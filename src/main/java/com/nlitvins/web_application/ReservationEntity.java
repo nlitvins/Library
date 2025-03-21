@@ -1,6 +1,7 @@
 package com.nlitvins.web_application;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,15 +26,23 @@ public class ReservationEntity {
     private int bookId;
 
     @Column(name = "created_date", nullable = false)
+    @JsonIgnore
     private LocalDateTime createdDate;
 
     @Column(name = "term_date", nullable = false)
+    @JsonIgnore
     private LocalDateTime termDate;
 
     @Column(name = "status", nullable = false)
+    @JsonIgnore
     private Short status;
 
-    @Column(name = "updated_date", nullable = true)
+    @Column(name = "extension_count", nullable = false)
+    @JsonIgnore
+    private Short extensionCount;
+
+    @Column(name = "updated_date", nullable = false)
+    @JsonIgnore
     private LocalDateTime updatedDate;
 
 
@@ -59,6 +68,10 @@ public class ReservationEntity {
 
     public void setStatus(Short status) {
         this.status = status;
+    }
+
+    public void setExtensionCount(Short extensionCount) {
+        this.extensionCount = extensionCount;
     }
 
     public void setUpdatedDate(LocalDateTime updatedDate) {
@@ -88,6 +101,10 @@ public class ReservationEntity {
 
     public Short getStatus() {
         return status;
+    }
+
+    public Short getExtensionCount() {
+        return extensionCount;
     }
 
     public LocalDateTime getUpdatedDate() {

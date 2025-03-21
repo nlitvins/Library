@@ -35,7 +35,7 @@ public class BookController {
     @PutMapping("/{putId}")
     public Book findBook(@PathVariable int putId) {
         BookEntity bookEntity = bookJpaRepository.getReferenceById(putId);
-        return Mapper.toBook(bookEntity);
+        return Mapper.entityToBook(bookEntity);
     }
 
     @PostMapping
@@ -47,7 +47,7 @@ public class BookController {
         bookEntity.setQuantity(book.getQuantity());
 
         BookEntity savedBookEntity = bookJpaRepository.save(bookEntity);
-        return Mapper.toBook(savedBookEntity);
+        return Mapper.entityToBook(savedBookEntity);
     }
 
     @DeleteMapping("/{bookId}")

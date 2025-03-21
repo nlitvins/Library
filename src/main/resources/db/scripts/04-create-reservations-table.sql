@@ -6,6 +6,6 @@ CREATE TABLE reservations
     created_date  TIMESTAMP NOT NULL,
     term_date       TIMESTAMP NOT NULL,
     status        SMALLINT  NOT NULL,
-    extension_count SMALLINT,
+    extension_count SMALLINT NOT NULL,
     updated_date    TIMESTAMP NOT NULL
 );
