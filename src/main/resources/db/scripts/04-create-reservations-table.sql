@@ -4,7 +4,8 @@ CREATE TABLE reservations
     user_id INT      NOT NULL REFERENCES "users" (id),
     book_id INT      NOT NULL REFERENCES "books" (id),
     created_date  TIMESTAMP NOT NULL,
-    term          TIMESTAMP NOT NULL,
+    term_date       TIMESTAMP NOT NULL,
     status        SMALLINT  NOT NULL,
-    extend_number SMALLINT
+    extension_count SMALLINT,
+    updated_date    TIMESTAMP NOT NULL
 );

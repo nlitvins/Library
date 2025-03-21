@@ -27,15 +27,15 @@ public class ReservationEntity {
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
 
-    @Column(name = "term", nullable = false)
-    private LocalDateTime term;
+    @Column(name = "term_date", nullable = false)
+    private LocalDateTime termDate;
 
     @Column(name = "status", nullable = false)
     private Short status;
 
-//    private LocalDate updatedDate;
-//
-//    private LocalDate termDate;
+    @Column(name = "updated_date", nullable = true)
+    private LocalDateTime updatedDate;
+
 
     public void setId(int id) {
         this.id = id;
@@ -53,13 +53,18 @@ public class ReservationEntity {
         this.createdDate = createdDate;
     }
 
-    public void setTerm(LocalDateTime term) {
-        this.term = term;
+    public void setTermDate(LocalDateTime termDate) {
+        this.termDate = termDate;
     }
 
     public void setStatus(Short status) {
         this.status = status;
     }
+
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
 
     public int getId() {
         return id;
@@ -77,12 +82,16 @@ public class ReservationEntity {
         return createdDate;
     }
 
-    public LocalDateTime getTerm() {
-        return term;
+    public LocalDateTime getTermDate() {
+        return termDate;
     }
 
     public Short getStatus() {
         return status;
+    }
+
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
     }
 }
 
