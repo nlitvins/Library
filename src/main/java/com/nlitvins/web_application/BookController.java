@@ -60,9 +60,4 @@ public class BookController {
     public Book updateBook(@PathVariable int getId) {
         return bookRepository.updateBookStatus(getId);
     }
-
-//    @PutMapping("/{reserve}")
-//    public Book reserveBook(){
-//
-//    }
 }

@@ -3,17 +3,25 @@ package com.nlitvins.web_application;
 import java.time.LocalDateTime;
 
 public class ReservationResponse {
-    private int id;
     private int userId;
     private int bookId;
     private LocalDateTime createdDate;
     private LocalDateTime termDate;
-    private Short status;
-    private Short extensionCount;
     private LocalDateTime updatedDate;
 
-    public int getId() {
-        return id;
+    public ReservationResponse(int userId, int bookId, LocalDateTime createdDate, LocalDateTime termDate) {
+        this.userId = userId;
+        this.bookId = bookId;
+        this.createdDate = createdDate;
+        this.termDate = termDate;
+    }
+
+    public ReservationResponse(int userId, int bookId, LocalDateTime createdDate, LocalDateTime termDate, LocalDateTime updatedDate) {
+        this.userId = userId;
+        this.bookId = bookId;
+        this.createdDate = createdDate;
+        this.termDate = termDate;
+        this.updatedDate = updatedDate;
     }
 
     public int getUserId() {
@@ -32,29 +40,16 @@ public class ReservationResponse {
         return termDate;
     }
 
-    public Short getStatus() {
-        return status;
-    }
-
-    public Short getExtensionCount() {
-        return extensionCount;
-    }
-
     public LocalDateTime getUpdatedDate() {
         return updatedDate;
     }
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public void setBookId(int bookId) {
         this.bookId = bookId;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public void setCreatedDate(LocalDateTime createdDate) {
@@ -65,16 +60,7 @@ public class ReservationResponse {
         this.termDate = termDate;
     }
 
-    public void setStatus(Short status) {
-        this.status = status;
-    }
-
-    public void setExtensionCount(Short extensionCount) {
-        this.extensionCount = extensionCount;
-    }
-
     public void setUpdatedDate(LocalDateTime updatedDate) {
         this.updatedDate = updatedDate;
     }
-
 }
