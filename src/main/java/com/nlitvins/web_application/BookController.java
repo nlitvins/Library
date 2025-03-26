@@ -32,9 +32,9 @@ public class BookController {
         return Mapper.bookToList(bookEntities);
     }
 
-    @PutMapping("/{putId}")
-    public Book findBook(@PathVariable int putId) {
-        BookEntity bookEntity = bookJpaRepository.getReferenceById(putId);
+    @GetMapping("/{bookId}")
+    public Book findBook(@PathVariable int bookId) {
+        BookEntity bookEntity = bookJpaRepository.getReferenceById(bookId);
         return Mapper.entityToBook(bookEntity);
     }
 
@@ -56,8 +56,8 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{getId}")
-    public Book updateBook(@PathVariable int getId) {
-        return bookRepository.updateBookStatus(getId);
+    @PutMapping("/{bookId}")
+    public Book updateBook(@PathVariable int bookId) {
+        return bookRepository.updateBookStatus(bookId);
     }
 }
