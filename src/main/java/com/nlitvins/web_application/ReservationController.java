@@ -1,7 +1,10 @@
 package com.nlitvins.web_application;
 
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,18 +60,12 @@ public class ReservationController {
     }
 
     @PutMapping("/{id}/receiving")
-    public ReservationResponse receiveBook(@RequestBody ReservationRequest request) {
-        ReservationEntity reservationEntity = new ReservationEntity();
-        LocalDateTime dateTime = LocalDateTime.now();
+    public ReservationResponse receiveBook(@PathVariable int id) {
+        ReservationEntity reservationEntity = reservationRepository.getReferenceById(id);
 
-        reservationEntity.setId(request.getId());
-        reservationEntity.setUserId(request.getUserId());
-        reservationEntity.setBookId(request.getBookId());
-        reservationEntity.setCreatedDate(dateTime);
+        LocalDateTime dateTime = LocalDateTime.now();
         reservationEntity.setTermDate(dateTime.plusDays(14));
-        reservationEntity.setUpdatedDate(dateTime);
         reservationEntity.setStatus((short) 2);
-        reservationEntity.setExtensionCount((short) 0);
 
         ReservationEntity savedReservationEntity = reservationRepository.save(reservationEntity);
 
@@ -84,10 +81,37 @@ public class ReservationController {
         );
     }
 
+    @PutMapping("/{id}/extension")
+    public ReservationResponse extentReservation(@PathVariable int id) {
+        ReservationEntity reservationEntity = reservationRepository.getReferenceById(id);
 
-//    @DeleteMapping
-//    public ResponseEntity<Void> reservationCanceling(@PathVariable int Id) {
-//        reservationRepository.deleteById(Id);
-//        return ResponseEntity.noContent().build();
-//    }
+        LocalDateTime dateTime = LocalDateTime.now();
+        short newExtensionCount = (short) (reservationEntity.getExtensionCount() + 1);
+        if (newExtensionCount > 3) {
+            throw new RuntimeException("You can't extend reservation");
+        }
+
+        reservationEntity.setTermDate(dateTime.plusDays(14));
+        reservationEntity.setStatus((short) 3);
+        reservationEntity.setExtensionCount(newExtensionCount);
+
+        ReservationEntity savedReservationEntity = reservationRepository.save(reservationEntity);
+
+        return new ReservationResponse(
+                savedReservationEntity.getId(),
+                savedReservationEntity.getUserId(),
+                savedReservationEntity.getBookId(),
+                savedReservationEntity.getCreatedDate(),
+                savedReservationEntity.getTermDate(),
+                savedReservationEntity.getUpdatedDate(),
+                savedReservationEntity.getStatus(),
+                savedReservationEntity.getExtensionCount()
+        );
+    }
+
+    @DeleteMapping("/{id}/cancel")
+    public ResponseEntity<Void> reservationCanceling(@PathVariable int id) {
+        reservationRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
