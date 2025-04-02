@@ -68,4 +68,17 @@ public class Mapper {
         }
         return reservations;
     }
+
+    public static ReservationResponse getReservationResponse(ReservationEntity savedReservationEntity) {
+        return new ReservationResponse(
+                savedReservationEntity.getId(),
+                savedReservationEntity.getUserId(),
+                savedReservationEntity.getBookId(),
+                savedReservationEntity.getCreatedDate(),
+                savedReservationEntity.getTermDate(),
+                savedReservationEntity.getUpdatedDate(),
+                savedReservationEntity.getStatus(),
+                savedReservationEntity.getExtensionCount()
+        );
+    }
 }
