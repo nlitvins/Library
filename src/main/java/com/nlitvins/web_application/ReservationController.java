@@ -57,8 +57,8 @@ public class ReservationController {
         ReservationEntity reservationEntity = reservationRepository.getReferenceById(id);
 
         if (reservationEntity.getStatus() == ReservationStatus.NEW.id) {
-            LocalDateTime dateTime = LocalDateTime.now();
-            reservationEntity.setTermDate(dateTime.plusDays(14));
+            LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
+            reservationEntity.setTermDate(dateTime.plusDays(15)); //Real term is 14 days
             reservationEntity.setStatus(ReservationStatus.RECEIVED.id);
             reservationEntity.setExtensionCount((short) 0);
 
@@ -76,6 +76,7 @@ public class ReservationController {
 
         LocalDateTime termDate = reservationEntity.getTermDate();
         LocalDateTime updatedDate = LocalDateTime.now();
+
         short newExtensionCount = (short) (reservationEntity.getExtensionCount() + 1);
 
         if (reservationEntity.getStatus() == ReservationStatus.NEW.id && newExtensionCount < 2) {
