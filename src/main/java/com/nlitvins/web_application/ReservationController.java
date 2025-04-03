@@ -37,12 +37,12 @@ public class ReservationController {
         ReservationEntity reservationEntity = new ReservationEntity();
         LocalDateTime dateTime = LocalDateTime.now();
 
-        LocalDateTime termDate = LocalDate.now().atStartOfDay().minusSeconds(1);
+        LocalDateTime termDate = LocalDate.now().atStartOfDay().minusNanos(1);
 
         reservationEntity.setUserId(request.getUserId());
         reservationEntity.setBookId(request.getBookId());
         reservationEntity.setCreatedDate(dateTime);
-        reservationEntity.setTermDate(termDate.plusDays(4));
+        reservationEntity.setTermDate(termDate.plusDays(4)); //Real term is 3 days
         reservationEntity.setUpdatedDate(dateTime);
         reservationEntity.setStatus(ReservationStatus.NEW.id);
         reservationEntity.setExtensionCount((short) 0);
