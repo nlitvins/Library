@@ -1,4 +1,4 @@
-package com.nlitvins.web_application;
+package com.nlitvins.web_application.inbound.model;
 
 public class ReservationCreateRequest {
     private int userId;

@@ -1,16 +1,40 @@
-package com.nlitvins.web_application;
+package com.nlitvins.web_application.domain.model;
 
 import java.time.LocalDateTime;
 
-public class ReservationRequest {
+public class Reservation {
+
     private int id;
     private int userId;
     private int bookId;
     private LocalDateTime createdDate;
     private LocalDateTime termDate;
-    private Short status;
-    private Short extensionCount;
+    private short status;
+    private short extensionCount;
     private LocalDateTime updatedDate;
+
+    public Reservation(
+            int id,
+            int userId,
+            int bookId,
+            LocalDateTime createdDate,
+            LocalDateTime termDate,
+            LocalDateTime updatedDate,
+            short status,
+            short extensionCount
+    ) {
+        this.id = id;
+        this.userId = userId;
+        this.bookId = bookId;
+        this.createdDate = createdDate;
+        this.termDate = termDate;
+        this.status = status;
+        this.extensionCount = extensionCount;
+        this.updatedDate = updatedDate;
+    }
+
+    public Reservation() {
+    }
 
     public int getId() {
         return id;
@@ -76,5 +100,4 @@ public class ReservationRequest {
     public void setUpdatedDate(LocalDateTime updatedDate) {
         this.updatedDate = updatedDate;
     }
-
 }

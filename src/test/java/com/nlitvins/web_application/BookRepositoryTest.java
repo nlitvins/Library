@@ -1,5 +1,7 @@
 package com.nlitvins.web_application;
 
+import com.nlitvins.web_application.domain.model.Book;
+import com.nlitvins.web_application.outbound.repository.BookRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package com.nlitvins.web_application;
+package com.nlitvins.web_application.outbound.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,5 +1,13 @@
-package com.nlitvins.web_application;
+package com.nlitvins.web_application.inbound.rest;
 
+import com.nlitvins.web_application.domain.model.Reservation;
+import com.nlitvins.web_application.domain.model.ReservationStatus;
+import com.nlitvins.web_application.inbound.model.ReservationCreateRequest;
+import com.nlitvins.web_application.inbound.model.ReservationResponse;
+import com.nlitvins.web_application.inbound.utils.InboundMapper;
+import com.nlitvins.web_application.outbound.model.ReservationEntity;
+import com.nlitvins.web_application.outbound.repository.ReservationRepository;
+import com.nlitvins.web_application.outbound.utils.OutboundMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,9 +35,10 @@ public class ReservationController {
     }
 
     @GetMapping
-    public List<ReservationEntity> reservations() {
+    public List<ReservationResponse> reservations() {
         List<ReservationEntity> reservationEntities = reservationRepository.findAll();
-        return Mapper.reservationToList(reservationEntities);
+        List<Reservation> get = OutboundMapper.Reservations.toDomainList(reservationEntities);
+        return InboundMapper.Reservations.toDTOList(get);
     }
 
     @PostMapping
@@ -49,77 +58,81 @@ public class ReservationController {
 
         ReservationEntity savedReservationEntity = reservationRepository.save(reservationEntity);
 
-        return Mapper.getReservationResponse(savedReservationEntity);
+        Reservation reservation = OutboundMapper.Reservations.toDomain(savedReservationEntity);
+        return InboundMapper.Reservations.toDTO(reservation);
     }
 
     @PutMapping("/{id}/receiving")
     public ReservationResponse receiveBook(@PathVariable int id) {
         ReservationEntity reservationEntity = reservationRepository.getReferenceById(id);
 
-        if (reservationEntity.getStatus() == ReservationStatus.NEW.id) {
-            LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
-            reservationEntity.setTermDate(dateTime.plusDays(15)); //Real term is 14 days
-            reservationEntity.setStatus(ReservationStatus.RECEIVED.id);
-            reservationEntity.setExtensionCount((short) 0);
-
-            ReservationEntity savedReservationEntity = reservationRepository.save(reservationEntity);
-
-            return Mapper.getReservationResponse(savedReservationEntity);
-        } else {
+        if (reservationEntity.getStatus() != ReservationStatus.NEW.id) {
             throw new RuntimeException("You can't receive the book. Incorrect status.");
         }
+
+        LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
+        reservationEntity.setTermDate(dateTime.plusDays(15)); //Real term is 14 days
+        reservationEntity.setStatus(ReservationStatus.RECEIVED.id);
+        reservationEntity.setExtensionCount((short) 0);
+
+        ReservationEntity savedReservationEntity = reservationRepository.save(reservationEntity);
+
+        Reservation reservation = OutboundMapper.Reservations.toDomain(savedReservationEntity);
+        return InboundMapper.Reservations.toDTO(reservation);
     }
 
     @PutMapping("/{id}/extension")
     public ReservationResponse extent(@PathVariable int id) {
         ReservationEntity reservationEntity = reservationRepository.getReferenceById(id);
-
         LocalDateTime termDate = reservationEntity.getTermDate();
-        LocalDateTime updatedDate = LocalDateTime.now();
+        short extensionCount = reservationEntity.getExtensionCount();
 
-        short newExtensionCount = (short) (reservationEntity.getExtensionCount() + 1);
-
-        if (reservationEntity.getStatus() == ReservationStatus.NEW.id && newExtensionCount < 2) {
+        if (reservationEntity.getStatus() == ReservationStatus.NEW.id && extensionCount < 1) {
             reservationEntity.setTermDate(termDate.plusDays(3));
-        } else if (reservationEntity.getStatus() == ReservationStatus.RECEIVED.id && newExtensionCount < 4) {
+        } else if (reservationEntity.getStatus() == ReservationStatus.RECEIVED.id && extensionCount < 3) {
             reservationEntity.setTermDate(termDate.plusDays(14));
         } else {
             throw new RuntimeException("You can't extend reservation. Incorrect status or extension count.");
         }
+
+        LocalDateTime updatedDate = LocalDateTime.now();
         reservationEntity.setUpdatedDate(updatedDate);
-        reservationEntity.setExtensionCount(newExtensionCount);
+        reservationEntity.setExtensionCount((short) (extensionCount + 1));
         ReservationEntity savedReservationEntity = reservationRepository.save(reservationEntity);
-        return Mapper.getReservationResponse(savedReservationEntity);
+        Reservation reservation = OutboundMapper.Reservations.toDomain(savedReservationEntity);
+        return InboundMapper.Reservations.toDTO(reservation);
     }
 
     @PutMapping("/{id}/completed")
     public ReservationResponse complete(@PathVariable int id) {
         ReservationEntity reservationEntity = reservationRepository.getReferenceById(id);
 
-        if (reservationEntity.getStatus() == ReservationStatus.RECEIVED.id) {
-            reservationEntity.setStatus(ReservationStatus.COMPLETED.id);
-            reservationEntity.setUpdatedDate(LocalDateTime.now());
-
-            ReservationEntity savedReservationEntity = reservationRepository.save(reservationEntity);
-            return Mapper.getReservationResponse(savedReservationEntity);
-        } else {
+        if (reservationEntity.getStatus() != ReservationStatus.RECEIVED.id) {
             throw new RuntimeException("You can't complete reservation. Incorrect status.");
         }
+        reservationEntity.setStatus(ReservationStatus.COMPLETED.id);
+        reservationEntity.setUpdatedDate(LocalDateTime.now());
+
+        ReservationEntity savedReservationEntity = reservationRepository.save(reservationEntity);
+        Reservation reservation = OutboundMapper.Reservations.toDomain(savedReservationEntity);
+        return InboundMapper.Reservations.toDTO(reservation);
     }
 
     @PutMapping("/{id}/cancel")
     public ReservationResponse cancel(@PathVariable int id) {
         ReservationEntity reservationEntity = reservationRepository.getReferenceById(id);
 
-        if (reservationEntity.getStatus() == ReservationStatus.NEW.id) {
-            reservationEntity.setStatus(ReservationStatus.CANCELED.id);
-            reservationEntity.setUpdatedDate(LocalDateTime.now());
-
-            ReservationEntity savedReservationEntity = reservationRepository.save(reservationEntity);
-            return Mapper.getReservationResponse(savedReservationEntity);
-        } else {
+        if (reservationEntity.getStatus() != ReservationStatus.NEW.id) {
             throw new RuntimeException("You can't cancel reservation. Incorrect status.");
         }
+
+        reservationEntity.setStatus(ReservationStatus.CANCELED.id);
+
+        reservationEntity.setUpdatedDate(LocalDateTime.now());
+
+        ReservationEntity savedReservationEntity = reservationRepository.save(reservationEntity);
+        Reservation reservation = OutboundMapper.Reservations.toDomain(savedReservationEntity);
+        return InboundMapper.Reservations.toDTO(reservation);
     }
 
     @PutMapping("/{id}/lost")
@@ -130,7 +143,8 @@ public class ReservationController {
         reservationEntity.setUpdatedDate(LocalDateTime.now());
 
         ReservationEntity savedReservationEntity = reservationRepository.save(reservationEntity);
-        return Mapper.getReservationResponse(savedReservationEntity);
+        Reservation reservation = OutboundMapper.Reservations.toDomain(savedReservationEntity);
+        return InboundMapper.Reservations.toDTO(reservation);
     }
 
     @DeleteMapping("/{id}/deleting")

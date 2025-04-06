@@ -1,4 +1,4 @@
-package com.nlitvins.web_application;
+package com.nlitvins.web_application.inbound.model;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +19,16 @@ public class ReservationResponse {
         this.termDate = termDate;
     }
 
-    public ReservationResponse(int id, int userId, int bookId, LocalDateTime createdDate, LocalDateTime termDate, LocalDateTime updatedDate, short status, short extensionCount) {
+    public ReservationResponse(
+            int id,
+            int userId,
+            int bookId,
+            LocalDateTime createdDate,
+            LocalDateTime termDate,
+            LocalDateTime updatedDate,
+            short status,
+            short extensionCount
+    ) {
         this.id = id;
         this.userId = userId;
         this.bookId = bookId;

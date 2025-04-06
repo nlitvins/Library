@@ -1,9 +1,8 @@
-package com.nlitvins.web_application;
+package com.nlitvins.web_application.inbound.model;
 
 import java.time.LocalDateTime;
 
-public class Reservation {
-
+public class ReservationRequest {
     private int id;
     private int userId;
     private int bookId;
@@ -77,4 +76,5 @@ public class Reservation {
     public void setUpdatedDate(LocalDateTime updatedDate) {
         this.updatedDate = updatedDate;
     }
+
 }

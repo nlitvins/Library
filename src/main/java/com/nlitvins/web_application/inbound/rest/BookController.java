@@ -1,11 +1,14 @@
-package com.nlitvins.web_application;
+package com.nlitvins.web_application.inbound.rest;
 
+import com.nlitvins.web_application.domain.model.Book;
+import com.nlitvins.web_application.outbound.model.BookEntity;
+import com.nlitvins.web_application.outbound.repository.BookJpaRepository;
+import com.nlitvins.web_application.outbound.utils.OutboundMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,24 +21,22 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/books", produces = APPLICATION_JSON_VALUE)
 public class BookController {
 
-    private final BookRepository bookRepository;
     private final BookJpaRepository bookJpaRepository;
 
-    public BookController(BookJpaRepository bookJpaRepository, BookRepository bookRepository) {
+    public BookController(BookJpaRepository bookJpaRepository) {
         this.bookJpaRepository = bookJpaRepository;
-        this.bookRepository = bookRepository;
     }
 
     @GetMapping
     public List<Book> books() {
         List<BookEntity> bookEntities = bookJpaRepository.findAll();
-        return Mapper.bookToList(bookEntities);
+        return OutboundMapper.Books.toDomainList(bookEntities);
     }
 
     @GetMapping("/{bookId}")
     public Book findBook(@PathVariable int bookId) {
         BookEntity bookEntity = bookJpaRepository.getReferenceById(bookId);
-        return Mapper.entityToBook(bookEntity);
+        return OutboundMapper.Books.toDomain(bookEntity);
     }
 
     @PostMapping
@@ -47,17 +48,12 @@ public class BookController {
         bookEntity.setQuantity(book.getQuantity());
 
         BookEntity savedBookEntity = bookJpaRepository.save(bookEntity);
-        return Mapper.entityToBook(savedBookEntity);
+        return OutboundMapper.Books.toDomain(savedBookEntity);
     }
 
     @DeleteMapping("/{bookId}")
     public ResponseEntity<Void> deleteBook(@PathVariable int bookId) {
         bookJpaRepository.deleteById(bookId);
         return ResponseEntity.noContent().build();
-    }
-
-    @PutMapping("/{bookId}")
-    public Book updateBook(@PathVariable int bookId) {
-        return bookRepository.updateBookStatus(bookId);
     }
 }

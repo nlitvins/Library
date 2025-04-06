@@ -1,4 +1,4 @@
-package com.nlitvins.web_application;
+package com.nlitvins.web_application.domain.model;
 
 public enum ReservationStatus {
     NEW((short) 1),

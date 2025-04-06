@@ -1,4 +1,4 @@
-package com.nlitvins.web_application;
+package com.nlitvins.web_application.domain.model;
 
 import java.util.Objects;
 

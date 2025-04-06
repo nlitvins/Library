@@ -1,5 +1,6 @@
-package com.nlitvins.web_application;
+package com.nlitvins.web_application.outbound.repository;
 
+import com.nlitvins.web_application.domain.model.Book;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -36,7 +37,6 @@ public class BookRepository {
         Book book = books.get(deleteId);
         return books.remove(deleteId, book);
     }
-
     public Book updateBookStatus(int updateId) {
         Book book = books.get(updateId);
         if (book == null) {

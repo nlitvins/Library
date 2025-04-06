@@ -1,6 +1,10 @@
-package com.nlitvins.web_application;
+package com.nlitvins.web_application.inbound.rest;
 
 
+import com.nlitvins.web_application.domain.model.User;
+import com.nlitvins.web_application.outbound.model.UserEntity;
+import com.nlitvins.web_application.outbound.repository.UserRepository;
+import com.nlitvins.web_application.outbound.utils.OutboundMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +24,8 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserEntity> users() {
+    public List<User> users() {
         List<UserEntity> userEntities = userRepository.findAll();
-        return Mapper.userToList(userEntities);
+        return OutboundMapper.Users.toDomainList(userEntities);
     }
 }
