@@ -2,62 +2,50 @@ package com.nlitvins.web_application.inbound.job;
 
 import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.outbound.model.ReservationEntity;
-import com.nlitvins.web_application.outbound.repository.ReservationRepository;
+import com.nlitvins.web_application.outbound.repository.jpa.ReservationJpaRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class ReservationTermCheckJob {
 
-    private final ReservationRepository reservationRepository;
+    private final ReservationJpaRepository reservationJpaRepository;
 
-    public ReservationTermCheckJob(ReservationRepository reservationRepository) {
-        this.reservationRepository = reservationRepository;
+    public ReservationTermCheckJob(ReservationJpaRepository reservationJpaRepository) {
+        this.reservationJpaRepository = reservationJpaRepository;
     }
+
 
     //    @Scheduled(cron = "0 0 0 * * *")
     @Scheduled(cron = "*/5 * * * * *")
-    public void newTermDateCheck() {
-        List<Short> statusList = new ArrayList<>();
-        statusList.add(ReservationStatus.NEW.id);
-
-        LocalDateTime termDate = LocalDateTime.now();
-
-        List<ReservationEntity> reservations = reservationRepository.findByStatusInAndTermDateBefore(statusList, termDate);
-        if (reservations.isEmpty()) {
-            return;
-        }
-
-        for (int index = reservations.size() - 1; index >= 0; index--) {
-            ReservationEntity reservationEntity = reservations.get(index);
-            reservationEntity.setStatus(ReservationStatus.CANCELED.id);
-        }
-
-        reservationRepository.saveAll(reservations);
+    public void checkTermDateForNewReservations() {
+        Short status = ReservationStatus.NEW.id;
+        Short setStatus = ReservationStatus.CANCELED.id;
+        changeStatusForOverdueReservation(status, setStatus);
     }
 
-
     @Scheduled(cron = "*/5 * * * * *")
-    public void receivedTermDateCheck() {
-        List<Short> statusList = new ArrayList<>();
-        statusList.add(ReservationStatus.RECEIVED.id);
+    public void checkTermDateForReceivedReservations() {
+        Short status = ReservationStatus.RECEIVED.id;
+        Short setStatus = ReservationStatus.OVERDUE.id;
+        changeStatusForOverdueReservation(status, setStatus);
+    }
 
-        LocalDateTime termDate = LocalDateTime.now();
+    private void changeStatusForOverdueReservation(Short status, Short setStatus) {
+        LocalDateTime now = LocalDateTime.now();
 
-        List<ReservationEntity> reservations = reservationRepository.findByStatusInAndTermDateBefore(statusList, termDate);
+        List<ReservationEntity> reservations = reservationJpaRepository.findByStatusAndTermDateBefore(status, now);
         if (reservations.isEmpty()) {
             return;
         }
-
-        for (int index = reservations.size() - 1; index >= 0; index--) {
+        for (int index = 0; index < reservations.size(); index++) {
             ReservationEntity reservationEntity = reservations.get(index);
-            reservationEntity.setStatus(ReservationStatus.OVERDUE.id);
+            reservationEntity.setStatus(setStatus);
+            reservationEntity.setUpdatedDate(now);
         }
-
-        reservationRepository.saveAll(reservations);
+        reservationJpaRepository.saveAll(reservations);
     }
 }

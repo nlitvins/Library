@@ -2,7 +2,7 @@ package com.nlitvins.web_application.inbound.rest;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.outbound.model.BookEntity;
-import com.nlitvins.web_application.outbound.repository.BookJpaRepository;
+import com.nlitvins.web_application.outbound.repository.jpa.BookJpaRepository;
 import com.nlitvins.web_application.outbound.utils.OutboundMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

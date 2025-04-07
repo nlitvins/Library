@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 
 @Repository
-public class BookRepository {
+public class BookOldRepository {
 
     private final HashMap<Integer, Book> books = new HashMap<>();
 
-    public BookRepository() {
+    public BookOldRepository() {
         books.put(1231, new Book(1231, "Fiona", "Mike", true));
         books.put(1232, new Book(1232, "Shrek", "John", true));
         books.put(1233, new Book(1233, "Lord Farquaad", "Jack", true));

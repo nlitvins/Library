@@ -87,9 +87,8 @@ public class OutboundMapper {
         }
 
         public static List<User> toDomainList(List<UserEntity> userEntities) {
-
             List<User> users = new ArrayList<>();
-            for (int index = userEntities.size() - 1; index >= 0; index--) {
+            for (int index = 0; index < userEntities.size(); index++) {
                 UserEntity get = userEntities.get(index);
                 User mapper = toDomain(get);
                 users.add(mapper);

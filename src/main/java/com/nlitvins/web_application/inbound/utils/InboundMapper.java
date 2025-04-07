@@ -1,7 +1,9 @@
 package com.nlitvins.web_application.inbound.utils;
 
 import com.nlitvins.web_application.domain.model.Reservation;
+import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
+import com.nlitvins.web_application.inbound.model.UserResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,5 +35,33 @@ public class InboundMapper {
             }
             return reservationResponses;
         }
+    }
+
+    public static class Users {
+
+        public static UserResponse toDTO(User user) {
+            return new UserResponse(
+                    user.getId(),
+                    user.getName(),
+                    user.getSecondName(),
+                    user.getUserName(),
+                    user.getPassword(),
+                    user.getEmail(),
+                    user.getMobileNumber(),
+                    user.getPersonCode()
+            );
+        }
+
+        public static List<UserResponse> toDTOList(List<User> users) {
+            List<UserResponse> userResponses = new ArrayList<>();
+            for (int index = 0; index < users.size(); index++) {
+                User user = users.get(index);
+                UserResponse response = toDTO(user);
+                userResponses.add(response);
+            }
+            return userResponses;
+        }
+
+
     }
 }

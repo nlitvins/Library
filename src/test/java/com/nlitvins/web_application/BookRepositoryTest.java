@@ -1,7 +1,7 @@
 package com.nlitvins.web_application;
 
 import com.nlitvins.web_application.domain.model.Book;
-import com.nlitvins.web_application.outbound.repository.BookRepository;
+import com.nlitvins.web_application.outbound.repository.BookOldRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,11 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class BookRepositoryTest {
 
-    private BookRepository sut;
+    private BookOldRepository sut;
 
     @BeforeEach
     void setup() {
-        sut = new BookRepository();
+        sut = new BookOldRepository();
     }
 
     @Test
