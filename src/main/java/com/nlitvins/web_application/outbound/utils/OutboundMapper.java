@@ -2,11 +2,14 @@ package com.nlitvins.web_application.outbound.utils;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
+import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.outbound.model.BookEntity;
 import com.nlitvins.web_application.outbound.model.ReservationEntity;
 import com.nlitvins.web_application.outbound.model.UserEntity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +70,25 @@ public class OutboundMapper {
             }
             return reservations;
         }
+
+        public static ReservationEntity toEntity(Reservation reservation) {
+
+            ReservationEntity reservationEntity = new ReservationEntity();
+            LocalDateTime dateTime = LocalDateTime.now();
+            LocalDateTime termDate = LocalDate.now().atStartOfDay().minusNanos(1);
+
+            reservationEntity.setUserId(reservation.getUserId());
+            reservationEntity.setBookId(reservation.getBookId());
+            reservationEntity.setCreatedDate(dateTime);
+            reservationEntity.setTermDate(termDate.plusDays(4)); //Real term is 3 days
+            reservationEntity.setUpdatedDate(dateTime);
+            reservationEntity.setStatus(ReservationStatus.NEW.id);
+            reservationEntity.setExtensionCount((short) 0);
+
+            return reservationEntity;
+        }
     }
+
 
     public static class Users {
 
@@ -86,6 +107,21 @@ public class OutboundMapper {
 
         }
 
+        public static UserEntity toEntity(User user) {
+            UserEntity userEntity = new UserEntity();
+
+            userEntity.setId(user.getId());
+            userEntity.setName(user.getName());
+            userEntity.setSecondName(user.getSecondName());
+            userEntity.setUserName(user.getUserName());
+            userEntity.setPassword(user.getPassword());
+            userEntity.setEmail(user.getEmail());
+            userEntity.setMobileNumber(user.getMobileNumber());
+            userEntity.setPersonCode(user.getPersonCode());
+
+            return userEntity;
+        }
+
         public static List<User> toDomainList(List<UserEntity> userEntities) {
             List<User> users = new ArrayList<>();
             for (int index = 0; index < userEntities.size(); index++) {
@@ -96,7 +132,7 @@ public class OutboundMapper {
             return users;
         }
     }
-
 }
+
 
 

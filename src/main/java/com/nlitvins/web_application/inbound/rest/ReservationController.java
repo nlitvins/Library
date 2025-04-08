@@ -2,6 +2,8 @@ package com.nlitvins.web_application.inbound.rest;
 
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
+import com.nlitvins.web_application.domain.usecase.ReservationCheckUseCase;
+import com.nlitvins.web_application.domain.usecase.ReservationReadUseCase;
 import com.nlitvins.web_application.inbound.model.ReservationCreateRequest;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,56 +29,32 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/reservations", produces = APPLICATION_JSON_VALUE)
 public class ReservationController {
 
+    private final ReservationCheckUseCase reservationCheckUseCase;
+    private final ReservationReadUseCase reservationReadUseCase;
     private final ReservationJpaRepository reservationJpaRepository;
 
-    public ReservationController(ReservationJpaRepository reservationJpaRepository) {
+    public ReservationController(ReservationCheckUseCase reservationCheckUseCase, ReservationReadUseCase reservationReadUseCase, ReservationJpaRepository reservationJpaRepository) {
+        this.reservationReadUseCase = reservationReadUseCase;
         this.reservationJpaRepository = reservationJpaRepository;
+        this.reservationCheckUseCase = reservationCheckUseCase;
     }
 
     @GetMapping
     public List<ReservationResponse> reservations() {
-        List<ReservationEntity> reservationEntities = reservationJpaRepository.findAll();
-        List<Reservation> get = OutboundMapper.Reservations.toDomainList(reservationEntities);
-        return InboundMapper.Reservations.toDTOList(get);
+        List<Reservation> reservations = reservationReadUseCase.getReservations();
+        return InboundMapper.Reservations.toDTOList(reservations);
     }
 
     @PostMapping
     public ReservationResponse reserveBook(@RequestBody ReservationCreateRequest request) {
-        ReservationEntity reservationEntity = new ReservationEntity();
-        LocalDateTime dateTime = LocalDateTime.now();
-
-        LocalDateTime termDate = LocalDate.now().atStartOfDay().minusNanos(1);
-
-        reservationEntity.setUserId(request.getUserId());
-        reservationEntity.setBookId(request.getBookId());
-        reservationEntity.setCreatedDate(dateTime);
-        reservationEntity.setTermDate(termDate.plusDays(4)); //Real term is 3 days
-        reservationEntity.setUpdatedDate(dateTime);
-        reservationEntity.setStatus(ReservationStatus.NEW.id);
-        reservationEntity.setExtensionCount((short) 0);
-
-        ReservationEntity savedReservationEntity = reservationJpaRepository.save(reservationEntity);
-
-        Reservation reservation = OutboundMapper.Reservations.toDomain(savedReservationEntity);
-        return InboundMapper.Reservations.toDTO(reservation);
+        Reservation reservation = InboundMapper.Reservations.toDomain(request);
+        Reservation savedReservation = reservationReadUseCase.registerReservation(reservation);
+        return InboundMapper.Reservations.toDTO(savedReservation);
     }
 
     @PutMapping("/{id}/receiving")
     public ReservationResponse receiveBook(@PathVariable int id) {
-        ReservationEntity reservationEntity = reservationJpaRepository.getReferenceById(id);
-
-        if (reservationEntity.getStatus() != ReservationStatus.NEW.id) {
-            throw new RuntimeException("You can't receive the book. Incorrect status.");
-        }
-
-        LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
-        reservationEntity.setTermDate(dateTime.plusDays(15)); //Real term is 14 days
-        reservationEntity.setStatus(ReservationStatus.RECEIVED.id);
-        reservationEntity.setExtensionCount((short) 0);
-
-        ReservationEntity savedReservationEntity = reservationJpaRepository.save(reservationEntity);
-
-        Reservation reservation = OutboundMapper.Reservations.toDomain(savedReservationEntity);
+        Reservation reservation = reservationCheckUseCase.receiveBook(id);
         return InboundMapper.Reservations.toDTO(reservation);
     }
 

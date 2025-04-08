@@ -11,6 +11,20 @@ public class User {
     private Integer mobileNumber;
     private String personCode;
 
+    public User() {
+    }
+
+    public User(int id, String name, String secondName, String userName, String password, String email, Integer mobileNumber, String personCode) {
+        this.id = id;
+        this.name = name;
+        this.secondName = secondName;
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.mobileNumber = mobileNumber;
+        this.personCode = personCode;
+    }
+
     public int getId() {
         return id;
     }

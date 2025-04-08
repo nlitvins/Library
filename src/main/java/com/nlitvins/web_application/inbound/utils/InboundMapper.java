@@ -1,10 +1,15 @@
 package com.nlitvins.web_application.inbound.utils;
 
 import com.nlitvins.web_application.domain.model.Reservation;
+import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.model.User;
+import com.nlitvins.web_application.inbound.model.ReservationCreateRequest;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
+import com.nlitvins.web_application.inbound.model.UserRequest;
 import com.nlitvins.web_application.inbound.model.UserResponse;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +40,39 @@ public class InboundMapper {
             }
             return reservationResponses;
         }
+
+        public static Reservation toDomain(ReservationCreateRequest request) {
+            Reservation reservation = new Reservation();
+            LocalDateTime dateTime = LocalDateTime.now();
+            LocalDateTime termDate = LocalDate.now().atStartOfDay().minusNanos(1);
+
+            reservation.setUserId(request.getUserId());
+            reservation.setBookId(request.getBookId());
+            reservation.setCreatedDate(dateTime);
+            reservation.setTermDate(termDate.plusDays(4)); //Real term is 3 days
+            reservation.setUpdatedDate(dateTime);
+            reservation.setStatus(ReservationStatus.NEW.id);
+            reservation.setExtensionCount((short) 0);
+
+            return reservation;
+        }
     }
 
     public static class Users {
+
+        public static User toDomain(UserRequest request) {
+            User user = new User();
+            user.setId(request.getId());
+            user.setName(request.getName());
+            user.setSecondName(request.getSecondName());
+            user.setUserName(request.getUserName());
+            user.setPassword(request.getPassword());
+            user.setEmail(request.getEmail());
+            user.setMobileNumber(request.getMobileNumber());
+            user.setPersonCode(request.getPersonCode());
+
+            return user;
+        }
 
         public static UserResponse toDTO(User user) {
             return new UserResponse(

@@ -2,12 +2,10 @@ package com.nlitvins.web_application.inbound.rest;
 
 
 import com.nlitvins.web_application.domain.model.User;
+import com.nlitvins.web_application.domain.usecase.UserReadUseCase;
 import com.nlitvins.web_application.inbound.model.UserRequest;
 import com.nlitvins.web_application.inbound.model.UserResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;
-import com.nlitvins.web_application.outbound.model.UserEntity;
-import com.nlitvins.web_application.outbound.repository.UserRepository;
-import com.nlitvins.web_application.outbound.utils.OutboundMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,34 +20,26 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/users", produces = APPLICATION_JSON_VALUE)
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserReadUseCase userReadUseCase;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserReadUseCase userReadUseCase) {
+        this.userReadUseCase = userReadUseCase;
     }
-
     @GetMapping
-    public List<User> users() {
-        List<UserEntity> userEntities = userRepository.findAll();
-        return OutboundMapper.Users.toDomainList(userEntities);
+    public List<UserResponse> getUsers() {
+        // 0. validate input - throw exception
+        // 1. map inbound (request) classes to domain
+        // - skip - no input
+        // 2. call useCase
+        List<User> users = userReadUseCase.getUsers();
+        // 3. map domain back to inbound (response)
+        return InboundMapper.Users.toDTOList(users);
     }
 
     @PostMapping
-    public UserResponse userRegistration(@RequestBody UserRequest request) {
-        UserEntity userEntity = new UserEntity();
-
-        userEntity.setId(request.getId());
-        userEntity.setName(request.getName());
-        userEntity.setSecondName(request.getSecondName());
-        userEntity.setUserName(request.getUserName());
-        userEntity.setPassword(request.getPassword());
-        userEntity.setEmail(request.getEmail());
-        userEntity.setMobileNumber(request.getMobileNumber());
-        userEntity.setPersonCode(request.getPersonCode());
-
-        UserEntity savedUserEntity = userRepository.save(userEntity);
-
-        User user = OutboundMapper.Users.toDomain(savedUserEntity);
-        return InboundMapper.Users.toDTO(user);
+    public UserResponse registerUser(@RequestBody UserRequest request) {
+        User user = InboundMapper.Users.toDomain(request);
+        User savedUser = userReadUseCase.registerUser(user);
+        return InboundMapper.Users.toDTO(savedUser);
     }
 }
