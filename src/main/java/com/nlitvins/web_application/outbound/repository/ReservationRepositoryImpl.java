@@ -43,6 +43,12 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         return OutboundMapper.Reservations.toDomain(reservationEntity);
     }
 
+    @Override
+    public List<Reservation> findByUserId(int id) {
+        List<ReservationEntity> reservationEntity = jpaRepository.findByUserId(id);
+        return OutboundMapper.Reservations.toDomainList(reservationEntity);
+    }
+
 //    @Override
 //    public Reservation exists(){
 //        if (reseva)

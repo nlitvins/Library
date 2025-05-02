@@ -7,6 +7,8 @@ import com.nlitvins.web_application.domain.repository.ReservationRepository;
 import com.nlitvins.web_application.domain.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ReservationCreateUseCase {
 
@@ -24,8 +26,13 @@ public class ReservationCreateUseCase {
 //        User user = userRepository.findById(reservation.getUserId());
         Book book = bookRepository.findById(reservation.getBookId());
 
-        reservation = reservationRepository.findByBookIdAndUserId(reservation.getBookId(), reservation.getUserId());
-        if (reservation != null) {
+        List<Reservation> reservationQuantity = reservationRepository.findByUserId(reservation.getUserId());
+        if (reservationQuantity.size() >= 3) {
+            throw new RuntimeException("Too many reservations");
+        }
+
+        Reservation reservationCheck = reservationRepository.findByBookIdAndUserId(reservation.getBookId(), reservation.getUserId());
+        if (reservationCheck != null) {
             throw new RuntimeException("Reservation already exists");
         }
 
