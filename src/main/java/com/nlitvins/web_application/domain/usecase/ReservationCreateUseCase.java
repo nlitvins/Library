@@ -4,7 +4,6 @@ import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.repository.BookRepository;
 import com.nlitvins.web_application.domain.repository.ReservationRepository;
-import com.nlitvins.web_application.domain.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,18 +11,15 @@ import java.util.List;
 @Component
 public class ReservationCreateUseCase {
 
-    public final ReservationRepository reservationRepository;
-    public final BookRepository bookRepository;
-    private final UserRepository userRepository;
+    private final ReservationRepository reservationRepository;
+    private final BookRepository bookRepository;
 
-    public ReservationCreateUseCase(ReservationRepository reservationRepository, BookRepository bookRepository, UserRepository userRepository) {
+    public ReservationCreateUseCase(ReservationRepository reservationRepository, BookRepository bookRepository) {
         this.reservationRepository = reservationRepository;
         this.bookRepository = bookRepository;
-        this.userRepository = userRepository;
     }
 
     public Reservation registerReservation(Reservation reservation) {
-//        User user = userRepository.findById(reservation.getUserId());
         Book book = bookRepository.findById(reservation.getBookId());
 
         List<Reservation> reservationQuantity = reservationRepository.findByUserId(reservation.getUserId());

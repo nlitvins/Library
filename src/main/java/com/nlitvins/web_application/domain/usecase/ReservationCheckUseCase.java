@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Component
 public class ReservationCheckUseCase {
 
-    public final ReservationRepository reservationRepository;
+    private final ReservationRepository reservationRepository;
 
     public ReservationCheckUseCase(ReservationRepository reservationRepository) {
         this.reservationRepository = reservationRepository;

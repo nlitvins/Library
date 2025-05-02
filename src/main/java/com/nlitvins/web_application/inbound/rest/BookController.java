@@ -2,10 +2,9 @@ package com.nlitvins.web_application.inbound.rest;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.usecase.BookReadUseCase;
-import com.nlitvins.web_application.inbound.model.BookRequest;
+import com.nlitvins.web_application.inbound.model.BookCreateRequest;
 import com.nlitvins.web_application.inbound.model.BookResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;
-import com.nlitvins.web_application.outbound.repository.jpa.BookJpaRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,10 +21,8 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class BookController {
 
     private final BookReadUseCase bookReadUseCase;
-    private final BookJpaRepository bookJpaRepository;
 
-    public BookController(BookJpaRepository bookJpaRepository, BookReadUseCase bookReadUseCase) {
-        this.bookJpaRepository = bookJpaRepository;
+    public BookController(BookReadUseCase bookReadUseCase) {
         this.bookReadUseCase = bookReadUseCase;
     }
 
@@ -42,7 +39,7 @@ public class BookController {
     }
 
     @PostMapping
-    public BookResponse postBook(@RequestBody BookRequest request) {
+    public BookResponse postBook(@RequestBody BookCreateRequest request) {
         Book book = InboundMapper.Books.toDomain(request);
         Book savedBook = bookReadUseCase.addBook(book);
         return InboundMapper.Books.toDTO(savedBook);

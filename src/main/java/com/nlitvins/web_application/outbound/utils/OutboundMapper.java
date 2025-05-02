@@ -6,13 +6,16 @@ import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.outbound.model.BookEntity;
 import com.nlitvins.web_application.outbound.model.ReservationEntity;
 import com.nlitvins.web_application.outbound.model.UserEntity;
+import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@UtilityClass
 public class OutboundMapper {
 
+    @UtilityClass
     public static class Books {
         public static BookEntity toEntity(Book book) {
             BookEntity bookEntity = new BookEntity();
@@ -44,6 +47,7 @@ public class OutboundMapper {
         }
     }
 
+    @UtilityClass
     public static class Reservations {
         public static Reservation toDomain(ReservationEntity reservationEntity) {
             if (reservationEntity == null) {
@@ -91,7 +95,7 @@ public class OutboundMapper {
         }
     }
 
-
+    @UtilityClass
     public static class Users {
 
         public static User toDomain(UserEntity userEntity) {

@@ -8,7 +8,7 @@ public enum ReservationStatus {
     OVERDUE((short) 5),
     LOST((short) 6);
 
-    public short id;
+    public final short id;
 
     ReservationStatus(short id) {
         this.id = id;

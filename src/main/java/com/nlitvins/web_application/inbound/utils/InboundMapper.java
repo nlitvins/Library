@@ -4,20 +4,23 @@ import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.model.User;
-import com.nlitvins.web_application.inbound.model.BookRequest;
+import com.nlitvins.web_application.inbound.model.BookCreateRequest;
 import com.nlitvins.web_application.inbound.model.BookResponse;
 import com.nlitvins.web_application.inbound.model.ReservationCreateRequest;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
 import com.nlitvins.web_application.inbound.model.UserRequest;
 import com.nlitvins.web_application.inbound.model.UserResponse;
+import lombok.experimental.UtilityClass;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@UtilityClass
 public class InboundMapper {
 
+    @UtilityClass
     public static class Reservations {
 
         public static ReservationResponse toDTO(Reservation reservation) {
@@ -61,6 +64,7 @@ public class InboundMapper {
         }
     }
 
+    @UtilityClass
     public static class Users {
 
         public static User toDomain(UserRequest request) {
@@ -101,13 +105,13 @@ public class InboundMapper {
         }
     }
 
+    @UtilityClass
     public static class Books {
-        public static Book toDomain(BookRequest request) {
+        public static Book toDomain(BookCreateRequest request) {
             Book book = new Book();
 
-            book.setId(request.getId());
             book.setTitle(request.getTitle());
-            book.setAuthor(request.getAuthor());
+            book.setAuthor(String.valueOf(request.getAuthor()));
             book.setQuantity(request.getQuantity());
 
             return book;
