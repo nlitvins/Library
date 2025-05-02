@@ -8,5 +8,7 @@ public interface UserRepository {
 
     List<User> findAll();
 
+    User findById(int id);
+
     User save(User user);
 }

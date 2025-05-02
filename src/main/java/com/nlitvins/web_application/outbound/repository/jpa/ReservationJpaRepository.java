@@ -11,4 +11,8 @@ import java.util.List;
 public interface ReservationJpaRepository extends JpaRepository<ReservationEntity, Integer> {
 
     List<ReservationEntity> findByStatusAndTermDateBefore(Short status, LocalDateTime termDate);
+
+    ReservationEntity deleteById(int id);
+
+    ReservationEntity findByBookIdAndUserId(int bookId, int userId);
 }

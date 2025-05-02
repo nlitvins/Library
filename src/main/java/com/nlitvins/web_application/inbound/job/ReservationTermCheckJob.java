@@ -3,7 +3,6 @@ package com.nlitvins.web_application.inbound.job;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.outbound.model.ReservationEntity;
 import com.nlitvins.web_application.outbound.repository.jpa.ReservationJpaRepository;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -20,14 +19,14 @@ public class ReservationTermCheckJob {
 
 
     //    @Scheduled(cron = "0 0 0 * * *")
-    @Scheduled(cron = "*/5 * * * * *")
+//    @Scheduled(cron = "*/5 * * * * *")
     public void checkTermDateForNewReservations() {
         Short status = ReservationStatus.NEW.id;
         Short setStatus = ReservationStatus.CANCELED.id;
         changeStatusForOverdueReservation(status, setStatus);
     }
 
-    @Scheduled(cron = "*/5 * * * * *")
+    //    @Scheduled(cron = "*/5 * * * * *")
     public void checkTermDateForReceivedReservations() {
         Short status = ReservationStatus.RECEIVED.id;
         Short setStatus = ReservationStatus.OVERDUE.id;

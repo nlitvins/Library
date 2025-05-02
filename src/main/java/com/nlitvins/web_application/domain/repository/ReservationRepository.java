@@ -11,4 +11,8 @@ public interface ReservationRepository {
     Reservation save(Reservation reservation);
 
     Reservation findById(int id);
+
+    Reservation findByBookIdAndUserId(int bookId, int userId);
+
+//    Reservation exists();
 }

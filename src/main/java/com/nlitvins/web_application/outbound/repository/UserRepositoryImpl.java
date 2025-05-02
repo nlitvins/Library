@@ -28,6 +28,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public User findById(int id) {
+        UserEntity userEntity = jpaRepository.getReferenceById(id);
+        return OutboundMapper.Users.toDomain(userEntity);
+    }
+
+    @Override
     public User save(User user) {
         UserEntity userEntity = OutboundMapper.Users.toEntity(user);
         UserEntity savedUserEntity = jpaRepository.save(userEntity);

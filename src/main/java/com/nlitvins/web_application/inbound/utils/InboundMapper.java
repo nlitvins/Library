@@ -1,8 +1,11 @@
 package com.nlitvins.web_application.inbound.utils;
 
+import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.model.User;
+import com.nlitvins.web_application.inbound.model.BookRequest;
+import com.nlitvins.web_application.inbound.model.BookResponse;
 import com.nlitvins.web_application.inbound.model.ReservationCreateRequest;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
 import com.nlitvins.web_application.inbound.model.UserRequest;
@@ -96,7 +99,39 @@ public class InboundMapper {
             }
             return userResponses;
         }
+    }
 
+    public static class Books {
+        public static Book toDomain(BookRequest request) {
+            Book book = new Book();
+
+            book.setId(request.getId());
+            book.setTitle(request.getTitle());
+            book.setAuthor(request.getAuthor());
+            book.setQuantity(request.getQuantity());
+
+            return book;
+        }
+
+
+        public static BookResponse toDTO(Book book) {
+            return new BookResponse(
+                    book.getId(),
+                    book.getTitle(),
+                    book.getAuthor(),
+                    book.getQuantity()
+            );
+        }
+
+        public static List<BookResponse> toDTOList(List<Book> books) {
+            List<BookResponse> bookResponses = new ArrayList<>();
+            for (int index = 0; index < books.size(); index++) {
+                Book book = books.get(index);
+                BookResponse response = toDTO(book);
+                bookResponses.add(response);
+            }
+            return bookResponses;
+        }
 
     }
 }

@@ -2,13 +2,11 @@ package com.nlitvins.web_application.outbound.utils;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
-import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.outbound.model.BookEntity;
 import com.nlitvins.web_application.outbound.model.ReservationEntity;
 import com.nlitvins.web_application.outbound.model.UserEntity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +46,10 @@ public class OutboundMapper {
 
     public static class Reservations {
         public static Reservation toDomain(ReservationEntity reservationEntity) {
+            if (reservationEntity == null) {
+                return null;
+            }
+
             return new Reservation(
                     reservationEntity.getId(),
                     reservationEntity.getUserId(),
@@ -75,15 +77,15 @@ public class OutboundMapper {
 
             ReservationEntity reservationEntity = new ReservationEntity();
             LocalDateTime dateTime = LocalDateTime.now();
-            LocalDateTime termDate = LocalDate.now().atStartOfDay().minusNanos(1);
 
+            reservationEntity.setId(reservation.getId());
             reservationEntity.setUserId(reservation.getUserId());
             reservationEntity.setBookId(reservation.getBookId());
             reservationEntity.setCreatedDate(dateTime);
-            reservationEntity.setTermDate(termDate.plusDays(4)); //Real term is 3 days
+            reservationEntity.setTermDate(reservation.getTermDate().minusNanos(1));
             reservationEntity.setUpdatedDate(dateTime);
-            reservationEntity.setStatus(ReservationStatus.NEW.id);
-            reservationEntity.setExtensionCount((short) 0);
+            reservationEntity.setStatus(reservation.getStatus());
+            reservationEntity.setExtensionCount(reservation.getExtensionCount());
 
             return reservationEntity;
         }
