@@ -2,9 +2,10 @@ package com.nlitvins.web_application.domain.usecase;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
-import com.nlitvins.web_application.domain.repository.BookRepository;
 import com.nlitvins.web_application.domain.repository.ReservationRepository;
+import com.nlitvins.web_application.outbound.repository.fake.BookRepositoryFake;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -21,13 +22,18 @@ class ReservationCreateUseCaseTest {
     private ReservationCreateUseCase sut;
 
     private ReservationRepository reservationRepository;
-    private BookRepository bookRepository;
+    private BookRepositoryFake bookRepository;
 
     @BeforeAll
     void setUp() {
-        bookRepository = mock();
+        bookRepository = new BookRepositoryFake();
         reservationRepository = mock();
         sut = new ReservationCreateUseCase(reservationRepository, bookRepository);
+    }
+
+    @BeforeEach
+    void clear() {
+        bookRepository.clear();
     }
 
     @Test
@@ -36,9 +42,10 @@ class ReservationCreateUseCaseTest {
         Book book = givenUnavailableBook();
         Reservation reservation = givenReservation(book.getId(), userId);
 
+        bookRepository.save(book);
+
         doReturn(Collections.emptyList()).when(reservationRepository).findByUserId(userId);
         doReturn(reservation).when(reservationRepository).findByBookIdAndUserId(reservation.getBookId(), userId);
-        doReturn(book).when(bookRepository).findById(book.getId());
 
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.registerReservation(reservation));
         assertEquals("Reservation already exists", thrown.getMessage());
