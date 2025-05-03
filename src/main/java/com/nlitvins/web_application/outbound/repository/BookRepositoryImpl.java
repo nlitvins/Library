@@ -23,11 +23,13 @@ public class BookRepositoryImpl implements BookRepository {
         return OutboundMapper.Books.toDomainList(bookEntities);
     }
 
+    @Override
     public Book findById(int id) {
         BookEntity bookEntities = jpaRepository.getReferenceById(id);
         return OutboundMapper.Books.toDomain(bookEntities);
     }
 
+    @Override
     public Book save(Book book) {
         BookEntity bookEntity = OutboundMapper.Books.toEntity(book);
         BookEntity savedBookEntity = jpaRepository.save(bookEntity);
