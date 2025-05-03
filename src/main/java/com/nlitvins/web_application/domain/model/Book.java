@@ -10,6 +10,9 @@ public class Book {
     private boolean isBorrowed;
     private int quantity;
 
+    public Book() {
+    }
+
     public Book(int id, String title, String author, boolean isBorrowed) {
         this.id = id;
         this.title = title;
@@ -18,7 +21,7 @@ public class Book {
         this.quantity = 1;
     }
 
-    public Book() {
+    public Book(int id, String title, String author, int quantity) {
         this.id = id;
         this.title = title;
         this.author = author;
