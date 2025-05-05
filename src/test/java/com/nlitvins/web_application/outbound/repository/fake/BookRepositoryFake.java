@@ -24,10 +24,7 @@ public class BookRepositoryFake implements BookRepository {
 
     @Override
     public Book save(Book book) {
-        if (books.putIfAbsent(book.getId(), book) != null) {
-            throw new RuntimeException("ID already exists");
-        }
-        return book;
+        return books.put(book.getId(), book);
     }
 
     public void clear() {
