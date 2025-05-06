@@ -24,7 +24,8 @@ public class BookRepositoryFake implements BookRepository {
 
     @Override
     public Book save(Book book) {
-        return books.put(book.getId(), book);
+        books.put(book.getId(), book);
+        return book;
     }
 
     public void clear() {

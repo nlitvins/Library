@@ -26,7 +26,8 @@ public class ReservationRepositoryFake implements ReservationRepository {
 
     @Override
     public Reservation save(Reservation reservation) {
-        return reservations.put(reservation.getId(), reservation);
+        reservations.put(reservation.getId(), reservation);
+        return reservation;
     }
 
     @Override
@@ -50,5 +51,9 @@ public class ReservationRepositoryFake implements ReservationRepository {
             }
         }
         return results;
+    }
+
+    public void clear() {
+        reservations.clear();
     }
 }

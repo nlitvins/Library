@@ -22,6 +22,14 @@ public class ReservationCreateUseCase {
     public Reservation registerReservation(Reservation reservation) {
         Book book = bookRepository.findById(reservation.getBookId());
 
+        if (book == null) {
+            throw new IllegalArgumentException("Book doesn't exist");
+        }
+
+        if (book.getQuantity() == 0) {
+            throw new RuntimeException("Quantity is zero");
+        }
+
         List<Reservation> reservationQuantity = reservationRepository.findByUserId(reservation.getUserId());
         if (reservationQuantity.size() >= 3) {
             throw new RuntimeException("Too many reservations");
@@ -30,10 +38,6 @@ public class ReservationCreateUseCase {
         Reservation reservationCheck = reservationRepository.findByBookIdAndUserId(reservation.getBookId(), reservation.getUserId());
         if (reservationCheck != null) {
             throw new RuntimeException("Reservation already exists");
-        }
-
-        if (book.getQuantity() == 0) {
-            throw new RuntimeException("Quantity is zero");
         }
 
         book.setQuantity(book.getQuantity() - 1);
