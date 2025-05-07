@@ -22,7 +22,6 @@ public class ReservationCreateUseCase {
 
     public Reservation registerReservation(Reservation reservation) {
         Book book = bookRepository.findById(reservation.getBookId());
-        List<Short> statuses = List.of(ReservationStatus.NEW.id, ReservationStatus.RECEIVED.id, ReservationStatus.OVERDUE.id);
 
         if (book == null) {
             throw new IllegalArgumentException("Book doesn't exist");
@@ -32,16 +31,26 @@ public class ReservationCreateUseCase {
             throw new RuntimeException("Quantity is zero");
         }
 
+        List<Short> statuses = List.of(ReservationStatus.NEW.id, ReservationStatus.RECEIVED.id, ReservationStatus.OVERDUE.id);
 
         List<Reservation> reservationQuantityAndStatus = reservationRepository.findByUserIdAndStatusIn(reservation.getUserId(), statuses);
         if (reservationQuantityAndStatus.size() >= 3) {
             throw new RuntimeException("Too many reservations");
         }
 
-        Reservation reservationCheck = reservationRepository.findByBookIdAndUserId(reservation.getBookId(), reservation.getUserId());
-        if (reservationCheck != null) {
+        List<Reservation> reservationRepeat = reservationRepository.findByUserIdAndBookIdAndStatusIn(reservation.getUserId(), reservation.getBookId(), statuses);
+        if (!reservationRepeat.isEmpty()) {
             throw new RuntimeException("Reservation already exists");
         }
+
+
+//
+//        Reservation reservationCheck = reservationRepository.findByBookIdAndUserId(reservation.getBookId(), reservation.getUserId());
+//        if (reservationCheck != null) {
+//            throw new RuntimeException("Reservation already exists");
+//        }
+
+
 
         book.setQuantity(book.getQuantity() - 1);
         bookRepository.save(book);

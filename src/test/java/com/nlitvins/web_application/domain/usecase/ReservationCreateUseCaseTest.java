@@ -65,7 +65,7 @@ class ReservationCreateUseCaseTest {
     }
 
     @Test
-    void whenBookIsUnavailableThrowException() {
+    void throwExceptionWhenBookIsUnavailable() {
         int userId = 123;
         Book book = givenUnavailableBook();
         Reservation reservation = newReservation(1, book.getId(), userId);
@@ -75,7 +75,7 @@ class ReservationCreateUseCaseTest {
     }
 
     @Test
-    void whenReservationAlreadyExists() {
+    void throwExceptionWhenReservationAlreadyExists() {
         int userId = 123;
         Book book = givenAvailableBook(123);
         Reservation reservation = givenReservation(1, book.getId(), userId);
@@ -85,7 +85,7 @@ class ReservationCreateUseCaseTest {
     }
 
     @Test
-    void whenTooMuchReservations() {
+    void throwExceptionWhenTooMuchReservations() {
         int userId = 123;
         Book firstBook = givenAvailableBook(111);
         Book secondBook = givenAvailableBook(112);
@@ -101,7 +101,7 @@ class ReservationCreateUseCaseTest {
     }
 
     @Test
-    void whenBookDoesntExist() {
+    void throwExceptionWhenBookDoesntExist() {
         int userId = 123;
         Reservation reservation = givenReservation(121, 122, userId);
 
@@ -110,7 +110,7 @@ class ReservationCreateUseCaseTest {
     }
 
     @Test
-    void whenReservationAdded() {
+    void saveReservationWhenReservationAdded() {
         Reservation expected = reservationRepository.findById(121);
         assertNull(expected);
 
@@ -125,7 +125,7 @@ class ReservationCreateUseCaseTest {
     }
 
     @Test
-    void whenSecondReservationAdded() {
+    void saveReservationWhenSecondReservationAdded() {
         int userId = 123;
         Book book = givenAvailableBook(111);
         Book book1 = givenAvailableBook(112);
@@ -140,7 +140,7 @@ class ReservationCreateUseCaseTest {
     }
 
     @Test
-    void whenReservationQuantityMoreThenThreeButStatusCompleted() {
+    void saveReservationWhenThreeCompletedReservationExist() {
         int userId = 123;
         Book book = givenAvailableBook(111);
         Book book1 = givenAvailableBook(112);
@@ -160,7 +160,7 @@ class ReservationCreateUseCaseTest {
     }
 
     @Test
-    void whenWasTheSameReservation() {
+    void saveReservationWhenSameReservationCompleted() {
         int userId = 123;
         Book book = givenAvailableBook(111);
         givenReservationCompleted(121, book.getId(), userId);
@@ -173,6 +173,4 @@ class ReservationCreateUseCaseTest {
         Reservation savedReservation = reservationRepository.findById(122);
         assertNotNull(savedReservation);
     }
-
-
 }

@@ -17,4 +17,6 @@ public interface ReservationRepository {
     List<Reservation> findByUserId(int id);
 
     List<Reservation> findByUserIdAndStatusIn(int id, List<Short> statuses);
+
+    List<Reservation> findByUserIdAndBookIdAndStatusIn(int userId, int bookId, List<Short> statuses);
 }

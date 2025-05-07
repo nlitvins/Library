@@ -54,4 +54,10 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         List<ReservationEntity> reservationEntity = jpaRepository.findByUserIdAndStatusIn(id, statuses);
         return OutboundMapper.Reservations.toDomainList(reservationEntity);
     }
+
+    @Override
+    public List<Reservation> findByUserIdAndBookIdAndStatusIn(int userId, int bookId, List<Short> statuses) {
+        List<ReservationEntity> reservationEntity = jpaRepository.findByUserIdAndBookIdAndStatusIn(userId, bookId, statuses);
+        return OutboundMapper.Reservations.toDomainList(reservationEntity);
+    }
 }
