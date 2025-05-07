@@ -2,6 +2,7 @@ package com.nlitvins.web_application.domain.usecase;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
+import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.repository.BookRepository;
 import com.nlitvins.web_application.domain.repository.ReservationRepository;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ public class ReservationCreateUseCase {
 
     public Reservation registerReservation(Reservation reservation) {
         Book book = bookRepository.findById(reservation.getBookId());
+        List<Short> statuses = List.of(ReservationStatus.NEW.id, ReservationStatus.RECEIVED.id, ReservationStatus.OVERDUE.id);
 
         if (book == null) {
             throw new IllegalArgumentException("Book doesn't exist");
@@ -30,8 +32,9 @@ public class ReservationCreateUseCase {
             throw new RuntimeException("Quantity is zero");
         }
 
-        List<Reservation> reservationQuantity = reservationRepository.findByUserId(reservation.getUserId());
-        if (reservationQuantity.size() >= 3) {
+
+        List<Reservation> reservationQuantityAndStatus = reservationRepository.findByUserIdAndStatusIn(reservation.getUserId(), statuses);
+        if (reservationQuantityAndStatus.size() >= 3) {
             throw new RuntimeException("Too many reservations");
         }
 

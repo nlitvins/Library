@@ -52,6 +52,7 @@ class ReservationCreateUseCaseTest {
         reservation.setId(id);
         reservation.setUserId(userId);
         reservation.setBookId(bookId);
+        reservation.setStatus(ReservationStatus.NEW.id);
         return reservation;
     }
 

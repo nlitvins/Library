@@ -16,5 +16,5 @@ public interface ReservationJpaRepository extends JpaRepository<ReservationEntit
 
     List<ReservationEntity> findByUserId(int id);
 
-
+    List<ReservationEntity> findByUserIdAndStatusIn(int id, List<Short> statuses);
 }
