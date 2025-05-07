@@ -20,13 +20,13 @@ public class ReservationCheckUseCase {
     public Reservation receiveBook(int id) {
         Reservation reservation = reservationRepository.findById(id);
 
-        if (reservation.getStatus() != ReservationStatus.NEW.id) {
+        if (reservation.getStatus() != ReservationStatus.NEW) {
             throw new RuntimeException("You can't receive the book. Incorrect status.");
         }
 
         LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
         reservation.setTermDate(dateTime.plusDays(15)); //Real term is 14 days
-        reservation.setStatus(ReservationStatus.RECEIVED.id);
+        reservation.setStatus(ReservationStatus.RECEIVED);
         reservation.setExtensionCount((short) 0);
 
         return reservationRepository.save(reservation);
@@ -37,9 +37,9 @@ public class ReservationCheckUseCase {
         LocalDateTime termDate = reservation.getTermDate();
         short extensionCount = reservation.getExtensionCount();
 
-        if (reservation.getStatus() == ReservationStatus.NEW.id && extensionCount < 1) {
+        if (reservation.getStatus() == ReservationStatus.NEW && extensionCount < 1) {
             reservation.setTermDate(termDate.plusDays(3));
-        } else if (reservation.getStatus() == ReservationStatus.RECEIVED.id && extensionCount < 3) {
+        } else if (reservation.getStatus() == ReservationStatus.RECEIVED && extensionCount < 3) {
             reservation.setTermDate(termDate.plusDays(14));
         } else {
             throw new RuntimeException("You can't extend reservation. Incorrect status or extension count.");
@@ -54,10 +54,10 @@ public class ReservationCheckUseCase {
     public Reservation completeReservation(int id) {
         Reservation reservation = reservationRepository.findById(id);
 
-        if (reservation.getStatus() != ReservationStatus.RECEIVED.id) {
+        if (reservation.getStatus() != ReservationStatus.RECEIVED) {
             throw new RuntimeException("You can't complete reservation. Incorrect status.");
         }
-        reservation.setStatus(ReservationStatus.COMPLETED.id);
+        reservation.setStatus(ReservationStatus.COMPLETED);
         reservation.setUpdatedDate(LocalDateTime.now());
 
         return reservationRepository.save(reservation);
@@ -66,11 +66,11 @@ public class ReservationCheckUseCase {
     public Reservation cancelReservation(int id) {
         Reservation reservation = reservationRepository.findById(id);
 
-        if (reservation.getStatus() != ReservationStatus.NEW.id) {
+        if (reservation.getStatus() != ReservationStatus.NEW) {
             throw new RuntimeException("You can't cancel reservation. Incorrect status.");
         }
 
-        reservation.setStatus(ReservationStatus.CANCELED.id);
+        reservation.setStatus(ReservationStatus.CANCELED);
         reservation.setUpdatedDate(LocalDateTime.now());
         return reservationRepository.save(reservation);
     }
@@ -78,7 +78,7 @@ public class ReservationCheckUseCase {
     public Reservation loseBook(int id) {
         Reservation reservation = reservationRepository.findById(id);
 
-        reservation.setStatus(ReservationStatus.LOST.id);
+        reservation.setStatus(ReservationStatus.LOST);
         reservation.setUpdatedDate(LocalDateTime.now());
 
         return reservationRepository.save(reservation);

@@ -2,6 +2,7 @@ package com.nlitvins.web_application.outbound.repository.fake;
 
 
 import com.nlitvins.web_application.domain.model.Reservation;
+import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.repository.ReservationRepository;
 import org.springframework.stereotype.Repository;
 
@@ -44,8 +45,7 @@ public class ReservationRepositoryFake implements ReservationRepository {
     @Override
     public List<Reservation> findByUserId(int userId) {
         List<Reservation> results = new ArrayList<>();
-        List<Reservation> values = reservations.values().stream().toList();
-        for (Reservation reservation : values) {
+        for (Reservation reservation : reservations.values()) {
             if (reservation.getUserId() == userId) {
                 results.add(reservation);
             }
@@ -54,10 +54,9 @@ public class ReservationRepositoryFake implements ReservationRepository {
     }
 
     @Override
-    public List<Reservation> findByUserIdAndStatusIn(int userId, List<Short> statuses) {
+    public List<Reservation> findByUserIdAndStatusIn(int userId, List<ReservationStatus> statuses) {
         List<Reservation> results = new ArrayList<>();
-        List<Reservation> values = reservations.values().stream().toList();
-        for (Reservation reservation : values) {
+        for (Reservation reservation : reservations.values()) {
             if (reservation.getUserId() == userId && statuses.contains(reservation.getStatus())) {
                 results.add(reservation);
             }
@@ -66,10 +65,9 @@ public class ReservationRepositoryFake implements ReservationRepository {
     }
 
     @Override
-    public List<Reservation> findByUserIdAndBookIdAndStatusIn(int userId, int bookId, List<Short> statuses) {
+    public List<Reservation> findByUserIdAndBookIdAndStatusIn(int userId, int bookId, List<ReservationStatus> statuses) {
         List<Reservation> results = new ArrayList<>();
-        List<Reservation> values = reservations.values().stream().toList();
-        for (Reservation reservation : values) {
+        for (Reservation reservation : reservations.values()) {
             if (reservation.getUserId() == userId && reservation.getBookId() == bookId && statuses.contains(reservation.getStatus())) {
                 results.add(reservation);
             }

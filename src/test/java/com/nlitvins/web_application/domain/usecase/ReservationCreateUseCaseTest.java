@@ -43,7 +43,7 @@ class ReservationCreateUseCaseTest {
 
     private Reservation givenReservationCompleted(int id, int bookId, int userId) {
         Reservation reservation = newReservation(id, bookId, userId);
-        reservation.setStatus(ReservationStatus.COMPLETED.id);
+        reservation.setStatus(ReservationStatus.COMPLETED);
         return reservationRepository.save(reservation);
     }
 
@@ -52,7 +52,7 @@ class ReservationCreateUseCaseTest {
         reservation.setId(id);
         reservation.setUserId(userId);
         reservation.setBookId(bookId);
-        reservation.setStatus(ReservationStatus.NEW.id);
+        reservation.setStatus(ReservationStatus.NEW);
         return reservation;
     }
 

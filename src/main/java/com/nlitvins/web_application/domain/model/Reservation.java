@@ -9,7 +9,7 @@ public class Reservation {
     private int bookId;
     private LocalDateTime createdDate;
     private LocalDateTime termDate;
-    private short status;
+    private ReservationStatus status;
     private short extensionCount;
     private LocalDateTime updatedDate;
 
@@ -20,7 +20,7 @@ public class Reservation {
             LocalDateTime createdDate,
             LocalDateTime termDate,
             LocalDateTime updatedDate,
-            short status,
+            ReservationStatus status,
             short extensionCount
     ) {
         this.id = id;
@@ -56,7 +56,7 @@ public class Reservation {
         return termDate;
     }
 
-    public Short getStatus() {
+    public ReservationStatus getStatus() {
         return status;
     }
 
@@ -89,7 +89,7 @@ public class Reservation {
         this.termDate = termDate;
     }
 
-    public void setStatus(Short status) {
+    public void setStatus(ReservationStatus status) {
         this.status = status;
     }
 

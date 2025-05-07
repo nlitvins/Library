@@ -24,6 +24,7 @@ public class InboundMapper {
     public static class Reservations {
 
         public static ReservationResponse toDTO(Reservation reservation) {
+
             return new ReservationResponse(
                     reservation.getId(),
                     reservation.getUserId(),
@@ -31,7 +32,7 @@ public class InboundMapper {
                     reservation.getCreatedDate(),
                     reservation.getTermDate(),
                     reservation.getUpdatedDate(),
-                    reservation.getStatus(),
+                    reservation.getStatus().id,
                     reservation.getExtensionCount()
             );
         }
@@ -57,7 +58,7 @@ public class InboundMapper {
             reservation.setCreatedDate(dateTime);
             reservation.setTermDate(termDate.plusDays(4)); //Real term is 3 days
             reservation.setUpdatedDate(dateTime);
-            reservation.setStatus(ReservationStatus.NEW.id);
+            reservation.setStatus(ReservationStatus.NEW);
             reservation.setExtensionCount((short) 0);
 
             return reservation;

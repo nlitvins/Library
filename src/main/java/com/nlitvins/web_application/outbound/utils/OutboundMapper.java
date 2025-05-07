@@ -2,6 +2,7 @@ package com.nlitvins.web_application.outbound.utils;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
+import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.outbound.model.BookEntity;
 import com.nlitvins.web_application.outbound.model.ReservationEntity;
@@ -61,7 +62,7 @@ public class OutboundMapper {
                     reservationEntity.getCreatedDate(),
                     reservationEntity.getTermDate(),
                     reservationEntity.getUpdatedDate(),
-                    reservationEntity.getStatus(),
+                    ReservationStatus.getStatus(reservationEntity.getStatus()),
                     reservationEntity.getExtensionCount()
             );
         }
@@ -88,7 +89,7 @@ public class OutboundMapper {
             reservationEntity.setCreatedDate(dateTime);
             reservationEntity.setTermDate(reservation.getTermDate().minusNanos(1));
             reservationEntity.setUpdatedDate(dateTime);
-            reservationEntity.setStatus(reservation.getStatus());
+            reservationEntity.setStatus(reservation.getStatus().id);
             reservationEntity.setExtensionCount(reservation.getExtensionCount());
 
             return reservationEntity;
@@ -136,6 +137,16 @@ public class OutboundMapper {
                 users.add(mapper);
             }
             return users;
+        }
+    }
+
+    public static class ReservationStatuses {
+        public static List<Short> getShorts(List<ReservationStatus> statuses) {
+            List<Short> shorts = new ArrayList<>();
+            for (ReservationStatus reservationStatus : statuses) {
+                shorts.add(reservationStatus.id);
+            }
+            return shorts;
         }
     }
 }

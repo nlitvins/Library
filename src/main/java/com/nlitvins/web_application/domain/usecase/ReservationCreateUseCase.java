@@ -33,12 +33,12 @@ public class ReservationCreateUseCase {
 
         List<Short> statuses = List.of(ReservationStatus.NEW.id, ReservationStatus.RECEIVED.id, ReservationStatus.OVERDUE.id);
 
-        List<Reservation> reservationQuantityAndStatus = reservationRepository.findByUserIdAndStatusIn(reservation.getUserId(), statuses);
+        List<Reservation> reservationQuantityAndStatus = reservationRepository.findByUserIdAndStatusIn(reservation.getUserId(), ReservationStatus.getNotFinalStatuses());
         if (reservationQuantityAndStatus.size() >= 3) {
             throw new RuntimeException("Too many reservations");
         }
 
-        List<Reservation> reservationRepeat = reservationRepository.findByUserIdAndBookIdAndStatusIn(reservation.getUserId(), reservation.getBookId(), statuses);
+        List<Reservation> reservationRepeat = reservationRepository.findByUserIdAndBookIdAndStatusIn(reservation.getUserId(), reservation.getBookId(), ReservationStatus.getNotFinalStatuses());
         if (!reservationRepeat.isEmpty()) {
             throw new RuntimeException("Reservation already exists");
         }

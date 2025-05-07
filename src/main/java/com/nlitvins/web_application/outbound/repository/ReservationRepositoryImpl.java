@@ -1,6 +1,7 @@
 package com.nlitvins.web_application.outbound.repository;
 
 import com.nlitvins.web_application.domain.model.Reservation;
+import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.repository.ReservationRepository;
 import com.nlitvins.web_application.outbound.model.ReservationEntity;
 import com.nlitvins.web_application.outbound.repository.jpa.ReservationJpaRepository;
@@ -50,14 +51,16 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     }
 
     @Override
-    public List<Reservation> findByUserIdAndStatusIn(int id, List<Short> statuses) {
-        List<ReservationEntity> reservationEntity = jpaRepository.findByUserIdAndStatusIn(id, statuses);
+    public List<Reservation> findByUserIdAndStatusIn(int id, List<ReservationStatus> statuses) {
+        List<Short> results = OutboundMapper.ReservationStatuses.getShorts(statuses);
+        List<ReservationEntity> reservationEntity = jpaRepository.findByUserIdAndStatusIn(id, results);
         return OutboundMapper.Reservations.toDomainList(reservationEntity);
     }
 
     @Override
-    public List<Reservation> findByUserIdAndBookIdAndStatusIn(int userId, int bookId, List<Short> statuses) {
-        List<ReservationEntity> reservationEntity = jpaRepository.findByUserIdAndBookIdAndStatusIn(userId, bookId, statuses);
+    public List<Reservation> findByUserIdAndBookIdAndStatusIn(int userId, int bookId, List<ReservationStatus> statuses) {
+        List<Short> results = OutboundMapper.ReservationStatuses.getShorts(statuses);
+        List<ReservationEntity> reservationEntity = jpaRepository.findByUserIdAndBookIdAndStatusIn(userId, bookId, results);
         return OutboundMapper.Reservations.toDomainList(reservationEntity);
     }
 }
