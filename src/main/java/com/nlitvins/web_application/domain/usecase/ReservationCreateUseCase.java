@@ -7,6 +7,7 @@ import com.nlitvins.web_application.domain.repository.BookRepository;
 import com.nlitvins.web_application.domain.repository.ReservationRepository;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -20,7 +21,6 @@ public class ReservationCreateUseCase {
         this.bookRepository = bookRepository;
     }
 
-    // TODO: term date from InboundMapper.Reservations.toDomain + test
     // TODO: transaction (Dima)
     public Reservation registerReservation(Reservation reservation) {
         Book book = bookRepository.findById(reservation.getBookId());
@@ -46,6 +46,7 @@ public class ReservationCreateUseCase {
         book.setQuantity(book.getQuantity() - 1);
         bookRepository.save(book);
 
+        reservation.setTermDate(LocalDate.now().atStartOfDay().minusNanos(1).plusDays(4));
         return reservationRepository.save(reservation);
     }
 

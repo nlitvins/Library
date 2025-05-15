@@ -12,8 +12,6 @@ import com.nlitvins.web_application.inbound.model.UserRequest;
 import com.nlitvins.web_application.inbound.model.UserResponse;
 import lombok.experimental.UtilityClass;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,17 +46,11 @@ public class InboundMapper {
             return reservationResponses;
         }
 
-        // TODO: from here
         public static Reservation toDomain(ReservationCreateRequest request) {
             Reservation reservation = new Reservation();
-            LocalDateTime dateTime = LocalDateTime.now();
-            LocalDateTime termDate = LocalDate.now().atStartOfDay().minusNanos(1);
 
             reservation.setUserId(request.getUserId());
             reservation.setBookId(request.getBookId());
-            reservation.setCreatedDate(dateTime);
-            reservation.setTermDate(termDate.plusDays(4)); //Real term is 3 days
-            reservation.setUpdatedDate(dateTime);
             reservation.setStatus(ReservationStatus.NEW);
             reservation.setExtensionCount((short) 0);
 

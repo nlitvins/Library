@@ -68,7 +68,6 @@ public class Reservation {
         return updatedDate;
     }
 
-
     public void setBookId(int bookId) {
         this.bookId = bookId;
     }
@@ -81,10 +80,6 @@ public class Reservation {
         this.userId = userId;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
     public void setTermDate(LocalDateTime termDate) {
         this.termDate = termDate;
     }
@@ -95,9 +90,5 @@ public class Reservation {
 
     public void setExtensionCount(Short extensionCount) {
         this.extensionCount = extensionCount;
-    }
-
-    public void setUpdatedDate(LocalDateTime updatedDate) {
-        this.updatedDate = updatedDate;
     }
 }

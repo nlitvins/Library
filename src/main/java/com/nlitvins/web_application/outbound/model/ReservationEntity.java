@@ -4,15 +4,20 @@ package com.nlitvins.web_application.outbound.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reservations")
+@EntityListeners(AuditingEntityListener.class)
 public class ReservationEntity {
 
     @Id
@@ -27,7 +32,7 @@ public class ReservationEntity {
 
     @Column(name = "created_date", nullable = false)
     @JsonIgnore
-//    @CreatedDate
+    @CreatedDate
     private LocalDateTime createdDate;
 
     @Column(name = "term_date", nullable = false)
@@ -44,7 +49,7 @@ public class ReservationEntity {
 
     @Column(name = "updated_date", nullable = false)
     @JsonIgnore
-//    @LastModifiedDate
+    @LastModifiedDate
     private LocalDateTime updatedDate;
 
 

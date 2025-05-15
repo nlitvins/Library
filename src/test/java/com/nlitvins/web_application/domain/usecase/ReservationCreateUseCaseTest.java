@@ -9,13 +9,17 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.MockedStatic;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mockStatic;
 
-// TODO: book qu antity test
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ReservationCreateUseCaseTest {
 
@@ -115,6 +119,11 @@ class ReservationCreateUseCaseTest {
         Reservation expected = reservationRepository.findById(121);
         assertNull(expected);
 
+        LocalDate mockedDate = LocalDate.parse("2025-05-02");
+        try (MockedStatic<LocalDate> mockedClass = mockStatic(LocalDate.class)) {
+            mockedClass.when(LocalDate::now).thenReturn(mockedDate);
+        }
+
         int userId = 123;
         Book book = givenAvailableBook(111);
         Reservation reservation = newReservation(121, book.getId(), userId);
@@ -123,6 +132,36 @@ class ReservationCreateUseCaseTest {
 
         Reservation savedReservation = reservationRepository.findById(121);
         assertNotNull(savedReservation);
+        assertEquals(LocalDateTime.parse("2025-05-18T23:59:59.999999999"), savedReservation.getTermDate());
+    }
+
+    @Test
+    void calculateReservationTermDateWhenReservationAdded() {
+        LocalDate mockedDate = LocalDate.parse("2025-05-02");
+        try (MockedStatic<LocalDate> mockedClass = mockStatic(LocalDate.class)) {
+            mockedClass.when(LocalDate::now).thenReturn(mockedDate);
+        }
+        Book book = givenAvailableBook(111);
+        Reservation reservation = newReservation(121, book.getId(), 123);
+
+        Reservation result = sut.registerReservation(reservation);
+        assertNotNull(result);
+
+        Reservation savedReservation = reservationRepository.findById(121);
+        assertEquals(LocalDateTime.parse("2025-05-18T23:59:59.999999999"), savedReservation.getTermDate());
+    }
+
+    @Test
+    void bookQuantityReducedWhenBookSave() {
+        int userId = 123;
+        givenAvailableBook(111);
+        Reservation reservation = newReservation(121, 111, userId);
+
+        Reservation result = sut.registerReservation(reservation);
+        assertNotNull(result);
+
+        Book book = bookRepository.findById(111);
+        assertEquals(2, book.getQuantity());
     }
 
     @Test

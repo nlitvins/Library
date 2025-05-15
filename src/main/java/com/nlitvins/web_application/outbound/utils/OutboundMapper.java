@@ -9,7 +9,6 @@ import com.nlitvins.web_application.outbound.model.ReservationEntity;
 import com.nlitvins.web_application.outbound.model.UserEntity;
 import lombok.experimental.UtilityClass;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,16 +78,13 @@ public class OutboundMapper {
         }
 
         public static ReservationEntity toEntity(Reservation reservation) {
-
             ReservationEntity reservationEntity = new ReservationEntity();
-            LocalDateTime dateTime = LocalDateTime.now();
 
             reservationEntity.setId(reservation.getId());
             reservationEntity.setUserId(reservation.getUserId());
             reservationEntity.setBookId(reservation.getBookId());
-            reservationEntity.setCreatedDate(dateTime);
+            reservationEntity.setCreatedDate(reservation.getCreatedDate());
             reservationEntity.setTermDate(reservation.getTermDate());
-            reservationEntity.setUpdatedDate(dateTime);
             reservationEntity.setStatus(reservation.getStatus().id);
             reservationEntity.setExtensionCount(reservation.getExtensionCount());
 

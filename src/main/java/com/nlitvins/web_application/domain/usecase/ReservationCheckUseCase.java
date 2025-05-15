@@ -50,8 +50,6 @@ public class ReservationCheckUseCase {
             throw new RuntimeException("You can't extend reservation. Incorrect status or extension count.");
         }
 
-        LocalDateTime updatedDate = LocalDateTime.now();
-        reservation.setUpdatedDate(updatedDate);
         reservation.setExtensionCount((short) (extensionCount + 1));
         return reservationRepository.save(reservation);
     }
@@ -63,7 +61,6 @@ public class ReservationCheckUseCase {
             throw new RuntimeException("You can't complete reservation. Status is not received.");
         }
         reservation.setStatus(ReservationStatus.COMPLETED);
-        reservation.setUpdatedDate(LocalDateTime.now());
 
         return reservationRepository.save(reservation);
     }
@@ -76,7 +73,6 @@ public class ReservationCheckUseCase {
         }
 
         reservation.setStatus(ReservationStatus.CANCELED);
-        reservation.setUpdatedDate(LocalDateTime.now());
         return reservationRepository.save(reservation);
     }
 
