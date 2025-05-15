@@ -3,7 +3,6 @@ package com.nlitvins.web_application.domain.usecase;
 
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
-import com.nlitvins.web_application.outbound.repository.fake.BookRepositoryFake;
 import com.nlitvins.web_application.outbound.repository.fake.ReservationRepositoryFake;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +15,6 @@ import java.time.LocalDateTime;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mockStatic;
 
@@ -26,33 +24,38 @@ class ReservationCheckUseCaseTest {
     private ReservationCheckUseCase sut;
 
     private ReservationRepositoryFake reservationRepository;
-    //TODO
-    private BookRepositoryFake bookRepository;
 
     @BeforeAll
     void setUp() {
-        bookRepository = new BookRepositoryFake();
         reservationRepository = new ReservationRepositoryFake();
         sut = new ReservationCheckUseCase(reservationRepository);
     }
 
     @BeforeEach
     void clear() {
-        bookRepository.clear();
         reservationRepository.clear();
     }
 
-    private Reservation givenReservation(int id, ReservationStatus status, LocalDateTime dateTime, short extensionCount) {
-
+    private Reservation givenReservation(int id, ReservationStatus status, short extensionCount) {
         Reservation reservation = new Reservation();
-        dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
+        LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
 
         reservation.setId(id);
         reservation.setUserId(123);
         reservation.setBookId(111);
-        reservation.setCreatedDate(dateTime);
         reservation.setTermDate(dateTime.plusDays(4));
-        reservation.setUpdatedDate(dateTime);
+        reservation.setStatus(status);
+        reservation.setExtensionCount(extensionCount);
+        return reservationRepository.save(reservation);
+    }
+
+    private Reservation givenReservationWithTermDate(int id, ReservationStatus status, short extensionCount, LocalDateTime termDate) {
+        Reservation reservation = new Reservation();
+
+        reservation.setId(id);
+        reservation.setUserId(123);
+        reservation.setBookId(111);
+        reservation.setTermDate(termDate);
         reservation.setStatus(status);
         reservation.setExtensionCount(extensionCount);
         return reservationRepository.save(reservation);
@@ -60,7 +63,7 @@ class ReservationCheckUseCaseTest {
 
     @Test
     void changeReservationStatusAndTermDateWhenReceiveBook() {
-        Reservation reservation = givenReservation(1, ReservationStatus.NEW, null, (short) 0);
+        Reservation reservation = givenReservation(1, ReservationStatus.NEW, (short) 0);
 
         LocalDate mockedDate = LocalDate.parse("2025-05-02");
         try (MockedStatic<LocalDate> mockedClass = mockStatic(LocalDate.class)) {
@@ -77,22 +80,22 @@ class ReservationCheckUseCaseTest {
 
     @Test
     void throwExceptionWhenReceiveBookWithIncorrectStatus() {
-        Reservation expected = reservationRepository.findById(1);
-        assertNull(expected);
-
-        LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
-        Reservation reservation = givenReservation(1, ReservationStatus.RECEIVED, dateTime.plusDays(15), (short) 0);
+        givenReservation(1, ReservationStatus.RECEIVED, (short) 0);
 
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.receiveBook(1));
-        assertEquals("You can't receive the book. Incorrect status, not new.", thrown.getMessage());
+        assertEquals("You can't receive the book. Incorrect status, not new. Or reservation doesn't exist", thrown.getMessage());
     }
 
     @Test
+    void throwExceptionWhenReceiveBookWithNullReservation() {
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.receiveBook(1));
+        assertEquals("You can't receive the book. Incorrect status, not new. Or reservation doesn't exist", thrown.getMessage());
+    }
+
+
+    @Test
     void throwExceptionWhenExtendBookWithIncorrectStatus() {
-        Reservation expected = reservationRepository.findById(1);
-        assertNull(expected);
-        LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
-        Reservation reservation = givenReservation(1, ReservationStatus.COMPLETED, dateTime.plusDays(15), (short) 0);
+        givenReservation(1, ReservationStatus.COMPLETED, (short) 0);
 
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.extendBook(1));
         assertEquals("You can't extend reservation. Incorrect status or extension count.", thrown.getMessage());
@@ -100,10 +103,7 @@ class ReservationCheckUseCaseTest {
 
     @Test
     void throwExceptionWhenExtendBookWithIncorrectExtensionCountAndStatusNew() {
-        Reservation expected = reservationRepository.findById(1);
-        assertNull(expected);
-        LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
-        Reservation reservation = givenReservation(1, ReservationStatus.NEW, dateTime.plusDays(15), (short) 2);
+        givenReservation(1, ReservationStatus.NEW, (short) 1);
 
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.extendBook(1));
         assertEquals("You can't extend reservation. Incorrect status or extension count.", thrown.getMessage());
@@ -111,33 +111,45 @@ class ReservationCheckUseCaseTest {
 
     @Test
     void throwExceptionWhenExtendBookWithIncorrectExtensionCountAndStatusReceived() {
-        Reservation expected = reservationRepository.findById(1);
-        assertNull(expected);
-        LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
-        Reservation reservation = givenReservation(1, ReservationStatus.RECEIVED, dateTime.plusDays(15), (short) 4);
+        givenReservation(1, ReservationStatus.RECEIVED, (short) 3);
 
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.extendBook(1));
         assertEquals("You can't extend reservation. Incorrect status or extension count.", thrown.getMessage());
     }
 
     @Test
-    void changeExtensionCountWhenExtendBook() {
-        Reservation expected = reservationRepository.findById(1);
-        assertNull(expected);
+    void extendReservationWhenStatusReceived() {
+        LocalDateTime dateTime = LocalDateTime.parse("2025-05-01T12:00");
+        Reservation reservation = givenReservationWithTermDate(1, ReservationStatus.RECEIVED, (short) 2, dateTime);
 
-        LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
-        Reservation reservation = givenReservation(1, ReservationStatus.RECEIVED, dateTime.plusDays(15), (short) 2);
-        Reservation resulted = sut.extendBook(reservation.getId());
+        Reservation result = sut.extendBook(reservation.getId());
 
-        assertEquals(resulted.getExtensionCount(), (short) 3);
+        Reservation extendedReservation = reservationRepository.findById(1);
+        assertEquals((short) 3, extendedReservation.getExtensionCount());
+        assertEquals(dateTime.plusDays(14), extendedReservation.getTermDate());
+    }
+
+    @Test
+    void extendReservationWhenStatusNew() {
+        LocalDateTime dateTime = LocalDateTime.parse("2025-05-01T12:00");
+        Reservation reservation = givenReservationWithTermDate(1, ReservationStatus.NEW, (short) 0, dateTime);
+
+        Reservation result = sut.extendBook(reservation.getId());
+
+        Reservation extendedReservation = reservationRepository.findById(1);
+        assertEquals((short) 1, extendedReservation.getExtensionCount());
+        assertEquals(dateTime.plusDays(3), extendedReservation.getTermDate());
+    }
+
+    @Test
+    void extendReservationWhenEmptyReservation() {
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.extendBook(1));
+        assertEquals("Can't extend empty reservation", thrown.getMessage());
     }
 
     @Test
     void throwExceptionWhenCompleteReservationWithIncorrectStatus() {
-        Reservation expected = reservationRepository.findById(1);
-        assertNull(expected);
-        LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
-        Reservation reservation = givenReservation(1, ReservationStatus.LOST, dateTime.plusDays(15), (short) 0);
+        givenReservation(1, ReservationStatus.LOST, (short) 0);
 
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.completeReservation(1));
         assertEquals("You can't complete reservation. Status is not received.", thrown.getMessage());
@@ -145,22 +157,15 @@ class ReservationCheckUseCaseTest {
 
     @Test
     void completeReservation() {
-        Reservation expected = reservationRepository.findById(1);
-        assertNull(expected);
+        Reservation reservation = givenReservation(1, ReservationStatus.RECEIVED, (short) 3);
+        Reservation result = sut.completeReservation(reservation.getId());
 
-        LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
-        Reservation reservation = givenReservation(1, ReservationStatus.RECEIVED, dateTime.plusDays(15), (short) 3);
-        Reservation resulted = sut.completeReservation(reservation.getId());
-
-        assertEquals(resulted.getStatus(), ReservationStatus.COMPLETED);
+        assertEquals(result.getStatus(), ReservationStatus.COMPLETED);
     }
 
     @Test
     void throwExceptionWhenCancelReservationWithIncorrectStatus() {
-        Reservation expected = reservationRepository.findById(1);
-        assertNull(expected);
-        LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
-        Reservation reservation = givenReservation(1, ReservationStatus.RECEIVED, dateTime.plusDays(15), (short) 0);
+        givenReservation(1, ReservationStatus.RECEIVED, (short) 0);
 
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.cancelReservation(1));
         assertEquals("You can't cancel reservation. Status isn't new.", thrown.getMessage());
@@ -168,25 +173,25 @@ class ReservationCheckUseCaseTest {
 
     @Test
     void cancelReservation() {
-        Reservation expected = reservationRepository.findById(1);
-        assertNull(expected);
-
-        LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
-        Reservation reservation = givenReservation(1, ReservationStatus.NEW, dateTime.plusDays(15), (short) 3);
-        Reservation resulted = sut.cancelReservation(reservation.getId());
+        givenReservation(1, ReservationStatus.NEW, (short) 3);
+        Reservation resulted = sut.cancelReservation(1);
 
         assertEquals(resulted.getStatus(), ReservationStatus.CANCELED);
     }
 
     @Test
     void loseBook() {
-        Reservation expected = reservationRepository.findById(1);
-        assertNull(expected);
-
-        LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
-        Reservation reservation = givenReservation(1, ReservationStatus.NEW, dateTime.plusDays(15), (short) 3);
-        Reservation resulted = sut.loseBook(reservation.getId());
+        givenReservation(1, ReservationStatus.RECEIVED, (short) 3);
+        Reservation resulted = sut.loseBook(1);
 
         assertEquals(resulted.getStatus(), ReservationStatus.LOST);
+    }
+
+    @Test
+    void throwExceptionWhenLostBookWithIncorrectStatus() {
+        givenReservation(1, ReservationStatus.NEW, (short) 0);
+
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.loseBook(1));
+        assertEquals("Book is in library, it can't be lost", thrown.getMessage());
     }
 }

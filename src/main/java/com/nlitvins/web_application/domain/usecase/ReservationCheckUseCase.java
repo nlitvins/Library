@@ -20,8 +20,8 @@ public class ReservationCheckUseCase {
     public Reservation receiveBook(int id) {
         Reservation reservation = reservationRepository.findById(id);
 
-        if (reservation.getStatus() != ReservationStatus.NEW) {
-            throw new RuntimeException("You can't receive the book. Incorrect status, not new.");
+        if (reservation == null || reservation.getStatus() != ReservationStatus.NEW) {
+            throw new RuntimeException("You can't receive the book. Incorrect status, not new. Or reservation doesn't exist");
         }
 
         LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
@@ -34,6 +34,11 @@ public class ReservationCheckUseCase {
 
     public Reservation extendBook(int id) {
         Reservation reservation = reservationRepository.findById(id);
+
+        if (reservation == null) {
+            throw new RuntimeException("Can't extend empty reservation");
+        }
+
         LocalDateTime termDate = reservation.getTermDate();
         short extensionCount = reservation.getExtensionCount();
 
@@ -54,7 +59,7 @@ public class ReservationCheckUseCase {
     public Reservation completeReservation(int id) {
         Reservation reservation = reservationRepository.findById(id);
 
-        if (reservation.getStatus() != ReservationStatus.RECEIVED) {
+        if (reservation == null || reservation.getStatus() != ReservationStatus.RECEIVED) {
             throw new RuntimeException("You can't complete reservation. Status is not received.");
         }
         reservation.setStatus(ReservationStatus.COMPLETED);
@@ -66,7 +71,7 @@ public class ReservationCheckUseCase {
     public Reservation cancelReservation(int id) {
         Reservation reservation = reservationRepository.findById(id);
 
-        if (reservation.getStatus() != ReservationStatus.NEW) {
+        if (reservation == null || reservation.getStatus() != ReservationStatus.NEW) {
             throw new RuntimeException("You can't cancel reservation. Status isn't new.");
         }
 
@@ -77,9 +82,14 @@ public class ReservationCheckUseCase {
 
     public Reservation loseBook(int id) {
         Reservation reservation = reservationRepository.findById(id);
-
+        if (reservation == null) {
+            throw new RuntimeException("Reservation can't be null");
+        }
+        if (reservation.getStatus() != ReservationStatus.RECEIVED && reservation.getStatus() != ReservationStatus.OVERDUE) {
+            throw new RuntimeException("Book is in library, it can't be lost");
+        }
         reservation.setStatus(ReservationStatus.LOST);
-//        reservation.setUpdatedDate(LocalDateTime.now());
+
 
         return reservationRepository.save(reservation);
     }
