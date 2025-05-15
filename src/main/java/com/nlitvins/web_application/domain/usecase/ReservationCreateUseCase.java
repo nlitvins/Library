@@ -20,6 +20,8 @@ public class ReservationCreateUseCase {
         this.bookRepository = bookRepository;
     }
 
+    // TODO: term date from InboundMapper.Reservations.toDomain + test
+    // TODO: transaction (Dima)
     public Reservation registerReservation(Reservation reservation) {
         Book book = bookRepository.findById(reservation.getBookId());
 
@@ -31,8 +33,6 @@ public class ReservationCreateUseCase {
             throw new RuntimeException("Quantity is zero");
         }
 
-        List<Short> statuses = List.of(ReservationStatus.NEW.id, ReservationStatus.RECEIVED.id, ReservationStatus.OVERDUE.id);
-
         List<Reservation> reservationQuantityAndStatus = reservationRepository.findByUserIdAndStatusIn(reservation.getUserId(), ReservationStatus.getNotFinalStatuses());
         if (reservationQuantityAndStatus.size() >= 3) {
             throw new RuntimeException("Too many reservations");
@@ -43,17 +43,9 @@ public class ReservationCreateUseCase {
             throw new RuntimeException("Reservation already exists");
         }
 
-
-//
-//        Reservation reservationCheck = reservationRepository.findByBookIdAndUserId(reservation.getBookId(), reservation.getUserId());
-//        if (reservationCheck != null) {
-//            throw new RuntimeException("Reservation already exists");
-//        }
-
-
-
         book.setQuantity(book.getQuantity() - 1);
         bookRepository.save(book);
+
         return reservationRepository.save(reservation);
     }
 

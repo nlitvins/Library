@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+// TODO: book qu antity test
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ReservationCreateUseCaseTest {
 
@@ -171,6 +172,22 @@ class ReservationCreateUseCaseTest {
         assertNotNull(result);
 
         Reservation savedReservation = reservationRepository.findById(122);
+        assertNotNull(savedReservation);
+    }
+
+    @Test
+    void saveReservation() {
+        Reservation expected = reservationRepository.findById(1);
+        assertNull(expected);
+
+        int userId = 123;
+        Book book = givenAvailableBook(111);
+
+        Reservation reservation = newReservation(1, book.getId(), userId);
+        Reservation result = sut.registerReservation(reservation);
+        assertNotNull(result);
+
+        Reservation savedReservation = reservationRepository.findById(1);
         assertNotNull(savedReservation);
     }
 }

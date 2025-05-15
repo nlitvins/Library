@@ -21,7 +21,7 @@ public class ReservationCheckUseCase {
         Reservation reservation = reservationRepository.findById(id);
 
         if (reservation.getStatus() != ReservationStatus.NEW) {
-            throw new RuntimeException("You can't receive the book. Incorrect status.");
+            throw new RuntimeException("You can't receive the book. Incorrect status, not new.");
         }
 
         LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
@@ -55,7 +55,7 @@ public class ReservationCheckUseCase {
         Reservation reservation = reservationRepository.findById(id);
 
         if (reservation.getStatus() != ReservationStatus.RECEIVED) {
-            throw new RuntimeException("You can't complete reservation. Incorrect status.");
+            throw new RuntimeException("You can't complete reservation. Status is not received.");
         }
         reservation.setStatus(ReservationStatus.COMPLETED);
         reservation.setUpdatedDate(LocalDateTime.now());
@@ -67,7 +67,7 @@ public class ReservationCheckUseCase {
         Reservation reservation = reservationRepository.findById(id);
 
         if (reservation.getStatus() != ReservationStatus.NEW) {
-            throw new RuntimeException("You can't cancel reservation. Incorrect status.");
+            throw new RuntimeException("You can't cancel reservation. Status isn't new.");
         }
 
         reservation.setStatus(ReservationStatus.CANCELED);
@@ -79,18 +79,8 @@ public class ReservationCheckUseCase {
         Reservation reservation = reservationRepository.findById(id);
 
         reservation.setStatus(ReservationStatus.LOST);
-        reservation.setUpdatedDate(LocalDateTime.now());
+//        reservation.setUpdatedDate(LocalDateTime.now());
 
         return reservationRepository.save(reservation);
-    }
-
-//    public Reservation checkQuantity(int id){
-//        Reservation reservation = reservationRepository.findById(id);
-//        BookEntity bookEntity = new BookEntity();
-//        if(bookEntity.)
-//    }
-
-    public void checkOverdue(Short status, Short setStatus) {
-
     }
 }

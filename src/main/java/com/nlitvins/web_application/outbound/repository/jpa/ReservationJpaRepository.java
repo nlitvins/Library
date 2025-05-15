@@ -12,8 +12,6 @@ public interface ReservationJpaRepository extends JpaRepository<ReservationEntit
 
     List<ReservationEntity> findByStatusAndTermDateBefore(Short status, LocalDateTime termDate);
 
-    ReservationEntity findByBookIdAndUserId(int bookId, int userId);
-
     List<ReservationEntity> findByUserId(int id);
 
     List<ReservationEntity> findByUserIdAndStatusIn(int id, List<Short> statuses);

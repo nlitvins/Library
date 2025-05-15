@@ -48,6 +48,7 @@ public class InboundMapper {
             return reservationResponses;
         }
 
+        // TODO: from here
         public static Reservation toDomain(ReservationCreateRequest request) {
             Reservation reservation = new Reservation();
             LocalDateTime dateTime = LocalDateTime.now();

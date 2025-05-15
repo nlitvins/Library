@@ -27,6 +27,7 @@ public class ReservationEntity {
 
     @Column(name = "created_date", nullable = false)
     @JsonIgnore
+//    @CreatedDate
     private LocalDateTime createdDate;
 
     @Column(name = "term_date", nullable = false)
@@ -43,6 +44,7 @@ public class ReservationEntity {
 
     @Column(name = "updated_date", nullable = false)
     @JsonIgnore
+//    @LastModifiedDate
     private LocalDateTime updatedDate;
 
 

@@ -20,10 +20,6 @@ public class ReservationReadUseCase {
         return reservationRepository.findAll();
     }
 
-    public Reservation registerReservation(Reservation reservation) {
-        return reservationRepository.save(reservation);
-    }
-
     public Reservation getById(int id) {
         return reservationRepository.findById(id);
     }

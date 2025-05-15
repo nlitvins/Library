@@ -32,17 +32,6 @@ public class ReservationRepositoryFake implements ReservationRepository {
     }
 
     @Override
-    public Reservation findByBookIdAndUserId(int bookId, int userId) {
-        List<Reservation> values = reservations.values().stream().toList();
-        for (Reservation reservation : values) {
-            if (reservation.getUserId() == userId && reservation.getBookId() == bookId) {
-                return reservation;
-            }
-        }
-        return null;
-    }
-
-    @Override
     public List<Reservation> findByUserId(int userId) {
         List<Reservation> results = new ArrayList<>();
         for (Reservation reservation : reservations.values()) {

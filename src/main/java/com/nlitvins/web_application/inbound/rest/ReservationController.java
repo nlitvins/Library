@@ -33,11 +33,6 @@ public class ReservationController {
         this.reservationCreateUseCase = reservationCreateUseCase;
     }
 
-//    public ReservationController(ReservationCheckUseCase reservationCheckUseCase, ReservationReadUseCase reservationReadUseCase) {
-//        this.reservationReadUseCase = reservationReadUseCase;
-//        this.reservationCheckUseCase = reservationCheckUseCase;
-//    }
-
     @GetMapping
     public List<ReservationResponse> reservations() {
         List<Reservation> reservations = reservationReadUseCase.getReservations();

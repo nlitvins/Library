@@ -87,7 +87,7 @@ public class OutboundMapper {
             reservationEntity.setUserId(reservation.getUserId());
             reservationEntity.setBookId(reservation.getBookId());
             reservationEntity.setCreatedDate(dateTime);
-            reservationEntity.setTermDate(reservation.getTermDate().minusNanos(1));
+            reservationEntity.setTermDate(reservation.getTermDate());
             reservationEntity.setUpdatedDate(dateTime);
             reservationEntity.setStatus(reservation.getStatus().id);
             reservationEntity.setExtensionCount(reservation.getExtensionCount());
