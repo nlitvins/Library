@@ -119,36 +119,29 @@ class ReservationCreateUseCaseTest {
         Reservation expected = reservationRepository.findById(121);
         assertNull(expected);
 
-        LocalDate mockedDate = LocalDate.parse("2025-05-02");
-        try (MockedStatic<LocalDate> mockedClass = mockStatic(LocalDate.class)) {
-            mockedClass.when(LocalDate::now).thenReturn(mockedDate);
-        }
-
         int userId = 123;
         Book book = givenAvailableBook(111);
         Reservation reservation = newReservation(121, book.getId(), userId);
-        Reservation result = sut.registerReservation(reservation);
-        assertNotNull(result);
+
+        sut.registerReservation(reservation);
 
         Reservation savedReservation = reservationRepository.findById(121);
         assertNotNull(savedReservation);
-        assertEquals(LocalDateTime.parse("2025-05-18T23:59:59.999999999"), savedReservation.getTermDate());
     }
 
     @Test
     void calculateReservationTermDateWhenReservationAdded() {
-        LocalDate mockedDate = LocalDate.parse("2025-05-02");
-        try (MockedStatic<LocalDate> mockedClass = mockStatic(LocalDate.class)) {
-            mockedClass.when(LocalDate::now).thenReturn(mockedDate);
-        }
         Book book = givenAvailableBook(111);
         Reservation reservation = newReservation(121, book.getId(), 123);
 
-        Reservation result = sut.registerReservation(reservation);
-        assertNotNull(result);
+        LocalDate mockedDate = LocalDate.parse("2025-05-02");
+        try (MockedStatic<LocalDate> mockedClass = mockStatic(LocalDate.class)) {
+            mockedClass.when(LocalDate::now).thenReturn(mockedDate);
+            sut.registerReservation(reservation);
+        }
 
         Reservation savedReservation = reservationRepository.findById(121);
-        assertEquals(LocalDateTime.parse("2025-05-18T23:59:59.999999999"), savedReservation.getTermDate());
+        assertEquals(LocalDateTime.parse("2025-05-05T23:59:59.999999999"), savedReservation.getTermDate());
     }
 
     @Test
