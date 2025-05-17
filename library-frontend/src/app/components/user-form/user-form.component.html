@@ -1,0 +1,10 @@
+<h2>Add New User</h2>
+<form (ngSubmit)="onSubmit()" #userForm="ngForm">
+  <div>
+    <label for="name">Name:</label>
+    <input id="name" name="name" [(ngModel)]="user.name" required/>
+  </div>
+  <div *ngIf="error" style="color: red;">{{ error }}</div>
+  <button type="submit" [disabled]="loading || !userForm.form.valid">Create</button>
+  <span *ngIf="loading">Saving...</span>
+</form>

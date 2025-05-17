@@ -1,0 +1,18 @@
+<h2>Add New Book</h2>
+<form (ngSubmit)="onSubmit()" #bookForm="ngForm">
+  <div>
+    <label for="title">Title:</label>
+    <input id="title" name="title" [(ngModel)]="book.title" required/>
+  </div>
+  <div>
+    <label for="author">Author:</label>
+    <input id="author" name="author" [(ngModel)]="book.author" required/>
+  </div>
+  <div>
+    <label for="quantity">Quantity:</label>
+    <input id="quantity" name="quantity" type="number" min="1" [(ngModel)]="book.quantity" required/>
+  </div>
+  <div *ngIf="error" style="color: red;">{{ error }}</div>
+  <button type="submit" [disabled]="loading || !bookForm.form.valid">Create</button>
+  <span *ngIf="loading">Saving...</span>
+</form>

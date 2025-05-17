@@ -1,0 +1,19 @@
+<h2>Reservations</h2>
+<button routerLink="/reservations/new" style="margin-bottom: 15px;">Create Reservation</button>
+<table *ngIf="reservations.length > 0; else noReservations">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <!-- Add more columns as needed -->
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let reservation of reservations">
+    <td>{{ reservation.id }}</td>
+    <!-- Add more fields as needed -->
+  </tr>
+  </tbody>
+</table>
+<ng-template #noReservations>
+  <p>No reservations found.</p>
+</ng-template>

@@ -1,0 +1,19 @@
+<h2>Users</h2>
+<button routerLink="/users/new" style="margin-bottom: 15px;">Create User</button>
+<table *ngIf="users.length > 0; else noUsers">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let user of users">
+    <td>{{ user.id }}</td>
+    <td>{{ user.name }}</td>
+  </tr>
+  </tbody>
+</table>
+<ng-template #noUsers>
+  <p>No users found.</p>
+</ng-template>
