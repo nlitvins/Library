@@ -2,6 +2,7 @@ package com.nlitvins.web_application.inbound.rest;
 
 
 import com.nlitvins.web_application.domain.model.User;
+import com.nlitvins.web_application.domain.usecase.UserLoginUseCase;
 import com.nlitvins.web_application.domain.usecase.UserReadUseCase;
 import com.nlitvins.web_application.inbound.model.UserRequest;
 import com.nlitvins.web_application.inbound.model.UserResponse;
@@ -21,10 +22,13 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class UserController {
 
     private final UserReadUseCase userReadUseCase;
+    private final UserLoginUseCase userLoginUseCase;
 
-    public UserController(UserReadUseCase userReadUseCase) {
+    public UserController(UserReadUseCase userReadUseCase, UserLoginUseCase userLoginUseCase) {
         this.userReadUseCase = userReadUseCase;
+        this.userLoginUseCase = userLoginUseCase;
     }
+
     @GetMapping
     public List<UserResponse> getUsers() {
         // 0. validate input - throw exception
@@ -41,5 +45,11 @@ public class UserController {
         User user = InboundMapper.Users.toDomain(request);
         User savedUser = userReadUseCase.registerUser(user);
         return InboundMapper.Users.toDTO(savedUser);
+    }
+
+    @PostMapping
+    public UserResponse loginUSer(@RequestBody User user) {
+        User userIn = userLoginUseCase.loginUser(user);
+        return InboundMapper.Users.toDTO(userIn);
     }
 }

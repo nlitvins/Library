@@ -39,4 +39,10 @@ public class UserRepositoryImpl implements UserRepository {
         UserEntity savedUserEntity = jpaRepository.save(userEntity);
         return OutboundMapper.Users.toDomain(savedUserEntity);
     }
+
+    @Override
+    public User findByUserName(String userName) {
+        UserEntity userEntity = jpaRepository.findByUserName(userName);
+        return OutboundMapper.Users.toDomain(userEntity);
+    }
 }

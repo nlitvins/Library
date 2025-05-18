@@ -18,6 +18,10 @@ public class UserReadUseCase {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
+    public boolean login(String rawPassword, String storedHashedPassword) {
+        return passwordEncoder.matches(rawPassword, storedHashedPassword);
+    }
+
     public List<User> getUsers() {
         // 1. do business
         // 2. call repository
