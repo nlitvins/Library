@@ -12,6 +12,7 @@ val openFeignVersion = "13.6"
 val springdocVersion = "2.8.6"
 val liquibaseVersion = "4.31.1"
 val lombokVersion = "1.18.38"
+val jjwtVersion = "0.12.6"
 
 java {
     toolchain {
@@ -39,7 +40,10 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springdocVersion")
     implementation("org.liquibase:liquibase-core:$liquibaseVersion")
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
     runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

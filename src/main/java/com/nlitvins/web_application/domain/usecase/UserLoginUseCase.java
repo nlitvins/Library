@@ -2,6 +2,7 @@ package com.nlitvins.web_application.domain.usecase;
 
 
 import com.nlitvins.web_application.domain.model.User;
+import com.nlitvins.web_application.domain.repository.JwtRepository;
 import com.nlitvins.web_application.domain.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -12,31 +13,25 @@ public class UserLoginUseCase {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final UserRepository userRepository;
+    private final JwtRepository jwtRepository;
 
-
-//    public UserLoginUseCase(BCryptPasswordEncoder passwordEncoder, UserRepository userRepository) {
-//        this.passwordEncoder = new BCryptPasswordEncoder();
-//        this.userRepository = userRepository;
-//    }
-
-    public boolean login(String rawPassword, String storedHashedPassword) {
-        return passwordEncoder.matches(rawPassword, storedHashedPassword);
-    }
-
-    public UserLoginUseCase(UserRepository userRepository) {
+    public UserLoginUseCase(UserRepository userRepository, JwtRepository jwtRepository) {
         this.userRepository = userRepository;
+        this.jwtRepository = jwtRepository;
     }
 
-    public User loginUser(User user) {
-        User localUser = userRepository.findByUserName(user.getUserName());
+    public String loginUser(User loginUser) {
+        User userInfo = userRepository.findByUserName(loginUser.getUserName());
 
-        if (localUser == null) {
-            throw new RuntimeException("Incorrect UserName");
+        if (userInfo == null || passwordNotMatches(loginUser, userInfo)) {
+            throw new RuntimeException("Incorrect username or password");
         }
-        if (passwordEncoder.matches(user.getPassword(), localUser.getPassword())) {
-            return localUser;
-        } else {
-            throw new RuntimeException("Incorrect password");
-        }
+
+        // TODO: remove "USER", use userInfo.getRole() inside
+        return jwtRepository.getToken(userInfo, "USER");
+    }
+
+    private boolean passwordNotMatches(User loginUser, User userInfo) {
+        return !passwordEncoder.matches(loginUser.getPassword(), userInfo.getPassword());
     }
 }

@@ -5,6 +5,7 @@ import com.nlitvins.web_application.domain.usecase.BookReadUseCase;
 import com.nlitvins.web_application.inbound.model.BookCreateRequest;
 import com.nlitvins.web_application.inbound.model.BookResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,7 @@ public class BookController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
     public BookResponse postBook(@RequestBody BookCreateRequest request) {
         Book book = InboundMapper.Books.toDomain(request);
         Book savedBook = bookReadUseCase.addBook(book);

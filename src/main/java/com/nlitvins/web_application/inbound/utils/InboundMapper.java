@@ -6,6 +6,7 @@ import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.inbound.model.BookCreateRequest;
 import com.nlitvins.web_application.inbound.model.BookResponse;
+import com.nlitvins.web_application.inbound.model.LoginRequest;
 import com.nlitvins.web_application.inbound.model.ReservationCreateRequest;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
 import com.nlitvins.web_application.inbound.model.UserRequest;
@@ -72,6 +73,13 @@ public class InboundMapper {
             user.setMobileNumber(request.getMobileNumber());
             user.setPersonCode(request.getPersonCode());
 
+            return user;
+        }
+
+        public static User toDomain(LoginRequest request) {
+            User user = new User();
+            user.setUserName(request.getUsername());
+            user.setPassword(request.getPassword());
             return user;
         }
 
