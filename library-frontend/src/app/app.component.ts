@@ -1,4 +1,13 @@
 import {Component} from '@angular/core';
+import {Router} from '@angular/router';
+
+function parseJwt(token: string): any {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch {
+    return {};
+  }
+}
 
 @Component({
   selector: 'app-root',
@@ -7,4 +16,27 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
   title = 'library-frontend';
+  showLogin = false;
+  jwt: string | null = localStorage.getItem('jwt');
+  user: any = this.jwt ? parseJwt(this.jwt) : null;
+
+  constructor(private router: Router) {
+  }
+
+  get displayName(): string {
+    return this.user ? `${this.user.name || ''} ${this.user.secondName || ''}`.trim() : '';
+  }
+
+  onLogin({token}: { token: string }) {
+    this.jwt = token;
+    localStorage.setItem('jwt', token);
+    this.user = parseJwt(token);
+  }
+
+  logout() {
+    this.jwt = null;
+    this.user = null;
+    localStorage.removeItem('jwt');
+    this.router.navigate(['/books']);
+  }
 }

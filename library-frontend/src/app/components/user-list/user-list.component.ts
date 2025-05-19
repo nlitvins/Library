@@ -1,5 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService, User} from '../../services/user.service';
+import {User, UserService} from '../../services/user.service';
+
+function parseJwt(token: string): any {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch {
+    return {};
+  }
+}
 
 @Component({
   selector: 'app-user-list',
@@ -14,5 +22,12 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe(data => this.users = data);
+  }
+
+  get isAdmin(): boolean {
+    const jwt = localStorage.getItem('jwt');
+    if (!jwt) return false;
+    const user = parseJwt(jwt);
+    return user.role === 'ROLE_ADMIN';
   }
 }

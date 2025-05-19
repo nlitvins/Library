@@ -1,5 +1,5 @@
 <h2>Users</h2>
-<button routerLink="/users/new" style="margin-bottom: 15px;">Create User</button>
+<button *ngIf="isAdmin" routerLink="/users/new" style="margin-bottom: 15px;">Create User</button>
 <table *ngIf="users.length > 0; else noUsers">
   <thead>
   <tr>

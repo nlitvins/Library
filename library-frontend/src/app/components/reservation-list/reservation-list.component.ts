@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ReservationService, Reservation} from '../../services/reservation.service';
+import {Reservation, ReservationService} from '../../services/reservation.service';
 
 @Component({
   selector: 'app-reservation-list',

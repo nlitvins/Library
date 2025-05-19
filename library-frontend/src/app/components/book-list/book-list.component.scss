@@ -40,3 +40,76 @@ th {
 tr:hover {
   background: #f0f7ff;
 }
+
+.notification {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  min-width: 220px;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  z-index: 2000;
+  opacity: 0.95;
+  transition: background 0.2s;
+}
+
+.book-table {
+  background: #fafbfc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.book-table caption {
+  caption-side: top;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  color: #1976d2;
+  background: #f5f5f5;
+}
+
+.book-table tr {
+  transition: background 0.2s;
+}
+
+.book-table tr:hover {
+  background: #e3f2fd;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2em 0.7em;
+  font-size: 0.95em;
+  border-radius: 12px;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.badge-out {
+  background: #e57373;
+  color: #fff;
+}
+
+button[title] {
+  position: relative;
+}
+
+button[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  left: 50%;
+  bottom: 120%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 0.3em 0.7em;
+  border-radius: 4px;
+  font-size: 0.95em;
+  white-space: nowrap;
+  z-index: 10;
+  opacity: 0.95;
+}

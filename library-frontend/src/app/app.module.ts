@@ -10,7 +10,7 @@ import {UserListComponent} from './components/user-list/user-list.component';
 import {ReservationListComponent} from './components/reservation-list/reservation-list.component';
 import {BookFormComponent} from './components/book-form/book-form.component';
 import {UserFormComponent} from './components/user-form/user-form.component';
-import {ReservationFormComponent} from './components/reservation-form/reservation-form.component';
+import {LoginModalComponent} from './components/login-modal/login-modal.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import {ReservationFormComponent} from './components/reservation-form/reservatio
     ReservationListComponent,
     BookFormComponent,
     UserFormComponent,
-    ReservationFormComponent
+    LoginModalComponent
   ],
   imports: [
     BrowserModule,

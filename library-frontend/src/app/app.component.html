@@ -1,6 +1,17 @@
-<nav style="margin: 20px 0; text-align: center;">
-  <a routerLink="/books" routerLinkActive="active" style="margin: 0 15px;">Books</a>
-  <a routerLink="/users" routerLinkActive="active" style="margin: 0 15px;">Users</a>
-  <a routerLink="/reservations" routerLinkActive="active" style="margin: 0 15px;">Reservations</a>
+<nav class="nav-bar">
+  <div class="nav-left">
+    <span class="nav-logo">📚</span>
+    <a routerLink="/books" routerLinkActive="active">Books</a>
+    <a *ngIf="displayName" routerLink="/users" routerLinkActive="active">Users</a>
+    <a *ngIf="displayName" routerLink="/reservations" routerLinkActive="active">Reservations</a>
+  </div>
+  <div class="nav-right">
+    <span *ngIf="displayName" class="nav-user">Logged in as <b>{{ displayName }}</b></span>
+    <button *ngIf="!displayName" (click)="showLogin = true">Login</button>
+    <button *ngIf="displayName" (click)="logout()">Logout</button>
+  </div>
 </nav>
-<router-outlet></router-outlet>
+<div class="main-content">
+  <router-outlet></router-outlet>
+  <app-login-modal *ngIf="showLogin" (close)="showLogin = false" (loginSuccess)="onLogin($event)"></app-login-modal>
+</div>
