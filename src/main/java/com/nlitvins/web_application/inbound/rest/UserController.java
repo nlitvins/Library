@@ -6,6 +6,7 @@ import com.nlitvins.web_application.domain.usecase.UserReadUseCase;
 import com.nlitvins.web_application.inbound.model.UserRequest;
 import com.nlitvins.web_application.inbound.model.UserResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<UserResponse> getUsers() {
         // 0. validate input - throw exception
         // 1. map inbound (request) classes to domain

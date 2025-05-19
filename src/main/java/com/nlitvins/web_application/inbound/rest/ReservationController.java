@@ -7,6 +7,7 @@ import com.nlitvins.web_application.domain.usecase.ReservationReadUseCase;
 import com.nlitvins.web_application.inbound.model.ReservationCreateRequest;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,12 +35,14 @@ public class ReservationController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
     public List<ReservationResponse> reservations() {
         List<Reservation> reservations = reservationReadUseCase.getReservations();
         return InboundMapper.Reservations.toDTOList(reservations);
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ReservationResponse reserveBook(@RequestBody ReservationCreateRequest request) {
         Reservation reservation = InboundMapper.Reservations.toDomain(request);
         Reservation savedReservation = reservationCreateUseCase.registerReservation(reservation);
@@ -47,30 +50,35 @@ public class ReservationController {
     }
 
     @PutMapping("/{id}/receiving")
+    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
     public ReservationResponse receiveBook(@PathVariable int id) {
         Reservation reservation = reservationCheckUseCase.receiveBook(id);
         return InboundMapper.Reservations.toDTO(reservation);
     }
 
     @PutMapping("/{id}/extension")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ReservationResponse extentBook(@PathVariable int id) {
         Reservation reservation = reservationCheckUseCase.extendBook(id);
         return InboundMapper.Reservations.toDTO(reservation);
     }
 
     @PutMapping("/{id}/completed")
+    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
     public ReservationResponse completeReservation(@PathVariable int id) {
         Reservation reservation = reservationCheckUseCase.completeReservation(id);
         return InboundMapper.Reservations.toDTO(reservation);
     }
 
     @PutMapping("/{id}/cancel")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ReservationResponse cancelReservation(@PathVariable int id) {
         Reservation reservation = reservationCheckUseCase.cancelReservation(id);
         return InboundMapper.Reservations.toDTO(reservation);
     }
 
     @PutMapping("/{id}/lost")
+    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
     public ReservationResponse loseBook(@PathVariable int id) {
         Reservation reservation = reservationCheckUseCase.loseBook(id);
         return InboundMapper.Reservations.toDTO(reservation);
