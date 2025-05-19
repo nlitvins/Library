@@ -20,12 +20,12 @@ public class JwtRepositoryImpl implements JwtRepository {
     private final JwtParser jwtParser = Jwts.parser().verifyWith((SecretKey) secretKey).build();
 
     @Override
-    public String getToken(User user, String role) {
+    public String getToken(User user) {
         Instant currentDateTime = Instant.now();
         return Jwts.builder()
                 .subject(user.getUserName())
                 .claim("userId", user.getId())
-                .claim("role", String.format("ROLE_%s", role))
+                .claim("role", String.format("ROLE_%s", user.getRole()))
                 .claim("name", user.getName())
                 .claim("secondName", user.getSecondName())
                 .claim("email", user.getEmail())

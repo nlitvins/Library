@@ -4,7 +4,7 @@ import com.nlitvins.web_application.domain.model.User;
 
 public interface JwtRepository {
 
-    String getToken(User user, String role);
+    String getToken(User user);
 
     String getUserName(String token);
 

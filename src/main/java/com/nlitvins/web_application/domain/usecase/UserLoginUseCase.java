@@ -27,8 +27,7 @@ public class UserLoginUseCase {
             throw new RuntimeException("Incorrect username or password");
         }
 
-        // TODO: remove "USER", use userInfo.getRole() inside
-        return jwtRepository.getToken(userInfo, "USER");
+        return jwtRepository.getToken(userInfo);
     }
 
     private boolean passwordNotMatches(User loginUser, User userInfo) {
