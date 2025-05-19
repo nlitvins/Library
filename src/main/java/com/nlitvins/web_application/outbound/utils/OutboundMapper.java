@@ -4,6 +4,7 @@ import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.model.User;
+import com.nlitvins.web_application.domain.model.UserRole;
 import com.nlitvins.web_application.outbound.model.BookEntity;
 import com.nlitvins.web_application.outbound.model.ReservationEntity;
 import com.nlitvins.web_application.outbound.model.UserEntity;
@@ -97,6 +98,7 @@ public class OutboundMapper {
 
         public static User toDomain(UserEntity userEntity) {
             User user = new User();
+
             user.setId(userEntity.getId());
             user.setName(userEntity.getName());
             user.setSecondName(userEntity.getSecondName());
@@ -105,6 +107,7 @@ public class OutboundMapper {
             user.setEmail(userEntity.getEmail());
             user.setMobileNumber(userEntity.getMobileNumber());
             user.setPersonCode(userEntity.getPersonCode());
+            user.setRole(UserRole.getRole(userEntity.getRole()));
 
             return user;
 
@@ -121,6 +124,7 @@ public class OutboundMapper {
             userEntity.setEmail(user.getEmail());
             userEntity.setMobileNumber(user.getMobileNumber());
             userEntity.setPersonCode(user.getPersonCode());
+            userEntity.setRole(user.getRole().id);
 
             return userEntity;
         }

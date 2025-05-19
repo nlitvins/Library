@@ -10,11 +10,21 @@ public class User {
     private String email;
     private Integer mobileNumber;
     private String personCode;
+    private UserRole role;
 
     public User() {
     }
 
-    public User(int id, String name, String secondName, String userName, String password, String email, Integer mobileNumber, String personCode) {
+    public User(int id,
+                String name,
+                String secondName,
+                String userName,
+                String password,
+                String email,
+                Integer mobileNumber,
+                String personCode,
+                UserRole role
+    ) {
         this.id = id;
         this.name = name;
         this.secondName = secondName;
@@ -23,6 +33,7 @@ public class User {
         this.email = email;
         this.mobileNumber = mobileNumber;
         this.personCode = personCode;
+        this.role = role;
     }
 
     public int getId() {
@@ -57,6 +68,9 @@ public class User {
         return personCode;
     }
 
+    public UserRole getRole() {
+        return role;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -88,5 +102,9 @@ public class User {
 
     public void setPersonCode(String personCode) {
         this.personCode = personCode;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }

@@ -7,5 +7,6 @@ CREATE TABLE users
     password      VARCHAR(100) NOT NULL,
     email         VARCHAR(100) NOT NULL,
     mobile_number INTEGER      NOT NULL,
-    person_code   VARCHAR(12)  NOT NULL
+    person_code VARCHAR(12) NOT NULL,
+    role        SMALLINT    NOT NULL
 );

@@ -36,6 +36,9 @@ public class UserEntity {
     @Column(name = "person_code", length = 12, nullable = false)
     private String personCode;
 
+    @Column(name = "role", nullable = false)
+    private Short role;
+
     public void setId(int id) {
         this.id = id;
     }
@@ -68,6 +71,10 @@ public class UserEntity {
         this.personCode = personCode;
     }
 
+    public void setRole(Short role) {
+        this.role = role;
+    }
+
     public int getId() {
         return id;
     }
@@ -98,5 +105,9 @@ public class UserEntity {
 
     public String getPersonCode() {
         return personCode;
+    }
+
+    public Short getRole() {
+        return role;
     }
 }
