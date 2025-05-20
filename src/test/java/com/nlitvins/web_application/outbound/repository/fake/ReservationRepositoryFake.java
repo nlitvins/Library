@@ -32,17 +32,6 @@ public class ReservationRepositoryFake implements ReservationRepository {
     }
 
     @Override
-    public List<Reservation> findByUserId(int userId) {
-        List<Reservation> results = new ArrayList<>();
-        for (Reservation reservation : reservations.values()) {
-            if (reservation.getUserId() == userId) {
-                results.add(reservation);
-            }
-        }
-        return results;
-    }
-
-    @Override
     public List<Reservation> findByUserIdAndStatusIn(int userId, List<ReservationStatus> statuses) {
         List<Reservation> results = new ArrayList<>();
         for (Reservation reservation : reservations.values()) {
@@ -58,6 +47,17 @@ public class ReservationRepositoryFake implements ReservationRepository {
         List<Reservation> results = new ArrayList<>();
         for (Reservation reservation : reservations.values()) {
             if (reservation.getUserId() == userId && reservation.getBookId() == bookId && statuses.contains(reservation.getStatus())) {
+                results.add(reservation);
+            }
+        }
+        return results;
+    }
+
+    @Override
+    public List<Reservation> findByUserId(int userId) {
+        List<Reservation> results = new ArrayList<>();
+        for (Reservation reservation : reservations.values()) {
+            if (reservation.getUserId() == userId) {
                 results.add(reservation);
             }
         }

@@ -41,6 +41,13 @@ public class ReservationController {
         return InboundMapper.Reservations.toDTOList(reservations);
     }
 
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
+    public List<ReservationResponse> reservationsByUserId(@PathVariable int userId) {
+        List<Reservation> reservations = reservationReadUseCase.getReservationsByUserId(userId);
+        return InboundMapper.Reservations.toDTOList(reservations);
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('ROLE_USER')")
     public ReservationResponse reserveBook(@RequestBody ReservationCreateRequest request) {
