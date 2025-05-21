@@ -5,7 +5,13 @@ import {environment} from '../../environments/environment';
 
 export interface Reservation {
   id?: number;
-  // Add other fields as needed
+  book?: {
+    id: number;
+    title: string;
+  };
+  status: string;
+  createdDate: string;
+  termDate: string;
 }
 
 @Injectable({
@@ -24,6 +30,10 @@ export class ReservationService {
 
   getReservations(): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(this.apiUrl, this.getAuthHeaders());
+  }
+
+  getReservationsByUserId(): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.apiUrl}/user`, this.getAuthHeaders());
   }
 
   reserveBook(reservation: Reservation): Observable<Reservation> {

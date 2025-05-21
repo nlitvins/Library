@@ -10,5 +10,7 @@ public interface JwtRepository {
 
     String getRole(String token);
 
+    Integer getUserId(String token);
+
     boolean isValidToken(String token);
 }

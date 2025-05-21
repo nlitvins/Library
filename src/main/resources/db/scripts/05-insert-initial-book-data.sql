@@ -16,13 +16,11 @@ VALUES (1, 'Admin', '', 'admin', '$2a$10$ZIMxUCwbT1jT8B.WX3XktuEObuiroVtvd.pbMkZ
         '21111111', '120871-27314', 3),
        (2, 'Librarian', '', 'librarian', '$2a$10$AHtuMWtnyqk/i.pAwHdzb.6rF2.Ej3BXbKQXx.zmq212pGHL6JsSi',
         'librarian@example.com', '21111111', '120871-27314', 2),
-       (3, 'User', 'Test 1', 'testuser1', '$2a$10$PoEyEZzTfE/eiU/w0XEKaO9Mvdw1RtwQBxYA1Tn0eruXUjsis164S',
-        'janesmith@example.com', '20001112', '190202-27315', 1),
-       (4, 'User', 'Test 2', 'testuser2', '$2a$10$SgYUkqw/zdCngdOVESfTJuPuTpnYJkjlVlmFSTHK4Zi5NOmRsMIYW',
+       (3, 'User', 'Test 1', 'testuser1', '$2a$10$SgYUkqw/zdCngdOVESfTJuPuTpnYJkjlVlmFSTHK4Zi5NOmRsMIYW',
         'alicej@example.com', '20001113', '190203-27316', 1),
-       (5, 'User', 'Test 3', 'testuser3', '$2a$10$Ode4GZCepl4P17E1Ns3fxO1pINsUEMgZYUJVvQ9A0g5akb0IyXIOi',
+       (4, 'User', 'Test 2', 'testuser2', '$2a$10$Ode4GZCepl4P17E1Ns3fxO1pINsUEMgZYUJVvQ9A0g5akb0IyXIOi',
         'bobw@example.com', '20001114', '190204-27317', 1),
-       (6, 'User', 'Test 4', 'testuser4', '$2a$10$.bGhMkXjpCsjImI4ZXwYmeNvXu8qCLYErc7sjdXHBgXToo2DnSj86',
+       (5, 'User', 'Test 3', 'testuser3', '$2a$10$.bGhMkXjpCsjImI4ZXwYmeNvXu8qCLYErc7sjdXHBgXToo2DnSj86',
         'johndoe@example.com', '20001111', '190201-27314', 1);
 
 

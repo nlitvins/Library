@@ -26,7 +26,7 @@ class ReservationReadUseCaseTest {
     @BeforeAll
     void setUp() {
         reservationRepository = new ReservationRepositoryFake();
-        sut = new ReservationReadUseCase(reservationRepository);
+        sut = new ReservationReadUseCase(reservationRepository, null);
     }
 
     @BeforeEach

@@ -1,13 +1,21 @@
-<h2>Reservations</h2>
+<h2>{{ isUserReservations ? 'My Reservations' : 'All Reservations' }}</h2>
 <table *ngIf="reservations.length > 0; else noReservations">
   <thead>
   <tr>
     <th>ID</th>
+    <!-- <th>Book Title</th> -->
+    <th>Status</th>
+    <th>Reservation Date</th>
+    <th>Return Date</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let reservation of reservations">
     <td>{{ reservation.id }}</td>
+    <!-- <td>{{ reservation.book?.title }}</td> -->
+    <td>{{ reservation.status }}</td>
+    <td>{{ reservation.createdDate | date:'dd.MM.yyyy HH:mm' }}</td>
+    <td>{{ reservation.termDate | date:'dd.MM.yyyy HH:mm' }}</td>
   </tr>
   </tbody>
 </table>

@@ -27,6 +27,18 @@ export class AppComponent {
     return this.user ? `${this.user.name || ''} ${this.user.secondName || ''}`.trim() : '';
   }
 
+  get isUser(): boolean {
+    return this.user?.role === 'ROLE_USER';
+  }
+
+  get isLibrarian(): boolean {
+    return this.user?.role === 'ROLE_LIBRARIAN';
+  }
+
+  get isAdmin(): boolean {
+    return this.user?.role === 'ROLE_ADMIN';
+  }
+
   onLogin({token}: { token: string }) {
     this.jwt = token;
     localStorage.setItem('jwt', token);

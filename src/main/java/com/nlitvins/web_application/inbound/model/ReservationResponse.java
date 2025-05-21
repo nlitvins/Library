@@ -1,5 +1,7 @@
 package com.nlitvins.web_application.inbound.model;
 
+import com.nlitvins.web_application.domain.model.ReservationStatus;
+
 import java.time.LocalDateTime;
 
 public class ReservationResponse {
@@ -9,15 +11,8 @@ public class ReservationResponse {
     private LocalDateTime createdDate;
     private LocalDateTime termDate;
     private LocalDateTime updatedDate;
-    private short status;
+    private ReservationStatus status;
     private short extensionCount;
-
-    public ReservationResponse(int userId, int bookId, LocalDateTime createdDate, LocalDateTime termDate) {
-        this.userId = userId;
-        this.bookId = bookId;
-        this.createdDate = createdDate;
-        this.termDate = termDate;
-    }
 
     public ReservationResponse(
             int id,
@@ -25,8 +20,6 @@ public class ReservationResponse {
             int bookId,
             LocalDateTime createdDate,
             LocalDateTime termDate,
-            LocalDateTime updatedDate,
-            short status,
             short extensionCount
     ) {
         this.id = id;
@@ -34,14 +27,7 @@ public class ReservationResponse {
         this.bookId = bookId;
         this.createdDate = createdDate;
         this.termDate = termDate;
-        this.updatedDate = updatedDate;
-        this.status = status;
         this.extensionCount = extensionCount;
-    }
-
-    public ReservationResponse(int userId, int bookId) {
-        this.userId = userId;
-        this.bookId = bookId;
     }
 
     public int getId() {
@@ -52,7 +38,7 @@ public class ReservationResponse {
         this.id = id;
     }
 
-    public void setStatus(short status) {
+    public void setStatus(ReservationStatus status) {
         this.status = status;
     }
 
@@ -60,7 +46,7 @@ public class ReservationResponse {
         this.extensionCount = extensionCount;
     }
 
-    public short getStatus() {
+    public ReservationStatus getStatus() {
         return status;
     }
 

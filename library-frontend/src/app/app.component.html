@@ -2,8 +2,9 @@
   <div class="nav-left">
     <span class="nav-logo">📚</span>
     <a routerLink="/books" routerLinkActive="active">Books</a>
-    <a *ngIf="displayName" routerLink="/users" routerLinkActive="active">Users</a>
-    <a *ngIf="displayName" routerLink="/reservations" routerLinkActive="active">Reservations</a>
+    <a *ngIf="isAdmin || isLibrarian" routerLink="/users" routerLinkActive="active">Users</a>
+    <a *ngIf="isLibrarian" routerLink="/reservations" routerLinkActive="active">Reservations</a>
+    <a *ngIf="isUser" routerLink="/my-reservations" routerLinkActive="active">My Reservations</a>
   </div>
   <div class="nav-right">
     <span *ngIf="displayName" class="nav-user">Logged in as <b>{{ displayName }}</b></span>

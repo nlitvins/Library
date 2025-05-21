@@ -5,18 +5,16 @@ public class UserResponse {
     private String name;
     private String secondName;
     private String userName;
-    private String password;
     private String email;
     private Integer mobileNumber;
     private String personCode;
 
     public UserResponse(int id, String name, String secondName, String userName,
-                        String password, String email, Integer mobileNumber, String personCode) {
+                        String email, Integer mobileNumber, String personCode) {
         this.id = id;
         this.name = name;
         this.secondName = secondName;
         this.userName = userName;
-        this.password = password;
         this.email = email;
         this.mobileNumber = mobileNumber;
         this.personCode = personCode;
@@ -32,10 +30,6 @@ public class UserResponse {
 
     public void setSecondName(String secondName) {
         this.secondName = secondName;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public void setUserName(String userName) {
@@ -68,10 +62,6 @@ public class UserResponse {
 
     public String getUserName() {
         return userName;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getEmail() {

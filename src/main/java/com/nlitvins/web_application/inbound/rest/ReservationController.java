@@ -7,12 +7,14 @@ import com.nlitvins.web_application.domain.usecase.ReservationReadUseCase;
 import com.nlitvins.web_application.inbound.model.ReservationCreateRequest;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,10 +43,10 @@ public class ReservationController {
         return InboundMapper.Reservations.toDTOList(reservations);
     }
 
-    @GetMapping("/user/{userId}")
-    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
-    public List<ReservationResponse> reservationsByUserId(@PathVariable int userId) {
-        List<Reservation> reservations = reservationReadUseCase.getReservationsByUserId(userId);
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public List<ReservationResponse> reservationsByUserId(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        List<Reservation> reservations = reservationReadUseCase.getReservationsByUserId(extractToken(token));
         return InboundMapper.Reservations.toDTOList(reservations);
     }
 
@@ -89,5 +91,11 @@ public class ReservationController {
     public ReservationResponse loseBook(@PathVariable int id) {
         Reservation reservation = reservationCheckUseCase.loseBook(id);
         return InboundMapper.Reservations.toDTO(reservation);
+    }
+
+    private String extractToken(String header) {
+        return header != null && header.startsWith("Bearer ")
+                ? header.substring(7)
+                : null;
     }
 }

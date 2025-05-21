@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_LIBRARIAN')")
     public List<UserResponse> getUsers() {
         // 0. validate input - throw exception
         // 1. map inbound (request) classes to domain

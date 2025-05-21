@@ -30,8 +30,6 @@ public class InboundMapper {
                     reservation.getBookId(),
                     reservation.getCreatedDate(),
                     reservation.getTermDate(),
-                    reservation.getUpdatedDate(),
-                    reservation.getStatus().id,
                     reservation.getExtensionCount()
             );
         }
@@ -89,7 +87,6 @@ public class InboundMapper {
                     user.getName(),
                     user.getSecondName(),
                     user.getUserName(),
-                    user.getPassword(),
                     user.getEmail(),
                     user.getMobileNumber(),
                     user.getPersonCode()

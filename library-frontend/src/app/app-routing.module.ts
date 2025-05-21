@@ -32,7 +32,8 @@ const routes: Routes = [
   {path: 'books/new', component: BookFormComponent, canActivate: [AuthGuard]},
   {path: 'users', component: UserListComponent, canActivate: [AuthGuard]},
   {path: 'users/new', component: UserFormComponent, canActivate: [AuthGuard]},
-  {path: 'reservations', component: ReservationListComponent, canActivate: [AuthGuard]}
+  {path: 'reservations', component: ReservationListComponent, canActivate: [AuthGuard]},
+  {path: 'my-reservations', component: ReservationListComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

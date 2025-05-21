@@ -50,6 +50,13 @@ public class JwtRepositoryImpl implements JwtRepository {
     }
 
     @Override
+    public Integer getUserId(String token) {
+        return jwtParser.parseSignedClaims(token)
+                .getPayload()
+                .get("userId", Integer.class);
+    }
+
+    @Override
     public boolean isValidToken(String token) {
         try {
             jwtParser.parseSignedClaims(token);
