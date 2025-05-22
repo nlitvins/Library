@@ -33,15 +33,15 @@ class UserReadUseCaseTest {
     }
 
     private User givenUserFirst() {
-        return userRepository.save(new User(1, "John", "Doe", "johndoe", "password123", "johndoe@example.com", 20001111, "190201-27314"));
+        return userRepository.save(new User(1, "John", "Doe", "johndoe", "password123", "johndoe@example.com", 20001111, "190201-27314", null));
     }
 
     private User givenUserSecond() {
-        return userRepository.save(new User(2, "Jane", "Smith", "janesmith", "securePass2024", "janesmith@example.com", 20001112, "190202-27315"));
+        return userRepository.save(new User(2, "Jane", "Smith", "janesmith", "securePass2024", "janesmith@example.com", 20001112, "190202-27315", null));
     }
 
     private User givenUserWithoutId(int id) {
-        return userRepository.save(new User(id, "Jane", "Smith", "janesmith", "securePass2024", "janesmith@example.com", 20001112, "190202-27315"));
+        return userRepository.save(new User(id, "Jane", "Smith", "janesmith", "securePass2024", "janesmith@example.com", 20001112, "190202-27315", null));
     }
 
     @Test

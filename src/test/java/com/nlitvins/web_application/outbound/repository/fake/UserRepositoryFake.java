@@ -29,6 +29,11 @@ public class UserRepositoryFake implements UserRepository {
         return user;
     }
 
+    @Override
+    public User findByUserName(String userNme) {
+        return users.get(userNme);
+    }
+
     public void clear() {
         users.clear();
     }
