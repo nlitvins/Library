@@ -24,11 +24,15 @@ public class ReservationReadUseCase {
         return reservationRepository.findAll();
     }
 
-    public List<Reservation> getReservationsByUserId(String token) {
+    public List<Reservation> getReservationsByToken(String token) {
         Integer userId = jwtRepository.getUserId(token);
         if (userId == null) {
             return Collections.emptyList();
         }
+        return getReservationByUserId(userId);
+    }
+
+    public List<Reservation> getReservationByUserId(int userId) {
         return reservationRepository.findByUserId(userId);
     }
 

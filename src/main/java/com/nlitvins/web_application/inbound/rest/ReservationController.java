@@ -45,8 +45,15 @@ public class ReservationController {
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public List<ReservationResponse> reservationsByUserId(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        List<Reservation> reservations = reservationReadUseCase.getReservationsByUserId(extractToken(token));
+    public List<ReservationResponse> reservationsByToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        List<Reservation> reservations = reservationReadUseCase.getReservationsByToken(extractToken(token));
+        return InboundMapper.Reservations.toDTOList(reservations);
+    }
+
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
+    public List<ReservationResponse> reservationsByUserId(@PathVariable int userId) {
+        List<Reservation> reservations = reservationReadUseCase.getReservationByUserId(userId);
         return InboundMapper.Reservations.toDTOList(reservations);
     }
 
