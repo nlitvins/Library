@@ -3,6 +3,7 @@ package com.nlitvins.web_application.inbound.config;
 import com.nlitvins.web_application.domain.repository.JwtRepository;
 import jakarta.servlet.Filter;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -47,6 +48,9 @@ public class SecurityConfig {
                         List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(jwtRepository.getRole(token)));
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
                         SecurityContextHolder.getContext().setAuthentication(authentication);
+                    } else {
+                        ((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        return;
                     }
                 }
             }

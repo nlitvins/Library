@@ -2,20 +2,43 @@ h2 {
   margin-bottom: 1rem;
 }
 
-button {
-  background: #1976d2;
-  color: #fff;
+.action-button {
+  padding: 0.4rem 0.8rem;
   border: none;
-  padding: 0.5rem 1.2rem;
   border-radius: 4px;
   cursor: pointer;
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  transition: background 0.2s;
-}
+  margin-right: 0.5rem;
+  font-size: 0.9rem;
+  transition: background-color 0.2s, opacity 0.2s;
 
-button:hover {
-  background: #125699;
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &.extend {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  &.cancel {
+    background-color: #f44336;
+    color: white;
+  }
+
+  &.issue {
+    background-color: #2196f3;
+    color: white;
+  }
+
+  &.complete {
+    background-color: #9c27b0;
+    color: white;
+  }
+
+  &.lost {
+    background-color: #ff9800;
+    color: white;
+  }
 }
 
 table {
@@ -39,4 +62,28 @@ th {
 
 tr:hover {
   background: #f0f7ff;
+}
+
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  color: white;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

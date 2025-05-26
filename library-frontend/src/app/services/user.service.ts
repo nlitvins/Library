@@ -6,6 +6,12 @@ import {environment} from '../../environments/environment';
 export interface User {
   id?: number;
   name: string;
+  secondName: string;
+  email: string;
+  phone: string;
+  role: string;
+  createdAt?: string;
+  updatedAt?: string;
   // Add other fields as needed
 }
 

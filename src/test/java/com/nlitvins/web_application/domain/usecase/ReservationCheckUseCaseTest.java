@@ -6,12 +6,16 @@ import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.outbound.repository.fake.ReservationRepositoryFake;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.MockedStatic;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.stream.Stream;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -155,20 +159,31 @@ class ReservationCheckUseCaseTest {
         assertEquals("You can't complete reservation. Status is not received.", thrown.getMessage());
     }
 
-    @Test
-    void completeReservation() {
-        Reservation reservation = givenReservation(1, ReservationStatus.RECEIVED, (short) 3);
-        Reservation result = sut.completeReservation(reservation.getId());
+    @Nested
+    class Complete {
+        @ParameterizedTest()
+        @MethodSource("completableStatuses")
+        void completeReservation(ReservationStatus status) {
+            Reservation reservation = givenReservation(1, status, (short) 3);
+            Reservation result = sut.completeReservation(reservation.getId());
 
-        assertEquals(result.getStatus(), ReservationStatus.COMPLETED);
-    }
+            assertEquals(ReservationStatus.COMPLETED, result.getStatus());
+        }
 
-    @Test
-    void throwExceptionWhenCancelReservationWithIncorrectStatus() {
-        givenReservation(1, ReservationStatus.RECEIVED, (short) 0);
+        @Test
+        void throwExceptionWhenCancelReservationWithIncorrectStatus() {
+            givenReservation(1, ReservationStatus.RECEIVED, (short) 0);
 
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.cancelReservation(1));
-        assertEquals("You can't cancel reservation. Status isn't new.", thrown.getMessage());
+            RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.cancelReservation(1));
+            assertEquals("You can't cancel reservation. Status isn't new.", thrown.getMessage());
+        }
+
+        static Stream<ReservationStatus> completableStatuses() {
+            return Stream.of(
+                    ReservationStatus.RECEIVED,
+                    ReservationStatus.OVERDUE
+            );
+        }
     }
 
     @Test
@@ -176,7 +191,7 @@ class ReservationCheckUseCaseTest {
         givenReservation(1, ReservationStatus.NEW, (short) 3);
         Reservation resulted = sut.cancelReservation(1);
 
-        assertEquals(resulted.getStatus(), ReservationStatus.CANCELED);
+        assertEquals(ReservationStatus.CANCELED, resulted.getStatus());
     }
 
     @Test
@@ -184,7 +199,7 @@ class ReservationCheckUseCaseTest {
         givenReservation(1, ReservationStatus.RECEIVED, (short) 3);
         Reservation resulted = sut.loseBook(1);
 
-        assertEquals(resulted.getStatus(), ReservationStatus.LOST);
+        assertEquals(ReservationStatus.LOST, resulted.getStatus());
     }
 
     @Test

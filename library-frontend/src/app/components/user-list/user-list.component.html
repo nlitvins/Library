@@ -1,16 +1,28 @@
 <h2>Users</h2>
 <button *ngIf="isAdmin" routerLink="/users/new" style="margin-bottom: 15px;">Create User</button>
-<table *ngIf="users.length > 0; else noUsers">
+<table *ngIf="users.length > 0; else noUsers" class="user-table">
   <thead>
   <tr>
     <th>ID</th>
     <th>Name</th>
+    <th>Second Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Role</th>
+    <th>Created At</th>
+    <th>Updated At</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let user of users">
     <td>{{ user.id }}</td>
     <td>{{ user.name }}</td>
+    <td>{{ user.secondName }}</td>
+    <td>{{ user.email }}</td>
+    <td>{{ user.phone }}</td>
+    <td>{{ user.role }}</td>
+    <td>{{ user.createdAt | date:'dd.MM.yyyy HH:mm' }}</td>
+    <td>{{ user.updatedAt | date:'dd.MM.yyyy HH:mm' }}</td>
   </tr>
   </tbody>
 </table>

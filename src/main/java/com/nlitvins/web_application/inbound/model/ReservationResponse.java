@@ -20,6 +20,7 @@ public class ReservationResponse {
             int bookId,
             LocalDateTime createdDate,
             LocalDateTime termDate,
+            ReservationStatus status,
             short extensionCount
     ) {
         this.id = id;
@@ -27,6 +28,7 @@ public class ReservationResponse {
         this.bookId = bookId;
         this.createdDate = createdDate;
         this.termDate = termDate;
+        this.status = status;
         this.extensionCount = extensionCount;
     }
 

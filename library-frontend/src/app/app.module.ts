@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -11,6 +11,7 @@ import {ReservationListComponent} from './components/reservation-list/reservatio
 import {BookFormComponent} from './components/book-form/book-form.component';
 import {UserFormComponent} from './components/user-form/user-form.component';
 import {LoginModalComponent} from './components/login-modal/login-modal.component';
+import {AuthInterceptor} from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,9 @@ import {LoginModalComponent} from './components/login-modal/login-modal.componen
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

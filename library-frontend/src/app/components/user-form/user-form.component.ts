@@ -8,7 +8,13 @@ import {Router} from '@angular/router';
   styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit {
-  user: User = {name: ''};
+  user: User = {
+    name: '',
+    secondName: '',
+    email: '',
+    phone: '',
+    role: 'ROLE_USER'
+  };
   loading = false;
   error: string | null = null;
 

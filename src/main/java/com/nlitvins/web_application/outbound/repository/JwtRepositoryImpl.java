@@ -2,6 +2,8 @@ package com.nlitvins.web_application.outbound.repository;
 
 import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.domain.repository.JwtRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -59,8 +61,8 @@ public class JwtRepositoryImpl implements JwtRepository {
     @Override
     public boolean isValidToken(String token) {
         try {
-            jwtParser.parseSignedClaims(token);
-            return true;
+            Jws<Claims> claims = jwtParser.parseSignedClaims(token);
+            return Date.from(Instant.now()).before(claims.getPayload().getExpiration());
         } catch (JwtException e) {
             return false;
         }

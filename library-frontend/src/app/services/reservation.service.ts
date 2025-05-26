@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 
 export interface Reservation {
-  id?: number;
+  id: number;
   book?: {
     id: number;
     title: string;
@@ -34,10 +34,6 @@ export class ReservationService {
 
   getReservationsByUserId(): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`${this.apiUrl}/user`, this.getAuthHeaders());
-  }
-
-  reserveBook(reservation: Reservation): Observable<Reservation> {
-    return this.http.post<Reservation>(this.apiUrl, reservation, this.getAuthHeaders());
   }
 
   receiveBook(id: number): Observable<Reservation> {
