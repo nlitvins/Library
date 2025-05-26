@@ -3,6 +3,7 @@
 <table *ngIf="users.length > 0; else noUsers" class="user-table">
   <thead>
   <tr>
+    <th></th>
     <th>ID</th>
     <th>Name</th>
     <th>Second Name</th>
@@ -14,16 +15,56 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let user of users">
-    <td>{{ user.id }}</td>
-    <td>{{ user.name }}</td>
-    <td>{{ user.secondName }}</td>
-    <td>{{ user.email }}</td>
-    <td>{{ user.phone }}</td>
-    <td>{{ user.role }}</td>
-    <td>{{ user.createdAt | date:'dd.MM.yyyy HH:mm' }}</td>
-    <td>{{ user.updatedAt | date:'dd.MM.yyyy HH:mm' }}</td>
-  </tr>
+  <ng-container *ngFor="let user of users">
+    <tr [class.expanded]="isUserExpanded(user.id)" (click)="toggleUserExpansion(user.id)" class="user-row">
+      <td class="expand-icon">
+        <span class="material-icons">{{ isUserExpanded(user.id) ? 'expand_less' : 'expand_more' }}</span>
+      </td>
+      <td>{{ user.id }}</td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.secondName }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.phone }}</td>
+      <td>{{ user.role }}</td>
+      <td>{{ user.createdAt | date:'dd.MM.yyyy HH:mm' }}</td>
+      <td>{{ user.updatedAt | date:'dd.MM.yyyy HH:mm' }}</td>
+    </tr>
+    <tr *ngIf="isUserExpanded(user.id)" class="reservations-row">
+      <td colspan="9">
+        <div class="reservations-container">
+          <h3>User Reservations</h3>
+          <div *ngIf="isLoadingReservations(user.id)" class="loading">
+            Loading reservations...
+          </div>
+          <table *ngIf="!isLoadingReservations(user.id) && getUserReservations(user.id).length > 0"
+                 class="reservations-table">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Book Title</th>
+              <th>Status</th>
+              <th>Reservation Date</th>
+              <th>Return Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let reservation of getUserReservations(user.id)">
+              <td>{{ reservation.id }}</td>
+              <td>{{ reservation.book?.title }}</td>
+              <td>{{ reservation.status }}</td>
+              <td>{{ reservation.createdDate | date:'dd.MM.yyyy HH:mm' }}</td>
+              <td>{{ reservation.termDate | date:'dd.MM.yyyy HH:mm' }}</td>
+            </tr>
+            </tbody>
+          </table>
+          <p *ngIf="!isLoadingReservations(user.id) && getUserReservations(user.id).length === 0"
+             class="no-reservations">
+            No reservations found for this user.
+          </p>
+        </div>
+      </td>
+    </tr>
+  </ng-container>
   </tbody>
 </table>
 <ng-template #noUsers>

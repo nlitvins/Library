@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 
 export interface User {
-  id?: number;
+  id: number;
   name: string;
   secondName: string;
   email: string;
@@ -12,6 +12,15 @@ export interface User {
   role: string;
   createdAt?: string;
   updatedAt?: string;
+  // Add other fields as needed
+}
+
+export interface CreateUserRequest {
+  name: string;
+  secondName: string;
+  email: string;
+  phone: string;
+  role: string;
   // Add other fields as needed
 }
 
@@ -33,7 +42,7 @@ export class UserService {
     return this.http.get<User[]>(this.apiUrl, this.getAuthHeaders());
   }
 
-  registerUser(user: User): Observable<User> {
+  registerUser(user: CreateUserRequest): Observable<User> {
     return this.http.post<User>(this.apiUrl, user, this.getAuthHeaders());
   }
 }

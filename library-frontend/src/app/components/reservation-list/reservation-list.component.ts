@@ -35,7 +35,7 @@ export class ReservationListComponent implements OnInit {
     if (this.isUserReservations) {
       const jwt = localStorage.getItem('jwt');
       if (!jwt) return;
-      this.reservationService.getReservationsByUserId()
+      this.reservationService.getReservationsByCurrentUser()
         .subscribe(data => this.reservations = data);
     } else {
       this.reservationService.getReservations()

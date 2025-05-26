@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {User, UserService} from '../../services/user.service';
+import {CreateUserRequest, UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit {
-  user: User = {
+  user: CreateUserRequest = {
     name: '',
     secondName: '',
     email: '',
