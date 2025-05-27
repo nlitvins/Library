@@ -1,5 +1,9 @@
 package com.nlitvins.web_application.domain.usecase;
 
+import com.nlitvins.web_application.domain.exception.BookNotFoundException;
+import com.nlitvins.web_application.domain.exception.BookQuantityIsZeroException;
+import com.nlitvins.web_application.domain.exception.UserHasSameReservationException;
+import com.nlitvins.web_application.domain.exception.UserHasTooManyActiveReservationsException;
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
@@ -26,21 +30,21 @@ public class ReservationCreateUseCase {
         Book book = bookRepository.findById(reservation.getBookId());
 
         if (book == null) {
-            throw new IllegalArgumentException("Book doesn't exist");
+            throw new BookNotFoundException(reservation.getBookId());
         }
 
         if (book.getQuantity() == 0) {
-            throw new RuntimeException("Quantity is zero");
+            throw new BookQuantityIsZeroException(reservation.getBookId());
         }
 
         List<Reservation> reservationQuantityAndStatus = reservationRepository.findByUserIdAndStatusIn(reservation.getUserId(), ReservationStatus.getNotFinalStatuses());
         if (reservationQuantityAndStatus.size() >= 3) {
-            throw new RuntimeException("Too many reservations");
+            throw new UserHasTooManyActiveReservationsException(reservation.getUserId());
         }
 
         List<Reservation> reservationRepeat = reservationRepository.findByUserIdAndBookIdAndStatusIn(reservation.getUserId(), reservation.getBookId(), ReservationStatus.getNotFinalStatuses());
         if (!reservationRepeat.isEmpty()) {
-            throw new RuntimeException("Reservation already exists");
+            throw new UserHasSameReservationException(reservation.getUserId(), reservation.getBookId(), reservationRepeat.getFirst().getId());
         }
 
         book.setQuantity(book.getQuantity() - 1);

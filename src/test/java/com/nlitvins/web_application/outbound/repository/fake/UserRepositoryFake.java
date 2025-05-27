@@ -30,8 +30,8 @@ public class UserRepositoryFake implements UserRepository {
     }
 
     @Override
-    public User findByUserName(String userNme) {
-        return users.get(userNme);
+    public User findByUserName(String userName) {
+        return users.get(userName);
     }
 
     public void clear() {

@@ -1,5 +1,9 @@
 package com.nlitvins.web_application.domain.usecase;
 
+import com.nlitvins.web_application.domain.exception.BookNotFoundException;
+import com.nlitvins.web_application.domain.exception.BookQuantityIsZeroException;
+import com.nlitvins.web_application.domain.exception.UserHasSameReservationException;
+import com.nlitvins.web_application.domain.exception.UserHasTooManyActiveReservationsException;
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
@@ -75,18 +79,18 @@ class ReservationCreateUseCaseTest {
         Book book = givenUnavailableBook();
         Reservation reservation = newReservation(1, book.getId(), userId);
 
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.registerReservation(reservation));
-        assertEquals("Quantity is zero", thrown.getMessage());
+        BookQuantityIsZeroException thrown = assertThrows(BookQuantityIsZeroException.class, () -> sut.registerReservation(reservation));
+        assertEquals("Book: " + book.getId() + " quantity is zero", thrown.getMessage());
     }
 
     @Test
     void throwExceptionWhenReservationAlreadyExists() {
         int userId = 123;
-        Book book = givenAvailableBook(123);
+        Book book = givenAvailableBook(111);
         Reservation reservation = givenReservation(1, book.getId(), userId);
 
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.registerReservation(reservation));
-        assertEquals("Reservation already exists", thrown.getMessage());
+        UserHasSameReservationException thrown = assertThrows(UserHasSameReservationException.class, () -> sut.registerReservation(reservation));
+        assertEquals(("User(id: " + userId + ") has same reservation(id: " + reservation.getId() + ") with book(id: " + book.getId() + ")"), thrown.getMessage());
     }
 
     @Test
@@ -101,8 +105,8 @@ class ReservationCreateUseCaseTest {
         givenReservation(125, thirdBook.getId(), userId);
         Reservation reservation = givenReservation(126, fourthBook.getId(), userId);
 
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.registerReservation(reservation));
-        assertEquals("Too many reservations", thrown.getMessage());
+        UserHasTooManyActiveReservationsException thrown = assertThrows(UserHasTooManyActiveReservationsException.class, () -> sut.registerReservation(reservation));
+        assertEquals("User(id: " + userId + ") has reached the limit for active reservations", thrown.getMessage());
     }
 
     @Test
@@ -110,8 +114,8 @@ class ReservationCreateUseCaseTest {
         int userId = 123;
         Reservation reservation = givenReservation(121, 122, userId);
 
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.registerReservation(reservation));
-        assertEquals("Book doesn't exist", thrown.getMessage());
+        BookNotFoundException thrown = assertThrows(BookNotFoundException.class, () -> sut.registerReservation(reservation));
+        assertEquals("Book(id: " + reservation.getBookId() + ") not found", thrown.getMessage());
     }
 
     @Test

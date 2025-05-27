@@ -1,6 +1,9 @@
 package com.nlitvins.web_application.domain.usecase;
 
 
+import com.nlitvins.web_application.domain.exception.IllegalReservationStatusChangeException;
+import com.nlitvins.web_application.domain.exception.ReservationExtensionFailedException;
+import com.nlitvins.web_application.domain.exception.ReservationNotFoundException;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.outbound.repository.fake.ReservationRepositoryFake;
@@ -65,98 +68,121 @@ class ReservationCheckUseCaseTest {
         return reservationRepository.save(reservation);
     }
 
-    @Test
-    void changeReservationStatusAndTermDateWhenReceiveBook() {
-        Reservation reservation = givenReservation(1, ReservationStatus.NEW, (short) 0);
+    @Nested
+    class Receive {
+        @Test
+        void changeReservationStatusAndTermDateWhenReceiveBook() {
+            Reservation reservation = givenReservation(1, ReservationStatus.NEW, (short) 0);
 
-        LocalDate mockedDate = LocalDate.parse("2025-05-02");
-        try (MockedStatic<LocalDate> mockedClass = mockStatic(LocalDate.class)) {
-            mockedClass.when(LocalDate::now).thenReturn(mockedDate);
-            Reservation result = sut.receiveBook(reservation.getId());
-            assertNotNull(result);
+            LocalDate mockedDate = LocalDate.parse("2025-05-02");
+            try (MockedStatic<LocalDate> mockedClass = mockStatic(LocalDate.class)) {
+                mockedClass.when(LocalDate::now).thenReturn(mockedDate);
+                Reservation result = sut.receiveBook(reservation.getId());
+                assertNotNull(result);
+            }
+
+            Reservation receivedReservation = reservationRepository.findById(1);
+            assertNotNull(receivedReservation);
+            assertEquals(ReservationStatus.RECEIVED, receivedReservation.getStatus());
+            assertEquals(LocalDateTime.parse("2025-05-16T23:59:59.999999999"), receivedReservation.getTermDate());
         }
 
-        Reservation receivedReservation = reservationRepository.findById(1);
-        assertNotNull(receivedReservation);
-        assertEquals(ReservationStatus.RECEIVED, receivedReservation.getStatus());
-        assertEquals(LocalDateTime.parse("2025-05-16T23:59:59.999999999"), receivedReservation.getTermDate());
+        @Test
+        void throwExceptionWhenReceiveBookWithIncorrectStatus() {
+            Reservation reservation = givenReservation(1, ReservationStatus.RECEIVED, (short) 0);
+
+            IllegalReservationStatusChangeException thrown = assertThrows(IllegalReservationStatusChangeException.class, () -> sut.receiveBook(1));
+            assertEquals("Reservation(id: " + reservation.getId() + ") with status RECEIVED can't be changed to RECEIVED", thrown.getMessage());
+        }
+
+        @Test
+        void throwExceptionWhenReceiveBookWithNullReservation() {
+            ReservationNotFoundException thrown = assertThrows(ReservationNotFoundException.class, () -> sut.receiveBook(1));
+            assertEquals("Reservation(id: 1) not found", thrown.getMessage());
+        }
     }
 
-    @Test
-    void throwExceptionWhenReceiveBookWithIncorrectStatus() {
-        givenReservation(1, ReservationStatus.RECEIVED, (short) 0);
+    @Nested
+    class Extend {
+        @MethodSource("nonExtendableStatuses")
+        @ParameterizedTest
+        void throwExceptionWhenExtendBookWithIncorrectStatus(ReservationStatus status) {
+            givenReservation(1, status, (short) 0);
 
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.receiveBook(1));
-        assertEquals("You can't receive the book. Incorrect status, not new. Or reservation doesn't exist", thrown.getMessage());
+            ReservationExtensionFailedException thrown = assertThrows(ReservationExtensionFailedException.class, () -> sut.extendBook(1));
+            assertEquals("You can't extend reservation. Incorrect status or extension count.", thrown.getMessage());
+        }
+
+        @MethodSource("newStatus")
+        @ParameterizedTest
+        void throwExceptionWhenExtendBookWithIncorrectExtensionCountAndStatusNew(ReservationStatus status) {
+            givenReservation(1, status, (short) 1);
+
+            ReservationExtensionFailedException thrown = assertThrows(ReservationExtensionFailedException.class, () -> sut.extendBook(1));
+            assertEquals("You can't extend reservation. Incorrect status or extension count.", thrown.getMessage());
+        }
+
+        @MethodSource("extendableStatuses")
+        @ParameterizedTest
+        void throwExceptionWhenExtendBookWithIncorrectExtensionCountAndStatusReceived(ReservationStatus status) {
+            givenReservation(1, status, (short) 3);
+
+            ReservationExtensionFailedException thrown = assertThrows(ReservationExtensionFailedException.class, () -> sut.extendBook(1));
+            assertEquals("You can't extend reservation. Incorrect status or extension count.", thrown.getMessage());
+        }
+
+        static Stream<ReservationStatus> newStatus() {
+            return Stream.of(ReservationStatus.NEW);
+        }
+
+        static Stream<ReservationStatus> extendableStatuses() {
+            return Stream.of(
+                    ReservationStatus.RECEIVED,
+                    ReservationStatus.NEW
+            );
+        }
+
+        static Stream<ReservationStatus> nonExtendableStatuses() {
+            return Stream.of(
+                    ReservationStatus.OVERDUE,
+                    ReservationStatus.CANCELED,
+                    ReservationStatus.COMPLETED,
+                    ReservationStatus.LOST
+            );
+        }
     }
 
-    @Test
-    void throwExceptionWhenReceiveBookWithNullReservation() {
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.receiveBook(1));
-        assertEquals("You can't receive the book. Incorrect status, not new. Or reservation doesn't exist", thrown.getMessage());
-    }
+    @Nested
+    class ExtendDate {
+        @Test
+        void extendReservationWhenStatusReceived() {
+            LocalDateTime dateTime = LocalDateTime.parse("2025-05-01T12:00");
+            Reservation reservation = givenReservationWithTermDate(1, ReservationStatus.RECEIVED, (short) 2, dateTime);
 
+            sut.extendBook(reservation.getId());
 
-    @Test
-    void throwExceptionWhenExtendBookWithIncorrectStatus() {
-        givenReservation(1, ReservationStatus.COMPLETED, (short) 0);
+            Reservation extendedReservation = reservationRepository.findById(1);
+            assertEquals((short) 3, extendedReservation.getExtensionCount());
+            assertEquals(dateTime.plusDays(14), extendedReservation.getTermDate());
+        }
 
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.extendBook(1));
-        assertEquals("You can't extend reservation. Incorrect status or extension count.", thrown.getMessage());
-    }
+        @Test
+        void extendReservationWhenStatusNew() {
+            LocalDateTime dateTime = LocalDateTime.parse("2025-05-01T12:00");
+            Reservation reservation = givenReservationWithTermDate(1, ReservationStatus.NEW, (short) 0, dateTime);
 
-    @Test
-    void throwExceptionWhenExtendBookWithIncorrectExtensionCountAndStatusNew() {
-        givenReservation(1, ReservationStatus.NEW, (short) 1);
+            sut.extendBook(reservation.getId());
 
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.extendBook(1));
-        assertEquals("You can't extend reservation. Incorrect status or extension count.", thrown.getMessage());
-    }
+            Reservation extendedReservation = reservationRepository.findById(1);
+            assertEquals((short) 1, extendedReservation.getExtensionCount());
+            assertEquals(dateTime.plusDays(3), extendedReservation.getTermDate());
+        }
 
-    @Test
-    void throwExceptionWhenExtendBookWithIncorrectExtensionCountAndStatusReceived() {
-        givenReservation(1, ReservationStatus.RECEIVED, (short) 3);
-
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.extendBook(1));
-        assertEquals("You can't extend reservation. Incorrect status or extension count.", thrown.getMessage());
-    }
-
-    @Test
-    void extendReservationWhenStatusReceived() {
-        LocalDateTime dateTime = LocalDateTime.parse("2025-05-01T12:00");
-        Reservation reservation = givenReservationWithTermDate(1, ReservationStatus.RECEIVED, (short) 2, dateTime);
-
-        Reservation result = sut.extendBook(reservation.getId());
-
-        Reservation extendedReservation = reservationRepository.findById(1);
-        assertEquals((short) 3, extendedReservation.getExtensionCount());
-        assertEquals(dateTime.plusDays(14), extendedReservation.getTermDate());
-    }
-
-    @Test
-    void extendReservationWhenStatusNew() {
-        LocalDateTime dateTime = LocalDateTime.parse("2025-05-01T12:00");
-        Reservation reservation = givenReservationWithTermDate(1, ReservationStatus.NEW, (short) 0, dateTime);
-
-        Reservation result = sut.extendBook(reservation.getId());
-
-        Reservation extendedReservation = reservationRepository.findById(1);
-        assertEquals((short) 1, extendedReservation.getExtensionCount());
-        assertEquals(dateTime.plusDays(3), extendedReservation.getTermDate());
-    }
-
-    @Test
-    void extendReservationWhenEmptyReservation() {
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.extendBook(1));
-        assertEquals("Can't extend empty reservation", thrown.getMessage());
-    }
-
-    @Test
-    void throwExceptionWhenCompleteReservationWithIncorrectStatus() {
-        givenReservation(1, ReservationStatus.LOST, (short) 0);
-
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.completeReservation(1));
-        assertEquals("You can't complete reservation. Status is not received.", thrown.getMessage());
+        @Test
+        void extendReservationWhenEmptyReservation() {
+            ReservationNotFoundException thrown = assertThrows(ReservationNotFoundException.class, () -> sut.extendBook(1));
+            assertEquals("Reservation(id: 1) not found", thrown.getMessage());
+        }
     }
 
     @Nested
@@ -170,13 +196,15 @@ class ReservationCheckUseCaseTest {
             assertEquals(ReservationStatus.COMPLETED, result.getStatus());
         }
 
-        @Test
-        void throwExceptionWhenCancelReservationWithIncorrectStatus() {
-            givenReservation(1, ReservationStatus.RECEIVED, (short) 0);
+        @ParameterizedTest
+        @MethodSource("nonCompletableStatuses")
+        void throwExceptionWhenCompleteReservationWithIncorrectStatus(ReservationStatus status) {
+            Reservation reservation = givenReservation(1, status, (short) 3);
 
-            RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.cancelReservation(1));
-            assertEquals("You can't cancel reservation. Status isn't new.", thrown.getMessage());
+            IllegalReservationStatusChangeException thrown = assertThrows(IllegalReservationStatusChangeException.class, () -> sut.completeReservation(reservation.getId()));
+            assertEquals("Reservation(id: " + reservation.getId() + ") with status " + status + " can't be changed to COMPLETED", thrown.getMessage());
         }
+
 
         static Stream<ReservationStatus> completableStatuses() {
             return Stream.of(
@@ -184,29 +212,89 @@ class ReservationCheckUseCaseTest {
                     ReservationStatus.OVERDUE
             );
         }
+
+        static Stream<ReservationStatus> nonCompletableStatuses() {
+            return Stream.of(
+                    ReservationStatus.NEW,
+                    ReservationStatus.CANCELED,
+                    ReservationStatus.COMPLETED,
+                    ReservationStatus.LOST
+            );
+        }
     }
 
-    @Test
-    void cancelReservation() {
-        givenReservation(1, ReservationStatus.NEW, (short) 3);
-        Reservation resulted = sut.cancelReservation(1);
+    @Nested
+    class Cancel {
+        @ParameterizedTest()
+        @MethodSource("nonCancelableStatuses")
+        void throwExceptionWhenCancelReservationWithIncorrectStatus(ReservationStatus status) {
+            Reservation reservation = givenReservation(1, status, (short) 3);
 
-        assertEquals(ReservationStatus.CANCELED, resulted.getStatus());
+            IllegalReservationStatusChangeException thrown = assertThrows(IllegalReservationStatusChangeException.class, () -> sut.cancelReservation(1));
+            assertEquals("Reservation(id: " + reservation.getId() + ") with status " + status + " can't be changed to CANCELED", thrown.getMessage());
+        }
+
+        @ParameterizedTest()
+        @MethodSource("cancelableStatuses")
+        void cancelReservationWithStatusNew(ReservationStatus status) {
+            givenReservation(1, status, (short) 3);
+
+            Reservation result = sut.cancelReservation(1);
+            assertEquals(ReservationStatus.CANCELED, result.getStatus());
+        }
+
+        static Stream<ReservationStatus> cancelableStatuses() {
+            return Stream.of(
+                    ReservationStatus.NEW
+            );
+        }
+
+        static Stream<ReservationStatus> nonCancelableStatuses() {
+            return Stream.of(
+                    ReservationStatus.RECEIVED,
+                    ReservationStatus.CANCELED,
+                    ReservationStatus.COMPLETED,
+                    ReservationStatus.LOST,
+                    ReservationStatus.OVERDUE
+            );
+        }
     }
 
-    @Test
-    void loseBook() {
-        givenReservation(1, ReservationStatus.RECEIVED, (short) 3);
-        Reservation resulted = sut.loseBook(1);
+    @Nested
+    class Lost {
+        @MethodSource("lostableStatuses")
+        @ParameterizedTest
+        void loseBook(ReservationStatus status) {
+            givenReservation(1, status, (short) 3);
+            Reservation resulted = sut.loseBook(1);
 
-        assertEquals(ReservationStatus.LOST, resulted.getStatus());
-    }
+            assertEquals(ReservationStatus.LOST, resulted.getStatus());
+        }
 
-    @Test
-    void throwExceptionWhenLostBookWithIncorrectStatus() {
-        givenReservation(1, ReservationStatus.NEW, (short) 0);
+        @MethodSource("nonLostableStatuses")
+        @ParameterizedTest
+        void throwExceptionWhenLostBookWithIncorrectStatus(ReservationStatus status) {
+            givenReservation(1, status, (short) 0);
 
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> sut.loseBook(1));
-        assertEquals("Book is in library, it can't be lost", thrown.getMessage());
+            IllegalReservationStatusChangeException thrown = assertThrows(IllegalReservationStatusChangeException.class, () -> sut.loseBook(1));
+            assertEquals("Reservation(id: 1) with status " + status + " can't be changed to LOST", thrown.getMessage());
+        }
+
+        static Stream<ReservationStatus> lostableStatuses() {
+            return Stream.of(
+                    ReservationStatus.RECEIVED,
+                    ReservationStatus.OVERDUE
+            );
+        }
+
+        static Stream<ReservationStatus> nonLostableStatuses() {
+            return Stream.of(
+                    ReservationStatus.NEW,
+                    ReservationStatus.LOST,
+                    ReservationStatus.CANCELED,
+                    ReservationStatus.COMPLETED
+            );
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 package com.nlitvins.web_application.domain.usecase;
 
 
+import com.nlitvins.web_application.domain.exception.UserLoginException;
 import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.domain.repository.JwtRepository;
 import com.nlitvins.web_application.domain.repository.UserRepository;
@@ -24,7 +25,7 @@ public class UserLoginUseCase {
         User userInfo = userRepository.findByUserName(loginUser.getUserName());
 
         if (userInfo == null || passwordNotMatches(loginUser, userInfo)) {
-            throw new RuntimeException("Incorrect username or password");
+            throw new UserLoginException();
         }
 
         return jwtRepository.getToken(userInfo);
