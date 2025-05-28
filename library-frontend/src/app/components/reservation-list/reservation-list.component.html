@@ -1,0 +1,56 @@
+<h2>{{ isUserReservations ? 'My Reservations' : 'All Reservations' }}</h2>
+<table *ngIf="reservations.length > 0; else noReservations">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <!-- <th>Book Title</th> -->
+    <th>Status</th>
+    <th>Reservation Date</th>
+    <th>Return Date</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let reservation of reservations">
+    <td>{{ reservation.id }}</td>
+    <!-- <td>{{ reservation.book?.title }}</td> -->
+    <td>{{ reservation.status }}</td>
+    <td>{{ reservation.createdDate | date:'dd.MM.yyyy HH:mm' }}</td>
+    <td>{{ reservation.termDate | date:'dd.MM.yyyy HH:mm' }}</td>
+    <td>
+      <button *ngIf="canExtend(reservation)"
+              (click)="extendReservation(reservation.id)"
+              class="action-button extend">
+        Extend
+      </button>
+      <button *ngIf="canCancel(reservation)"
+              (click)="cancelReservation(reservation.id)"
+              class="action-button cancel">
+        Cancel
+      </button>
+      <button *ngIf="canIssue(reservation)"
+              (click)="issueBook(reservation.id)"
+              class="action-button issue">
+        Issue
+      </button>
+      <button *ngIf="canComplete(reservation)"
+              (click)="completeReservation(reservation.id)"
+              class="action-button complete">
+        Complete
+      </button>
+      <button *ngIf="canMarkAsLost(reservation)"
+              (click)="markAsLost(reservation.id)"
+              class="action-button lost">
+        Mark as Lost
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<ng-template #noReservations>
+  <p>No reservations found.</p>
+</ng-template>
+
+<div *ngIf="notification" class="notification" [ngStyle]="{ background: notification.color }">
+  {{ notification.message }}
+</div>

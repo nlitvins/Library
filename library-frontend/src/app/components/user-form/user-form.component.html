@@ -1,0 +1,30 @@
+<h2>Add New User</h2>
+<form (ngSubmit)="onSubmit()" #userForm="ngForm">
+  <div>
+    <label for="name">Name:</label>
+    <input id="name" name="name" [(ngModel)]="user.name" required/>
+  </div>
+  <div>
+    <label for="secondName">Second Name:</label>
+    <input id="secondName" name="secondName" [(ngModel)]="user.secondName" required/>
+  </div>
+  <div>
+    <label for="email">Email:</label>
+    <input id="email" name="email" type="email" [(ngModel)]="user.email" required/>
+  </div>
+  <div>
+    <label for="phone">Phone:</label>
+    <input id="phone" name="phone" [(ngModel)]="user.phone" required/>
+  </div>
+  <div>
+    <label for="role">Role:</label>
+    <select id="role" name="role" [(ngModel)]="user.role" required>
+      <option value="ROLE_USER">User</option>
+      <option value="ROLE_LIBRARIAN">Librarian</option>
+      <option value="ROLE_ADMIN">Admin</option>
+    </select>
+  </div>
+  <div *ngIf="error" style="color: red;">{{ error }}</div>
+  <button type="submit" [disabled]="loading || !userForm.form.valid">Create</button>
+  <span *ngIf="loading">Saving...</span>
+</form>

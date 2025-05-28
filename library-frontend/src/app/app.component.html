@@ -1,0 +1,18 @@
+<nav class="nav-bar">
+  <div class="nav-left">
+    <span class="nav-logo">📚</span>
+    <a routerLink="/books" routerLinkActive="active">Books</a>
+    <a *ngIf="isAdmin || isLibrarian" routerLink="/users" routerLinkActive="active">Users</a>
+    <a *ngIf="isLibrarian" routerLink="/reservations" routerLinkActive="active">Reservations</a>
+    <a *ngIf="isUser" routerLink="/my-reservations" routerLinkActive="active">My Reservations</a>
+  </div>
+  <div class="nav-right">
+    <span *ngIf="displayName" class="nav-user">Logged in as <b>{{ displayName }}</b></span>
+    <button *ngIf="!displayName" (click)="showLogin = true">Login</button>
+    <button *ngIf="displayName" (click)="logout()">Logout</button>
+  </div>
+</nav>
+<div class="main-content">
+  <router-outlet></router-outlet>
+  <app-login-modal *ngIf="showLogin" (close)="showLogin = false" (loginSuccess)="onLogin($event)"></app-login-modal>
+</div>
