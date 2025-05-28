@@ -36,11 +36,25 @@ class BookReadUseCaseTest {
     }
 
     private Book givenBookFirst() {
-        return bookRepository.save(new Book(1, "Fiona", String.valueOf(1), 1));
+        return bookRepository.save(
+                Book.builder()
+                        .id(1)
+                        .title("Fiona")
+                        .author("Jack")
+                        .quantity(1)
+                        .build()
+        );
     }
 
     private Book givenBookSecond() {
-        return bookRepository.save(new Book(2, "Shrek", String.valueOf(2), 4));
+        return bookRepository.save(
+                Book.builder()
+                        .id(2)
+                        .title("Shrek")
+                        .author("Bass")
+                        .quantity(4)
+                        .build()
+        );
     }
 
     @Test

@@ -4,8 +4,10 @@ package com.nlitvins.web_application.domain.usecase;
 import com.nlitvins.web_application.domain.exception.IllegalReservationStatusChangeException;
 import com.nlitvins.web_application.domain.exception.ReservationExtensionFailedException;
 import com.nlitvins.web_application.domain.exception.ReservationNotFoundException;
+import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
+import com.nlitvins.web_application.outbound.repository.fake.BookRepositoryFake;
 import com.nlitvins.web_application.outbound.repository.fake.ReservationRepositoryFake;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,41 +33,66 @@ class ReservationCheckUseCaseTest {
     private ReservationCheckUseCase sut;
 
     private ReservationRepositoryFake reservationRepository;
+    private BookRepositoryFake bookRepository;
 
     @BeforeAll
     void setUp() {
+        bookRepository = new BookRepositoryFake();
         reservationRepository = new ReservationRepositoryFake();
-        sut = new ReservationCheckUseCase(reservationRepository);
+        sut = new ReservationCheckUseCase(reservationRepository, bookRepository);
     }
 
     @BeforeEach
     void clear() {
+        bookRepository.clear();
         reservationRepository.clear();
     }
 
     private Reservation givenReservation(int id, ReservationStatus status, short extensionCount) {
-        Reservation reservation = new Reservation();
         LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
 
-        reservation.setId(id);
-        reservation.setUserId(123);
-        reservation.setBookId(111);
-        reservation.setTermDate(dateTime.plusDays(4));
-        reservation.setStatus(status);
-        reservation.setExtensionCount(extensionCount);
-        return reservationRepository.save(reservation);
+        return reservationRepository.save(Reservation.builder()
+                .id(id)
+                .userId(123)
+                .bookId(111)
+                .termDate(dateTime.plusDays(4))
+                .status(status)
+                .extensionCount(extensionCount)
+                .build());
+    }
+
+    private Book givenBook() {
+        return bookRepository.save(
+                Book.builder()
+                        .id(1)
+                        .title("Fiona")
+                        .author("Jack")
+                        .quantity(1)
+                        .build()
+        );
     }
 
     private Reservation givenReservationWithTermDate(int id, ReservationStatus status, short extensionCount, LocalDateTime termDate) {
-        Reservation reservation = new Reservation();
+        return reservationRepository.save(Reservation.builder()
+                .id(id)
+                .userId(123)
+                .bookId(111)
+                .termDate(termDate)
+                .status(status)
+                .extensionCount(extensionCount)
+                .build());
+    }
 
-        reservation.setId(id);
-        reservation.setUserId(123);
-        reservation.setBookId(111);
-        reservation.setTermDate(termDate);
-        reservation.setStatus(status);
-        reservation.setExtensionCount(extensionCount);
-        return reservationRepository.save(reservation);
+    private Reservation givenReservationWithoutBookId(int id, int bookId, ReservationStatus status) {
+        LocalDateTime dateTime = LocalDate.now().atStartOfDay().minusNanos(1);
+        return reservationRepository.save(Reservation.builder()
+                .id(id)
+                .userId(123)
+                .bookId(bookId)
+                .termDate(dateTime)
+                .status(status)
+                .extensionCount((short) 0)
+                .build());
     }
 
     @Nested
@@ -190,10 +217,13 @@ class ReservationCheckUseCaseTest {
         @ParameterizedTest()
         @MethodSource("completableStatuses")
         void completeReservation(ReservationStatus status) {
-            Reservation reservation = givenReservation(1, status, (short) 3);
+            Book book = givenBook();
+            Reservation reservation = givenReservationWithoutBookId(1, book.getId(), status);
             Reservation result = sut.completeReservation(reservation.getId());
+            Book bookResult = bookRepository.findById(result.getBookId());
 
             assertEquals(ReservationStatus.COMPLETED, result.getStatus());
+            assertEquals((short) 2, bookResult.getQuantity());
         }
 
         @ParameterizedTest
@@ -237,10 +267,14 @@ class ReservationCheckUseCaseTest {
         @ParameterizedTest()
         @MethodSource("cancelableStatuses")
         void cancelReservationWithStatusNew(ReservationStatus status) {
-            givenReservation(1, status, (short) 3);
+            Book book = givenBook();
+            givenReservationWithoutBookId(1, book.getId(), status);
 
             Reservation result = sut.cancelReservation(1);
+            Book bookResult = bookRepository.findById(result.getBookId());
             assertEquals(ReservationStatus.CANCELED, result.getStatus());
+
+            assertEquals((short) 2, bookResult.getQuantity());
         }
 
         static Stream<ReservationStatus> cancelableStatuses() {

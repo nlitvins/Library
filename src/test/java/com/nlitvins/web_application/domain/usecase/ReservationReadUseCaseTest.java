@@ -35,12 +35,12 @@ class ReservationReadUseCaseTest {
     }
 
     private Reservation newReservation(int id, int bookId, int userId) {
-        Reservation reservation = new Reservation();
-        reservation.setId(id);
-        reservation.setUserId(userId);
-        reservation.setBookId(bookId);
-        reservation.setStatus(ReservationStatus.NEW);
-        return reservation;
+        return Reservation.builder()
+                .id(id)
+                .userId(userId)
+                .bookId(bookId)
+                .status(ReservationStatus.NEW)
+                .build();
     }
 
     private Reservation givenReservation(int id, int bookId, int userId) {

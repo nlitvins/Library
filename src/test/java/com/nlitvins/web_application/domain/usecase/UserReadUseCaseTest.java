@@ -33,15 +33,45 @@ class UserReadUseCaseTest {
     }
 
     private User givenUserFirst() {
-        return userRepository.save(new User(1, "John", "Doe", "johndoe", "password123", "johndoe@example.com", 20001111, "190201-27314", null));
+        return userRepository.save(User.builder()
+                .id(1)
+                .name("John")
+                .secondName("Doe")
+                .userName("johndoe")
+                .password("password123")
+                .email("johndoe@example.com")
+                .mobileNumber(20001111)
+                .personCode("190201-27314")
+                .role(null)
+                .build());
     }
 
     private User givenUserSecond() {
-        return userRepository.save(new User(2, "Jane", "Smith", "janesmith", "securePass2024", "janesmith@example.com", 20001112, "190202-27315", null));
+        return userRepository.save(User.builder()
+                .id(2)
+                .name("Jane")
+                .secondName("Smith")
+                .userName("janesmith")
+                .password("securePass2024")
+                .email("janesmith@example.com")
+                .mobileNumber(20001112)
+                .personCode("190202-27315")
+                .role(null)
+                .build());
     }
 
     private User givenUserWithoutId(int id) {
-        return userRepository.save(new User(id, "Jane", "Smith", "janesmith", "securePass2024", "janesmith@example.com", 20001112, "190202-27315", null));
+        return User.builder()
+                .id(id)
+                .name("Jane")
+                .secondName("Smith")
+                .userName("janesmith")
+                .password("securePass2024")
+                .email("janesmith@example.com")
+                .mobileNumber(20001112)
+                .personCode("190202-27315")
+                .role(null)
+                .build();
     }
 
     @Test

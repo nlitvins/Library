@@ -1,17 +1,13 @@
 package com.nlitvins.web_application.inbound.model;
 
+import lombok.Builder;
+
+@Builder
 public class BookResponse {
     private int id;
     private String title;
     private String author;
     private int quantity;
-
-    public BookResponse(int id, String title, String author, int quantity) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.quantity = quantity;
-    }
 
     public int getId() {
         return id;
@@ -27,21 +23,5 @@ public class BookResponse {
 
     public int getQuantity() {
         return quantity;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 }

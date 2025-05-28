@@ -1,9 +1,11 @@
 package com.nlitvins.web_application.inbound.model;
 
 import com.nlitvins.web_application.domain.model.ReservationStatus;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 
+@Builder
 public class ReservationResponse {
     private int id;
     private int userId;
@@ -14,38 +16,8 @@ public class ReservationResponse {
     private ReservationStatus status;
     private short extensionCount;
 
-    public ReservationResponse(
-            int id,
-            int userId,
-            int bookId,
-            LocalDateTime createdDate,
-            LocalDateTime termDate,
-            ReservationStatus status,
-            short extensionCount
-    ) {
-        this.id = id;
-        this.userId = userId;
-        this.bookId = bookId;
-        this.createdDate = createdDate;
-        this.termDate = termDate;
-        this.status = status;
-        this.extensionCount = extensionCount;
-    }
-
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setStatus(ReservationStatus status) {
-        this.status = status;
-    }
-
-    public void setExtensionCount(short extensionCount) {
-        this.extensionCount = extensionCount;
     }
 
     public ReservationStatus getStatus() {
@@ -74,25 +46,5 @@ public class ReservationResponse {
 
     public LocalDateTime getUpdatedDate() {
         return updatedDate;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public void setTermDate(LocalDateTime termDate) {
-        this.termDate = termDate;
-    }
-
-    public void setUpdatedDate(LocalDateTime updatedDate) {
-        this.updatedDate = updatedDate;
     }
 }

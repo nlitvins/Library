@@ -14,18 +14,19 @@ public class BookRepositoryFake implements BookRepository {
 
     @Override
     public Book findById(int searchId) {
-        return books.get(searchId);
+        Book book = books.get(searchId);
+        return book != null ? book.toBuilder().build() : null;
     }
 
     @Override
     public List<Book> findAll() {
-        return books.values().stream().toList();
+        return books.values().stream().map(book -> book.toBuilder().build()).toList();
     }
 
     @Override
     public Book save(Book book) {
         books.put(book.getId(), book);
-        return book;
+        return book.toBuilder().build();
     }
 
     public void clear() {

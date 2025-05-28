@@ -17,18 +17,19 @@ public class ReservationRepositoryFake implements ReservationRepository {
 
     @Override
     public Reservation findById(int searchId) {
-        return reservations.get(searchId);
+        Reservation reservation = reservations.get(searchId);
+        return reservation != null ? reservation.toBuilder().build() : null;
     }
 
     @Override
     public List<Reservation> findAll() {
-        return reservations.values().stream().toList();
+        return reservations.values().stream().map(it -> it.toBuilder().build()).toList();
     }
 
     @Override
     public Reservation save(Reservation reservation) {
         reservations.put(reservation.getId(), reservation);
-        return reservation;
+        return reservation.toBuilder().build();
     }
 
     @Override
@@ -36,7 +37,7 @@ public class ReservationRepositoryFake implements ReservationRepository {
         List<Reservation> results = new ArrayList<>();
         for (Reservation reservation : reservations.values()) {
             if (reservation.getUserId() == userId && statuses.contains(reservation.getStatus())) {
-                results.add(reservation);
+                results.add(reservation.toBuilder().build());
             }
         }
         return results;
@@ -47,7 +48,7 @@ public class ReservationRepositoryFake implements ReservationRepository {
         List<Reservation> results = new ArrayList<>();
         for (Reservation reservation : reservations.values()) {
             if (reservation.getUserId() == userId && reservation.getBookId() == bookId && statuses.contains(reservation.getStatus())) {
-                results.add(reservation);
+                results.add(reservation.toBuilder().build());
             }
         }
         return results;
@@ -58,7 +59,7 @@ public class ReservationRepositoryFake implements ReservationRepository {
         List<Reservation> results = new ArrayList<>();
         for (Reservation reservation : reservations.values()) {
             if (reservation.getUserId() == userId) {
-                results.add(reservation);
+                results.add(reservation.toBuilder().build());
             }
         }
         return results;

@@ -57,20 +57,34 @@ class ReservationCreateUseCaseTest {
     }
 
     private Reservation newReservation(int id, int bookId, int userId) {
-        Reservation reservation = new Reservation();
-        reservation.setId(id);
-        reservation.setUserId(userId);
-        reservation.setBookId(bookId);
-        reservation.setStatus(ReservationStatus.NEW);
-        return reservation;
+        return Reservation.builder()
+                .id(id)
+                .userId(userId)
+                .bookId(bookId)
+                .status(ReservationStatus.NEW)
+                .build();
     }
 
     private Book givenUnavailableBook() {
-        return bookRepository.save(new Book(1233, "Lord Farquaad", "Jack", 0));
+        return bookRepository.save(
+                Book.builder()
+                        .id(1233)
+                        .title("Lord Farquaad")
+                        .author("Jack")
+                        .quantity(0)
+                        .build()
+        );
     }
 
     private Book givenAvailableBook(int id) {
-        return bookRepository.save(new Book(id, "Book of rust", "Karton", 3));
+        return bookRepository.save(
+                Book.builder()
+                        .id(id)
+                        .title("Book of rust")
+                        .author("Karton")
+                        .quantity(3)
+                        .build()
+        );
     }
 
     @Test

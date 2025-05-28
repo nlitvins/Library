@@ -1,15 +1,9 @@
-INSERT INTO authors(id, name, second_name)
-VALUES (1, 'Mike', 'Louis'),
-       (2, 'John', 'Lock'),
-       (3, 'Jack', 'Trans'),
-       (4, 'Ivan', 'Tolstoy');
-
-INSERT INTO books(id, title, author_id, quantity)
-VALUES (1, 'Fiona', 1, 1),
-       (2, 'Shrek', 4, 2),
-       (3, 'Lord Farquaad', 3, 3),
-       (4, 'Prince Charming', 2, 0),
-       (5, 'Korotkij mech', 4, 12);
+INSERT INTO books(id, title, author, quantity)
+VALUES (1, 'Fiona', 'Mike Louis', 1),
+       (2, 'Shrek', 'John Lock', 2),
+       (3, 'Lord Farquaad', 'Jack Trans', 3),
+       (4, 'Prince Charming', 'Ivan Tolstoy', 0),
+       (5, 'Korotkij mech', 'John Lock', 12);
 
 INSERT INTO users(id, name, second_name, user_name, password, email, mobile_number, person_code, role)
 VALUES (1, 'Admin', '', 'admin', '$2a$10$ZIMxUCwbT1jT8B.WX3XktuEObuiroVtvd.pbMkZyU7bWxpsDuaSyi', 'admin@example.com',

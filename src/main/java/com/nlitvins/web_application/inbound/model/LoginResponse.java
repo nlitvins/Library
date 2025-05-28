@@ -1,5 +1,8 @@
 package com.nlitvins.web_application.inbound.model;
 
+import lombok.Builder;
+
+@Builder
 public class LoginResponse {
     private final String token;
 

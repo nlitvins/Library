@@ -22,18 +22,19 @@ public class OutboundMapper {
             BookEntity bookEntity = new BookEntity();
             bookEntity.setId(book.getId());
             bookEntity.setTitle(book.getTitle());
-            bookEntity.setAuthor(Integer.parseInt(book.getAuthor()));
+            bookEntity.setAuthor(book.getAuthor());
             bookEntity.setQuantity(book.getQuantity());
             return bookEntity;
         }
 
         public static Book toDomain(BookEntity bookEntity) {
-            Book book = new Book();
-            book.setId(bookEntity.getId());
-            book.setTitle(bookEntity.getTitle());
-            book.setAuthor(String.valueOf(bookEntity.getAuthor()));
-            book.setQuantity(bookEntity.getQuantity());
-            return book;
+
+            return Book.builder()
+                    .id(bookEntity.getId())
+                    .title(bookEntity.getTitle())
+                    .author(bookEntity.getAuthor())
+                    .quantity(bookEntity.getQuantity())
+                    .build();
         }
 
         public static List<Book> toDomainList(List<BookEntity> bookEntities) {
@@ -54,17 +55,16 @@ public class OutboundMapper {
             if (reservationEntity == null) {
                 return null;
             }
-
-            return new Reservation(
-                    reservationEntity.getId(),
-                    reservationEntity.getUserId(),
-                    reservationEntity.getBookId(),
-                    reservationEntity.getCreatedDate(),
-                    reservationEntity.getTermDate(),
-                    reservationEntity.getUpdatedDate(),
-                    ReservationStatus.getStatus(reservationEntity.getStatus()),
-                    reservationEntity.getExtensionCount()
-            );
+            return Reservation.builder()
+                    .id(reservationEntity.getId())
+                    .userId(reservationEntity.getUserId())
+                    .bookId(reservationEntity.getBookId())
+                    .createdDate(reservationEntity.getCreatedDate())
+                    .termDate(reservationEntity.getTermDate())
+                    .updatedDate(reservationEntity.getUpdatedDate())
+                    .status(ReservationStatus.getStatus(reservationEntity.getStatus()))
+                    .extensionCount(reservationEntity.getExtensionCount())
+                    .build();
         }
 
         public static List<Reservation> toDomainList(List<ReservationEntity> reservationEntities) {
@@ -97,19 +97,17 @@ public class OutboundMapper {
     public static class Users {
 
         public static User toDomain(UserEntity userEntity) {
-            User user = new User();
-
-            user.setId(userEntity.getId());
-            user.setName(userEntity.getName());
-            user.setSecondName(userEntity.getSecondName());
-            user.setUserName(userEntity.getUserName());
-            user.setPassword(userEntity.getPassword());
-            user.setEmail(userEntity.getEmail());
-            user.setMobileNumber(userEntity.getMobileNumber());
-            user.setPersonCode(userEntity.getPersonCode());
-            user.setRole(UserRole.getRole(userEntity.getRole()));
-
-            return user;
+            return User.builder()
+                    .id(userEntity.getId())
+                    .name(userEntity.getName())
+                    .secondName(userEntity.getSecondName())
+                    .userName(userEntity.getUserName())
+                    .password(userEntity.getPassword())
+                    .email(userEntity.getEmail())
+                    .mobileNumber(userEntity.getMobileNumber())
+                    .personCode(userEntity.getPersonCode())
+                    .role(UserRole.getRole(userEntity.getRole()))
+                    .build();
 
         }
 

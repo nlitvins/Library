@@ -23,16 +23,15 @@ public class InboundMapper {
     public static class Reservations {
 
         public static ReservationResponse toDTO(Reservation reservation) {
-
-            return new ReservationResponse(
-                    reservation.getId(),
-                    reservation.getUserId(),
-                    reservation.getBookId(),
-                    reservation.getCreatedDate(),
-                    reservation.getTermDate(),
-                    reservation.getStatus(),
-                    reservation.getExtensionCount()
-            );
+            return ReservationResponse.builder()
+                    .id(reservation.getId())
+                    .userId(reservation.getUserId())
+                    .bookId(reservation.getBookId())
+                    .createdDate(reservation.getCreatedDate())
+                    .termDate(reservation.getTermDate())
+                    .status(reservation.getStatus())
+                    .extensionCount(reservation.getExtensionCount())
+                    .build();
         }
 
         public static List<ReservationResponse> toDTOList(List<Reservation> reservations) {
@@ -47,14 +46,20 @@ public class InboundMapper {
         }
 
         public static Reservation toDomain(ReservationCreateRequest request) {
-            Reservation reservation = new Reservation();
-
-            reservation.setUserId(request.getUserId());
-            reservation.setBookId(request.getBookId());
-            reservation.setStatus(ReservationStatus.NEW);
-            reservation.setExtensionCount((short) 0);
-
-            return reservation;
+//            Reservation reservation = new Reservation();
+//
+//            reservation.setUserId(request.getUserId());
+//            reservation.setBookId(request.getBookId());
+//            reservation.setStatus(ReservationStatus.NEW);
+//            reservation.setExtensionCount((short) 0);
+//            return reservation;
+//
+            return Reservation.builder()
+                    .userId(request.getUserId())
+                    .bookId(request.getBookId())
+                    .status(ReservationStatus.NEW)
+                    .extensionCount((short) 0)
+                    .build();
         }
     }
 
@@ -62,36 +67,35 @@ public class InboundMapper {
     public static class Users {
 
         public static User toDomain(UserRequest request) {
-            User user = new User();
-            user.setId(request.getId());
-            user.setName(request.getName());
-            user.setSecondName(request.getSecondName());
-            user.setUserName(request.getUserName());
-            user.setPassword(request.getPassword());
-            user.setEmail(request.getEmail());
-            user.setMobileNumber(request.getMobileNumber());
-            user.setPersonCode(request.getPersonCode());
-
-            return user;
+            return User.builder()
+                    .id(request.getId())
+                    .name(request.getName())
+                    .secondName(request.getSecondName())
+                    .userName(request.getUserName())
+                    .password(request.getPassword())
+                    .email(request.getEmail())
+                    .mobileNumber(request.getMobileNumber())
+                    .personCode(request.getPersonCode())
+                    .build();
         }
 
         public static User toDomain(LoginRequest request) {
-            User user = new User();
-            user.setUserName(request.getUsername());
-            user.setPassword(request.getPassword());
-            return user;
+            return User.builder()
+                    .userName(request.getUsername())
+                    .password(request.getPassword())
+                    .build();
         }
 
         public static UserResponse toDTO(User user) {
-            return new UserResponse(
-                    user.getId(),
-                    user.getName(),
-                    user.getSecondName(),
-                    user.getUserName(),
-                    user.getEmail(),
-                    user.getMobileNumber(),
-                    user.getPersonCode()
-            );
+            return UserResponse.builder()
+                    .id(user.getId())
+                    .name(user.getName())
+                    .secondName(user.getSecondName())
+                    .userName(user.getUserName())
+                    .email(user.getEmail())
+                    .mobileNumber(user.getMobileNumber())
+                    .personCode(user.getPersonCode())
+                    .build();
         }
 
         public static List<UserResponse> toDTOList(List<User> users) {
@@ -108,23 +112,21 @@ public class InboundMapper {
     @UtilityClass
     public static class Books {
         public static Book toDomain(BookCreateRequest request) {
-            Book book = new Book();
-
-            book.setTitle(request.getTitle());
-            book.setAuthor(String.valueOf(request.getAuthor()));
-            book.setQuantity(request.getQuantity());
-
-            return book;
+            return Book.builder()
+                    .title(request.getTitle())
+                    .author(request.getAuthor())
+                    .quantity(request.getQuantity())
+                    .build();
         }
 
 
         public static BookResponse toDTO(Book book) {
-            return new BookResponse(
-                    book.getId(),
-                    book.getTitle(),
-                    book.getAuthor(),
-                    book.getQuantity()
-            );
+            return BookResponse.builder()
+                    .id(book.getId())
+                    .title(book.getTitle())
+                    .author(book.getAuthor())
+                    .quantity(book.getQuantity())
+                    .build();
         }
 
         public static List<BookResponse> toDTOList(List<Book> books) {

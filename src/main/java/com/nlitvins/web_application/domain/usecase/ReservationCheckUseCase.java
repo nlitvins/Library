@@ -3,8 +3,10 @@ package com.nlitvins.web_application.domain.usecase;
 import com.nlitvins.web_application.domain.exception.IllegalReservationStatusChangeException;
 import com.nlitvins.web_application.domain.exception.ReservationExtensionFailedException;
 import com.nlitvins.web_application.domain.exception.ReservationNotFoundException;
+import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
+import com.nlitvins.web_application.domain.repository.BookRepository;
 import com.nlitvins.web_application.domain.repository.ReservationRepository;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +17,13 @@ import java.time.LocalDateTime;
 public class ReservationCheckUseCase {
 
     private final ReservationRepository reservationRepository;
+    private final BookRepository bookRepository;
 
-    public ReservationCheckUseCase(ReservationRepository reservationRepository) {
+    public ReservationCheckUseCase(ReservationRepository reservationRepository, BookRepository bookRepository) {
         this.reservationRepository = reservationRepository;
+        this.bookRepository = bookRepository;
     }
+
 
     public Reservation receiveBook(int id) {
         Reservation reservation = reservationRepository.findById(id);
@@ -68,8 +73,11 @@ public class ReservationCheckUseCase {
         if (reservation.getStatus() != ReservationStatus.RECEIVED && reservation.getStatus() != ReservationStatus.OVERDUE) {
             throw new IllegalReservationStatusChangeException(reservation.getStatus(), ReservationStatus.COMPLETED, reservation.getId());
         }
-        reservation.setStatus(ReservationStatus.COMPLETED);
 
+        reservation.setStatus(ReservationStatus.COMPLETED);
+        Book book = bookRepository.findById(reservation.getBookId());
+        book.setQuantity(book.getQuantity() + 1);
+        bookRepository.save(book);
         return reservationRepository.save(reservation);
     }
 
@@ -83,7 +91,11 @@ public class ReservationCheckUseCase {
         }
 
         reservation.setStatus(ReservationStatus.CANCELED);
+        Book book = bookRepository.findById(reservation.getBookId());
+        book.setQuantity(book.getQuantity() + 1);
+        bookRepository.save(book);
         return reservationRepository.save(reservation);
+
     }
 
     public Reservation loseBook(int id) {

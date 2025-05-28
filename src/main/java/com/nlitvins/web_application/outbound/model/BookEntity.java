@@ -18,8 +18,8 @@ public class BookEntity {
     @Column(name = "title", length = 100, nullable = false)
     private String title;
 
-    @Column(name = "author_id", nullable = false)
-    private int author;
+    @Column(name = "author", nullable = false)
+    private String author;
 
     @Column(name = "quantity")
     private int quantity;
@@ -28,7 +28,7 @@ public class BookEntity {
         this.quantity = quantity;
     }
 
-    public void setAuthor(int author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
@@ -44,7 +44,7 @@ public class BookEntity {
         return title;
     }
 
-    public int getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
