@@ -1,7 +1,6 @@
 package com.nlitvins.web_application.outbound.repository;
 
 import com.nlitvins.web_application.domain.model.Book;
-import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationDetailed;
 import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.domain.repository.ReservationDetailedRepository;
@@ -50,13 +49,13 @@ public class ReservationDetailedRepositoryImpl implements ReservationDetailedRep
 
         List<ReservationDetailed> reservationDetailedList = new ArrayList<>();
         for (ReservationEntity reservationEntity : reservationEntities) {
-            Reservation reservation = OutboundMapper.Reservations.toDomain(reservationEntity);
-            ReservationDetailed reservationDetailed = ReservationDetailed.builder()
-                    .reservation(reservation)
-                    .user(userMap.get(reservation.getUserId()))
-                    .book(bookMap.get(reservation.getBookId()))
-                    .build();
-            reservationDetailedList.add(reservationDetailed);
+            reservationDetailedList.add(
+                    ReservationDetailed.builder()
+                            .reservation(OutboundMapper.Reservations.toDomain(reservationEntity))
+                            .user(userMap.get(reservationEntity.getUserId()))
+                            .book(bookMap.get(reservationEntity.getBookId()))
+                            .build()
+            );
         }
 
         return reservationDetailedList;
