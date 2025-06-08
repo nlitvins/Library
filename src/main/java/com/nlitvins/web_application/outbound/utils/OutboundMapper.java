@@ -1,6 +1,9 @@
 package com.nlitvins.web_application.outbound.utils;
 
 import com.nlitvins.web_application.domain.model.Book;
+import com.nlitvins.web_application.domain.model.BookGenre;
+import com.nlitvins.web_application.domain.model.BookStatus;
+import com.nlitvins.web_application.domain.model.BookType;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.model.User;
@@ -24,6 +27,13 @@ public class OutboundMapper {
             bookEntity.setTitle(book.getTitle());
             bookEntity.setAuthor(book.getAuthor());
             bookEntity.setQuantity(book.getQuantity());
+            bookEntity.setCreationYear(book.getCreationYear());
+            bookEntity.setStatus(book.getStatus().id);
+            bookEntity.setGenre(book.getGenre().id);
+            bookEntity.setPages(book.getPages());
+            bookEntity.setEdition(book.getEdition());
+            bookEntity.setReleaseDate(book.getReleaseDate());
+            bookEntity.setType(book.getType().id);
             return bookEntity;
         }
 
@@ -34,6 +44,13 @@ public class OutboundMapper {
                     .title(bookEntity.getTitle())
                     .author(bookEntity.getAuthor())
                     .quantity(bookEntity.getQuantity())
+                    .creationYear(bookEntity.getCreationYear())
+                    .status(BookStatus.getStatus(bookEntity.getStatus()))
+                    .genre(BookGenre.getGenre(bookEntity.getGenre()))
+                    .pages(bookEntity.getPages())
+                    .edition(bookEntity.getEdition())
+                    .releaseDate(bookEntity.getReleaseDate())
+                    .type(BookType.getType(bookEntity.getType()))
                     .build();
         }
 

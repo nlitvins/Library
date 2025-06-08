@@ -111,6 +111,13 @@ public class InboundMapper {
                     .title(request.getTitle())
                     .author(request.getAuthor())
                     .quantity(request.getQuantity())
+                    .creationYear(request.getCreationYear())
+                    .status(request.getStatus())
+                    .genre(request.getGenre())
+                    .pages(request.getPages())
+                    .edition(request.getEdition())
+                    .releaseDate(request.getReleaseDate())
+                    .type(request.getType())
                     .build();
         }
 
@@ -121,6 +128,13 @@ public class InboundMapper {
                     .title(book.getTitle())
                     .author(book.getAuthor())
                     .quantity(book.getQuantity())
+                    .creationYear(book.getCreationYear())
+                    .status(book.getStatus())
+                    .genre(book.getGenre())
+                    .pages(book.getPages())
+                    .edition(book.getEdition())
+                    .releaseDate(book.getReleaseDate())
+                    .type(book.getType())
                     .build();
         }
 
