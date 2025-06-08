@@ -7,6 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "books")
 public class BookEntity {
@@ -24,6 +26,27 @@ public class BookEntity {
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "creation_year")
+    private LocalDate creationYear;
+
+    @Column(name = "status")
+    private short status;
+
+    @Column(name = "genre")
+    private short genre;
+
+    @Column(name = "pages")
+    private short pages;
+
+    @Column(name = "edition")
+    private String edition;
+
+    @Column(name = "release_date")
+    private LocalDate releaseDate;
+
+    @Column(name = "type")
+    private short type;
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
@@ -40,6 +63,34 @@ public class BookEntity {
         this.id = id;
     }
 
+    public void setCreationYear(LocalDate creationYear) {
+        this.creationYear = creationYear;
+    }
+
+    public void setStatus(short status) {
+        this.status = status;
+    }
+
+    public void setGenre(short genre) {
+        this.genre = genre;
+    }
+
+    public void setPages(short pages) {
+        this.pages = pages;
+    }
+
+    public void setEdition(String edition) {
+        this.edition = edition;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setType(short type) {
+        this.type = type;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -54,5 +105,33 @@ public class BookEntity {
 
     public int getId() {
         return id;
+    }
+
+    public LocalDate getCreationYear() {
+        return creationYear;
+    }
+
+    public short getStatus() {
+        return status;
+    }
+
+    public short getGenre() {
+        return genre;
+    }
+
+    public short getPages() {
+        return pages;
+    }
+
+    public String getEdition() {
+        return edition;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public short getType() {
+        return type;
     }
 }

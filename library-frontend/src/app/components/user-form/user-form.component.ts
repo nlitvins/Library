@@ -12,8 +12,8 @@ export class UserFormComponent implements OnInit {
     name: '',
     secondName: '',
     email: '',
-    phone: '',
-    role: 'ROLE_USER'
+    mobileNumber: '',
+    personCode: ''
   };
   loading = false;
   error: string | null = null;

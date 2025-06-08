@@ -8,20 +8,17 @@ export interface User {
   name: string;
   secondName: string;
   email: string;
-  phone: string;
+  mobileNumber: string;
   role: string;
-  createdAt?: string;
-  updatedAt?: string;
-  // Add other fields as needed
+  personCode: string;
 }
 
 export interface CreateUserRequest {
   name: string;
   secondName: string;
   email: string;
-  phone: string;
-  role: string;
-  // Add other fields as needed
+  mobileNumber: string;
+  personCode: string;
 }
 
 @Injectable({

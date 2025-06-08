@@ -1,18 +1,115 @@
-<h2>Add New Book</h2>
-<form (ngSubmit)="onSubmit()" #bookForm="ngForm">
-  <div>
-    <label for="title">Title:</label>
-    <input id="title" name="title" [(ngModel)]="book.title" required/>
-  </div>
-  <div>
-    <label for="author">Author:</label>
-    <input id="author" name="author" [(ngModel)]="book.author" required/>
-  </div>
-  <div>
-    <label for="quantity">Quantity:</label>
-    <input id="quantity" name="quantity" type="number" min="1" [(ngModel)]="book.quantity" required/>
-  </div>
-  <div *ngIf="error" style="color: red;">{{ error }}</div>
-  <button type="submit" [disabled]="loading || !bookForm.form.valid">Create</button>
-  <span *ngIf="loading">Saving...</span>
-</form>
+<div class="book-form">
+    <h2>{{ book.id ? 'Edit Book' : 'Create Book' }}</h2>
+    <form (ngSubmit)="onSubmit()" #bookForm="ngForm">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" [(ngModel)]="book.title" required #title="ngModel">
+                <div class="error-message" *ngIf="title.invalid && (title.dirty || title.touched)">
+                    Title is required
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input type="text" id="author" name="author" [(ngModel)]="book.author" required #author="ngModel">
+                <div class="error-message" *ngIf="author.invalid && (author.dirty || author.touched)">
+                    Author is required
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="genre">Genre</label>
+                <select id="genre" name="genre" [(ngModel)]="book.genre" required #genre="ngModel">
+                    <option value="">Select Genre</option>
+                    <option *ngFor="let genre of bookGenres" [value]="genre">{{ genre | enumFormat }}</option>
+                </select>
+                <div class="error-message" *ngIf="genre.invalid && (genre.dirty || genre.touched)">
+                    Genre is required
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select id="type" name="type" [(ngModel)]="book.type" required #type="ngModel">
+                    <option value="">Select Type</option>
+                    <option *ngFor="let type of bookTypes" [value]="type">{{ type | enumFormat }}</option>
+                </select>
+                <div class="error-message" *ngIf="type.invalid && (type.dirty || type.touched)">
+                    Type is required
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="pages">Pages</label>
+                <input type="number" id="pages" name="pages" [(ngModel)]="book.pages" required min="1" #pages="ngModel">
+                <div class="error-message" *ngIf="pages.invalid && (pages.dirty || pages.touched)">
+                    Pages must be a positive number
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="edition">Edition</label>
+                <input type="text" id="edition" name="edition" [(ngModel)]="book.edition" required #edition="ngModel">
+                <div class="error-message" *ngIf="edition.invalid && (edition.dirty || edition.touched)">
+                    Edition is required
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="creationYear">Creation Year</label>
+                <input type="number" id="creationYear" name="creationYear" [(ngModel)]="book.creationYear" required
+                       min="1" max="2024" #creationYear="ngModel">
+                <div class="error-message" *ngIf="creationYear.invalid && (creationYear.dirty || creationYear.touched)">
+                    Creation year must be between 1 and 2024
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="releaseDate">Release Date</label>
+                <input type="date" id="releaseDate" name="releaseDate" [(ngModel)]="book.releaseDate" required
+                       #releaseDate="ngModel">
+                <div class="error-message" *ngIf="releaseDate.invalid && (releaseDate.dirty || releaseDate.touched)">
+                    Release date is required
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" [(ngModel)]="book.status" required #status="ngModel">
+                    <option value="">Select Status</option>
+                    <option *ngFor="let status of bookStatuses" [value]="status">{{ status | enumFormat }}</option>
+                </select>
+                <div class="error-message" *ngIf="status.invalid && (status.dirty || status.touched)">
+                    Status is required
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" id="quantity" name="quantity" [(ngModel)]="book.quantity" required min="0"
+                       #quantity="ngModel">
+                <div class="error-message" *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)">
+                    Quantity must be a non-negative number
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button type="submit" [disabled]="bookForm.invalid">Save</button>
+            <button type="button" (click)="goBack()">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="notification" class="notification" [ngStyle]="{ background: notification.color }">
+    {{ notification.message }}
+</div>

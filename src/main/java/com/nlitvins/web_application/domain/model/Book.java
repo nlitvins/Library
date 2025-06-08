@@ -1,11 +1,14 @@
 package com.nlitvins.web_application.domain.model;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Setter
+@Getter
 @Builder(toBuilder = true)
 public class Book {
 
@@ -14,26 +17,13 @@ public class Book {
     private String author;
     private boolean isBorrowed;
     private int quantity;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public boolean isBorrowed() {
-        return isBorrowed;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
+    private LocalDate creationYear;
+    private BookStatus status;
+    private BookGenre genre;
+    private short pages;
+    private String edition;
+    private LocalDate releaseDate;
+    private BookType type;
 
     @Override
     public String toString() {

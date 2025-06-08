@@ -1,11 +1,13 @@
 package com.nlitvins.web_application.domain.model;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Setter
+@Getter
 @Builder(toBuilder = true)
 public class Reservation {
 
@@ -17,37 +19,4 @@ public class Reservation {
     private ReservationStatus status;
     private short extensionCount;
     private LocalDateTime updatedDate;
-
-    public int getId() {
-        return id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public int getBookId() {
-        return bookId;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public LocalDateTime getTermDate() {
-        return termDate;
-    }
-
-    public ReservationStatus getStatus() {
-        return status;
-    }
-
-    public Short getExtensionCount() {
-        return extensionCount;
-    }
-
-    public LocalDateTime getUpdatedDate() {
-        return updatedDate;
-    }
-
 }
