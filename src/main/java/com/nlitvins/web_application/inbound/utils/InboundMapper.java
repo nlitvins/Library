@@ -30,6 +30,7 @@ public class InboundMapper {
                     .userId(reservation.getUserId())
                     .bookId(reservation.getBookId())
                     .createdDate(reservation.getCreatedDate())
+                    .updatedDate(reservation.getUpdatedDate())
                     .termDate(reservation.getTermDate())
                     .status(reservation.getStatus())
                     .extensionCount(reservation.getExtensionCount())

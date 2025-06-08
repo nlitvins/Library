@@ -41,7 +41,7 @@
             <thead>
             <tr>
               <th>ID</th>
-              <th>Book Title</th>
+              <!-- <th>Book Title</th> -->
               <th>Status</th>
               <th>Reservation Date</th>
               <th>Return Date</th>
@@ -50,7 +50,7 @@
             <tbody>
             <tr *ngFor="let reservation of getUserReservations(user.id)">
               <td>{{ reservation.id }}</td>
-              <td>{{ reservation.book?.title }}</td>
+              <!-- <td>{{ reservation.book?.title }}</td> -->
               <td>{{ reservation.status }}</td>
               <td>{{ reservation.createdDate | date:'dd.MM.yyyy HH:mm' }}</td>
               <td>{{ reservation.termDate | date:'dd.MM.yyyy HH:mm' }}</td>

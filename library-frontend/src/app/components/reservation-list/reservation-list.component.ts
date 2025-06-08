@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Reservation, ReservationService} from '../../services/reservation.service';
+import {ReservationDetailed, ReservationService} from '../../services/reservation.service';
 import {ActivatedRoute} from '@angular/router';
 
 function parseJwt(token: string): any {
@@ -16,7 +16,7 @@ function parseJwt(token: string): any {
   styleUrls: ['./reservation-list.component.scss']
 })
 export class ReservationListComponent implements OnInit {
-  reservations: Reservation[] = [];
+  reservations: ReservationDetailed[] = [];
   isUserReservations = false;
   notification: { message: string, color: string } | null = null;
 
@@ -35,8 +35,26 @@ export class ReservationListComponent implements OnInit {
     if (this.isUserReservations) {
       const jwt = localStorage.getItem('jwt');
       if (!jwt) return;
+      const user = parseJwt(jwt);
       this.reservationService.getReservationsByCurrentUser()
-        .subscribe(data => this.reservations = data);
+        .subscribe(data => {
+          // For user reservations, we need to create a detailed view with the same book info
+          this.reservations = data.map(r => ({
+            reservation: r,
+            book: {
+              id: r.bookId || 0,
+              title: '',  // Not available in basic reservation
+              author: '',  // Not available in basic reservation
+              quantity: 0  // Not available in basic reservation
+            },
+            user: {
+              id: user.id,
+              name: user.name,
+              secondName: user.secondName,
+              email: user.email
+            }
+          }));
+        });
     } else {
       this.reservationService.getReservations()
         .subscribe(data => this.reservations = data);
@@ -62,24 +80,24 @@ export class ReservationListComponent implements OnInit {
     setTimeout(() => this.notification = null, 3000);
   }
 
-  canExtend(reservation: Reservation): boolean {
-    return this.isUser && (reservation.status === 'NEW' || reservation.status === 'RECEIVED');
+  canExtend(reservation: ReservationDetailed): boolean {
+    return this.isUser && (reservation.reservation.status === 'NEW' || reservation.reservation.status === 'RECEIVED');
   }
 
-  canCancel(reservation: Reservation): boolean {
-    return this.isUser && reservation.status === 'NEW';
+  canCancel(reservation: ReservationDetailed): boolean {
+    return this.isUser && reservation.reservation.status === 'NEW';
   }
 
-  canIssue(reservation: Reservation): boolean {
-    return this.isLibrarian && reservation.status === 'NEW';
+  canIssue(reservation: ReservationDetailed): boolean {
+    return this.isLibrarian && reservation.reservation.status === 'NEW';
   }
 
-  canComplete(reservation: Reservation): boolean {
-    return this.isLibrarian && ['RECEIVED', 'OVERDUE'].includes(reservation.status);
+  canComplete(reservation: ReservationDetailed): boolean {
+    return this.isLibrarian && ['RECEIVED', 'OVERDUE'].includes(reservation.reservation.status);
   }
 
-  canMarkAsLost(reservation: Reservation): boolean {
-    return this.isLibrarian && reservation.status === 'RECEIVED';
+  canMarkAsLost(reservation: ReservationDetailed): boolean {
+    return this.isLibrarian && reservation.reservation.status === 'RECEIVED';
   }
 
   extendReservation(id: number) {

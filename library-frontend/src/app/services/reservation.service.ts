@@ -5,13 +5,29 @@ import {environment} from '../../environments/environment';
 
 export interface Reservation {
   id: number;
-  book?: {
-    id: number;
-    title: string;
-  };
-  status: string;
+  userId: number;
+  bookId: number;
   createdDate: string;
   termDate: string;
+  updatedDate: string;
+  status: string;
+  extensionCount: number;
+}
+
+export interface ReservationDetailed {
+  reservation: Reservation;
+  book: {
+    id: number;
+    title: string;
+    author: string;
+    quantity: number;
+  };
+  user: {
+    id: number;
+    name: string;
+    secondName: string;
+    email: string;
+  };
 }
 
 @Injectable({
@@ -28,8 +44,8 @@ export class ReservationService {
     return token ? {headers: new HttpHeaders({Authorization: `Bearer ${token}`})} : {};
   }
 
-  getReservations(): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(this.apiUrl, this.getAuthHeaders());
+  getReservations(): Observable<ReservationDetailed[]> {
+    return this.http.get<ReservationDetailed[]>(`${this.apiUrl}/detailed`, this.getAuthHeaders());
   }
 
   getReservationsByCurrentUser(): Observable<Reservation[]> {

@@ -3,7 +3,8 @@
   <thead>
   <tr>
     <th>ID</th>
-    <!-- <th>Book Title</th> -->
+    <th>Book</th>
+    <th>User</th>
     <th>Status</th>
     <th>Reservation Date</th>
     <th>Return Date</th>
@@ -12,34 +13,45 @@
   </thead>
   <tbody>
   <tr *ngFor="let reservation of reservations">
-    <td>{{ reservation.id }}</td>
-    <!-- <td>{{ reservation.book?.title }}</td> -->
-    <td>{{ reservation.status }}</td>
-    <td>{{ reservation.createdDate | date:'dd.MM.yyyy HH:mm' }}</td>
-    <td>{{ reservation.termDate | date:'dd.MM.yyyy HH:mm' }}</td>
+    <td>{{ reservation.reservation.id }}</td>
+    <td>
+      <div class="book-info">
+        <div class="title">{{ reservation.book.title }}</div>
+        <div class="author">{{ reservation.book.author }}</div>
+      </div>
+    </td>
+    <td>
+      <div class="user-info">
+        <div class="name">{{ reservation.user.name }} {{ reservation.user.secondName }}</div>
+        <div class="email">{{ reservation.user.email }}</div>
+      </div>
+    </td>
+    <td>{{ reservation.reservation.status }}</td>
+    <td>{{ reservation.reservation.createdDate | date:'dd.MM.yyyy HH:mm' }}</td>
+    <td>{{ reservation.reservation.termDate | date:'dd.MM.yyyy HH:mm' }}</td>
     <td>
       <button *ngIf="canExtend(reservation)"
-              (click)="extendReservation(reservation.id)"
+              (click)="extendReservation(reservation.reservation.id)"
               class="action-button extend">
         Extend
       </button>
       <button *ngIf="canCancel(reservation)"
-              (click)="cancelReservation(reservation.id)"
+              (click)="cancelReservation(reservation.reservation.id)"
               class="action-button cancel">
         Cancel
       </button>
       <button *ngIf="canIssue(reservation)"
-              (click)="issueBook(reservation.id)"
+              (click)="issueBook(reservation.reservation.id)"
               class="action-button issue">
         Issue
       </button>
       <button *ngIf="canComplete(reservation)"
-              (click)="completeReservation(reservation.id)"
+              (click)="completeReservation(reservation.reservation.id)"
               class="action-button complete">
         Complete
       </button>
       <button *ngIf="canMarkAsLost(reservation)"
-              (click)="markAsLost(reservation.id)"
+              (click)="markAsLost(reservation.reservation.id)"
               class="action-button lost">
         Mark as Lost
       </button>

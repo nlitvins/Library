@@ -64,6 +64,22 @@ tr:hover {
   background: #f0f7ff;
 }
 
+.book-info, .user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .title, .name {
+    font-weight: 500;
+    color: #333;
+  }
+
+  .author, .email {
+    font-size: 0.9rem;
+    color: #666;
+  }
+}
+
 .notification {
   position: fixed;
   bottom: 20px;
