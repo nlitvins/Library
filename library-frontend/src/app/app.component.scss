@@ -1,11 +1,11 @@
 .main-content {
-  max-width: 1100px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
 .nav-bar {
-  max-width: 1100px;
+  max-width: 1400px;
   margin: 0 auto 2rem auto;
   border-radius: 0 0 10px 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -17,7 +17,7 @@
   padding: 0.5rem 2rem;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1440px) {
   .main-content, .nav-bar {
     max-width: 98vw;
     padding-left: 1rem;

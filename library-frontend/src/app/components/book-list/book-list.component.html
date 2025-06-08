@@ -23,13 +23,13 @@
     <td *ngIf="isLibrarian">{{ book.id }}</td>
     <td>{{ book.title }}</td>
     <td>{{ book.author }}</td>
-    <td>{{ book.genre }}</td>
-    <td>{{ book.type }}</td>
+      <td>{{ book.genre | enumFormat }}</td>
+      <td>{{ book.type | enumFormat }}</td>
     <td>{{ book.pages }}</td>
     <td>{{ book.edition }}</td>
     <td>{{ book.creationYear | date:'yyyy' }}</td>
     <td>{{ book.releaseDate | date:'dd.MM.yyyy' }}</td>
-    <td>{{ book.status }}</td>
+      <td>{{ book.status | enumFormat }}</td>
     <td>
       <span *ngIf="book.quantity > 0">{{ book.quantity }}</span>
       <span *ngIf="book.quantity === 0" class="badge badge-out">Out of stock</span>

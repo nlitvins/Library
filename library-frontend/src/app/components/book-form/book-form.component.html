@@ -19,13 +19,13 @@
   <div>
     <label for="status">Status:</label>
     <select id="status" name="status" [(ngModel)]="book.status" required>
-      <option *ngFor="let status of bookStatuses" [value]="status">{{ status }}</option>
+        <option *ngFor="let status of bookStatuses" [value]="status">{{ status | enumFormat }}</option>
     </select>
   </div>
   <div>
     <label for="genre">Genre:</label>
     <select id="genre" name="genre" [(ngModel)]="book.genre" required>
-      <option *ngFor="let genre of bookGenres" [value]="genre">{{ genre }}</option>
+        <option *ngFor="let genre of bookGenres" [value]="genre">{{ genre | enumFormat }}</option>
     </select>
   </div>
   <div>
@@ -43,7 +43,7 @@
   <div>
     <label for="type">Type:</label>
     <select id="type" name="type" [(ngModel)]="book.type" required>
-      <option *ngFor="let type of bookTypes" [value]="type">{{ type }}</option>
+        <option *ngFor="let type of bookTypes" [value]="type">{{ type | enumFormat }}</option>
     </select>
   </div>
   <div *ngIf="error" style="color: red;">{{ error }}</div>
