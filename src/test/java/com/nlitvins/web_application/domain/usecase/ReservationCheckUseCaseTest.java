@@ -230,9 +230,9 @@ class ReservationCheckUseCaseTest {
         @MethodSource("nonCompletableStatuses")
         void throwExceptionWhenCompleteReservationWithIncorrectStatus(ReservationStatus status) {
             Reservation reservation = givenReservation(1, status, (short) 3);
-
-            IllegalReservationStatusChangeException thrown = assertThrows(IllegalReservationStatusChangeException.class, () -> sut.completeReservation(reservation.getId()));
-            assertEquals("Reservation(id: " + reservation.getId() + ") with status " + status + " can't be changed to COMPLETED", thrown.getMessage());
+            int reservationId = reservation.getId();
+            IllegalReservationStatusChangeException thrown = assertThrows(IllegalReservationStatusChangeException.class, () -> sut.completeReservation(reservationId));
+            assertEquals("Reservation(id: " + reservationId + ") with status " + status + " can't be changed to COMPLETED", thrown.getMessage());
         }
 
 

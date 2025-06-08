@@ -2,12 +2,14 @@ package com.nlitvins.web_application.inbound.utils;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
+import com.nlitvins.web_application.domain.model.ReservationDetailed;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.inbound.model.BookCreateRequest;
 import com.nlitvins.web_application.inbound.model.BookResponse;
 import com.nlitvins.web_application.inbound.model.LoginRequest;
 import com.nlitvins.web_application.inbound.model.ReservationCreateRequest;
+import com.nlitvins.web_application.inbound.model.ReservationDetailedResponse;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
 import com.nlitvins.web_application.inbound.model.UserRequest;
 import com.nlitvins.web_application.inbound.model.UserResponse;
@@ -28,6 +30,7 @@ public class InboundMapper {
                     .userId(reservation.getUserId())
                     .bookId(reservation.getBookId())
                     .createdDate(reservation.getCreatedDate())
+                    .updatedDate(reservation.getUpdatedDate())
                     .termDate(reservation.getTermDate())
                     .status(reservation.getStatus())
                     .extensionCount(reservation.getExtensionCount())
@@ -46,14 +49,6 @@ public class InboundMapper {
         }
 
         public static Reservation toDomain(ReservationCreateRequest request) {
-//            Reservation reservation = new Reservation();
-//
-//            reservation.setUserId(request.getUserId());
-//            reservation.setBookId(request.getBookId());
-//            reservation.setStatus(ReservationStatus.NEW);
-//            reservation.setExtensionCount((short) 0);
-//            return reservation;
-//
             return Reservation.builder()
                     .userId(request.getUserId())
                     .bookId(request.getBookId())
@@ -140,4 +135,27 @@ public class InboundMapper {
         }
 
     }
+
+    @UtilityClass
+    public static class ReservationsDetailed {
+
+        public static ReservationDetailedResponse toDTO(ReservationDetailed reservationDetailed) {
+            return ReservationDetailedResponse.builder()
+                    .reservation(Reservations.toDTO(reservationDetailed.getReservation()))
+                    .book(Books.toDTO(reservationDetailed.getBook()))
+                    .user(Users.toDTO(reservationDetailed.getUser()))
+                    .build();
+        }
+
+        public static List<ReservationDetailedResponse> toDTOList(List<ReservationDetailed> reservationDetailedList) {
+            List<ReservationDetailedResponse> reservationDetailedResponses = new ArrayList<>();
+            for (int index = 0; index < reservationDetailedList.size(); index++) {
+                ReservationDetailed reservationDetailed = reservationDetailedList.get(index);
+                ReservationDetailedResponse response = toDTO(reservationDetailed);
+                reservationDetailedResponses.add(response);
+            }
+            return reservationDetailedResponses;
+        }
+    }
+
 }
