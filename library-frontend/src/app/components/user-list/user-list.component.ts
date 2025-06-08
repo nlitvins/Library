@@ -17,13 +17,6 @@ function parseJwt(token: string): any {
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];
-  filteredUsers: User[] = [];
-  filters = {
-    name: '',
-    email: '',
-    phone: '',
-    role: ''
-  };
   expandedUsers: Set<number> = new Set();
   userReservations: Map<number, Reservation[]> = new Map();
   loadingReservations: Set<number> = new Set();
@@ -35,10 +28,7 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUsers().subscribe(data => {
-      this.users = data;
-      this.filteredUsers = data;
-    });
+    this.userService.getUsers().subscribe(data => this.users = data);
   }
 
   get isAdmin(): boolean {
@@ -82,20 +72,5 @@ export class UserListComponent implements OnInit {
 
   isLoadingReservations(userId: number): boolean {
     return this.loadingReservations.has(userId);
-  }
-
-  applyFilter(): void {
-    this.filteredUsers = this.users.filter(user => {
-      const nameMatch = !this.filters.name ||
-        (user.name + ' ' + user.secondName).toLowerCase().includes(this.filters.name.toLowerCase().trim());
-      const emailMatch = !this.filters.email ||
-        user.email.toLowerCase().includes(this.filters.email.toLowerCase().trim());
-      const phoneMatch = !this.filters.phone ||
-        user.phone.toLowerCase().includes(this.filters.phone.toLowerCase().trim());
-      const roleMatch = !this.filters.role ||
-        user.role.toLowerCase().includes(this.filters.role.toLowerCase().trim());
-
-      return nameMatch && emailMatch && phoneMatch && roleMatch;
-    });
   }
 }

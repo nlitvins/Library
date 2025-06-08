@@ -114,23 +114,3 @@ th {
   color: #666;
   font-style: italic;
 }
-
-.filter-container {
-  margin-bottom: 1rem;
-}
-
-.filter-input {
-  width: 100%;
-  max-width: 400px;
-  padding: 0.5rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-
-  &:focus {
-    outline: none;
-    border-color: #1976d2;
-    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
-  }
-}

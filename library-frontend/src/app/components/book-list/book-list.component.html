@@ -1,73 +1,35 @@
 <h2>Books</h2>
-<div class="book-list">
-  <button *ngIf="isLibrarian" routerLink="/books/new" style="margin-bottom: 15px;">Create Book</button>
-  <div class="filters">
-    <div class="filter-group">
-      <input type="text" [(ngModel)]="filters.title" (input)="applyFilter()" placeholder="Filter by title..."/>
-      <input type="text" [(ngModel)]="filters.author" (input)="applyFilter()" placeholder="Filter by author..."/>
-      <input type="number" [(ngModel)]="filters.quantity" (input)="applyFilter()" placeholder="Min quantity..."/>
-      <select [(ngModel)]="filters.genre" (change)="applyFilter()">
-        <option value="">All Genres</option>
-        <option *ngFor="let genre of bookGenres" [value]="genre">{{ genre | titlecase | replace:'_':' ' }}</option>
-      </select>
-      <select [(ngModel)]="filters.type" (change)="applyFilter()">
-        <option value="">All Types</option>
-        <option *ngFor="let type of bookTypes" [value]="type">{{ type | titlecase }}</option>
-      </select>
-      <select [(ngModel)]="filters.status" (change)="applyFilter()">
-        <option value="">All Statuses</option>
-        <option *ngFor="let status of bookStatuses" [value]="status">{{ status | titlecase | replace:'_':' ' }}</option>
-      </select>
-      <input type="number" [(ngModel)]="filters.pages" (input)="applyFilter()" placeholder="Min pages..."/>
-    </div>
-  </div>
+<button *ngIf="isLibrarian" routerLink="/books/new" style="margin-bottom: 15px;">Create Book</button>
+<table *ngIf="books.length > 0; else noBooks" class="book-table">
+  <caption>Available Books</caption>
+  <thead>
+  <tr>
+    <th *ngIf="isLibrarian">ID</th>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Quantity</th>
+    <th *ngIf="isUser"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let book of books">
+    <td *ngIf="isLibrarian">{{ book.id }}</td>
+    <td>{{ book.title }}</td>
+    <td>{{ book.author }}</td>
+    <td>
+      <span *ngIf="book.quantity > 0">{{ book.quantity }}</span>
+      <span *ngIf="book.quantity === 0" class="badge badge-out">Out of stock</span>
+    </td>
+    <td *ngIf="isUser">
+      <button *ngIf="book.quantity > 0" (click)="reserveBook(book.id)" title="Reserve this book">Reserve</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<ng-template #noBooks>
+  <p>No books found.</p>
+</ng-template>
 
-  <div *ngIf="notification" class="notification" [style.background-color]="notification.color">
-    {{ notification.message }}
-  </div>
-
-  <table *ngIf="filteredBooks.length > 0; else noBooks" class="book-table">
-    <caption>Available Books</caption>
-    <thead>
-    <tr>
-      <th *ngIf="isLibrarian">ID</th>
-      <th>Title</th>
-      <th>Author</th>
-      <th>Quantity</th>
-      <th>Genre</th>
-      <th>Type</th>
-      <th>Status</th>
-      <th>Pages</th>
-      <th>Edition</th>
-      <th>Creation Year</th>
-      <th>Release Date</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let book of filteredBooks">
-      <td>{{ book.title }}</td>
-      <td>{{ book.author }}</td>
-      <td>
-        <span *ngIf="book.quantity > 0">{{ book.quantity }}</span>
-        <span *ngIf="book.quantity === 0" class="badge badge-out">Out of stock</span>
-      </td>
-      <td>{{ book.genre | titlecase | replace:'_':' ' }}</td>
-      <td>{{ book.type | titlecase }}</td>
-      <td>{{ book.status | titlecase | replace:'_':' ' }}</td>
-      <td>{{ book.pages }}</td>
-      <td>{{ book.edition }}</td>
-      <td>{{ book.creationYear | date }}</td>
-      <td>{{ book.releaseDate | date }}</td>
-      <td>
-        <button *ngIf="isUser && book.quantity > 0" (click)="reserveBook(book.id)" title="Reserve this book">Reserve
-        </button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-  <ng-template #noBooks>
-    <p>No books found.</p>
-  </ng-template>
+<div *ngIf="notification" class="notification" [ngStyle]="{ background: notification.color }">
+  {{ notification.message }}
 </div>

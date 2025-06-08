@@ -1,44 +1,5 @@
 <h2>{{ isUserReservations ? 'My Reservations' : 'All Reservations' }}</h2>
-<div class="filter-container">
-  <div class="filter-row">
-    <input
-      type="text"
-      [(ngModel)]="filters.bookTitle"
-      (input)="applyFilter()"
-      placeholder="Filter by book title..."
-      class="filter-input"
-    >
-    <input
-      type="text"
-      [(ngModel)]="filters.bookAuthor"
-      (input)="applyFilter()"
-      placeholder="Filter by book author..."
-      class="filter-input"
-    >
-    <input
-      type="text"
-      [(ngModel)]="filters.userName"
-      (input)="applyFilter()"
-      placeholder="Filter by user name..."
-      class="filter-input"
-    >
-    <input
-      type="text"
-      [(ngModel)]="filters.status"
-      (input)="applyFilter()"
-      placeholder="Filter by status..."
-      class="filter-input"
-    >
-    <input
-      type="text"
-      [(ngModel)]="filters.id"
-      (input)="applyFilter()"
-      placeholder="Filter by ID..."
-      class="filter-input"
-    >
-  </div>
-</div>
-<table *ngIf="filteredReservations.length > 0; else noReservations">
+<table *ngIf="reservations.length > 0; else noReservations">
   <thead>
   <tr>
     <th>ID</th>
@@ -51,7 +12,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let reservation of filteredReservations">
+  <tr *ngFor="let reservation of reservations">
     <td>{{ reservation.reservation.id }}</td>
     <td>
       <div class="book-info">

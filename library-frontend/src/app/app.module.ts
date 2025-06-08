@@ -12,7 +12,6 @@ import {BookFormComponent} from './components/book-form/book-form.component';
 import {UserFormComponent} from './components/user-form/user-form.component';
 import {LoginModalComponent} from './components/login-modal/login-modal.component';
 import {AuthInterceptor} from './interceptors/auth.interceptor';
-import {ReplacePipe} from './pipes/replace.pipe';
 
 @NgModule({
   declarations: [
@@ -22,8 +21,7 @@ import {ReplacePipe} from './pipes/replace.pipe';
     ReservationListComponent,
     BookFormComponent,
     UserFormComponent,
-    LoginModalComponent,
-    ReplacePipe
+    LoginModalComponent
   ],
   imports: [
     BrowserModule,
