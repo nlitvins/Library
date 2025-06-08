@@ -12,6 +12,40 @@
     <label for="quantity">Quantity:</label>
     <input id="quantity" name="quantity" type="number" min="1" [(ngModel)]="book.quantity" required/>
   </div>
+  <div>
+    <label for="creationYear">Creation Year:</label>
+    <input id="creationYear" name="creationYear" type="date" [(ngModel)]="book.creationYear" required/>
+  </div>
+  <div>
+    <label for="status">Status:</label>
+    <select id="status" name="status" [(ngModel)]="book.status" required>
+      <option *ngFor="let status of bookStatuses" [value]="status">{{ status }}</option>
+    </select>
+  </div>
+  <div>
+    <label for="genre">Genre:</label>
+    <select id="genre" name="genre" [(ngModel)]="book.genre" required>
+      <option *ngFor="let genre of bookGenres" [value]="genre">{{ genre }}</option>
+    </select>
+  </div>
+  <div>
+    <label for="pages">Pages:</label>
+    <input id="pages" name="pages" type="number" min="1" [(ngModel)]="book.pages" required/>
+  </div>
+  <div>
+    <label for="edition">Edition:</label>
+    <input id="edition" name="edition" [(ngModel)]="book.edition" required/>
+  </div>
+  <div>
+    <label for="releaseDate">Release Date:</label>
+    <input id="releaseDate" name="releaseDate" type="date" [(ngModel)]="book.releaseDate" required/>
+  </div>
+  <div>
+    <label for="type">Type:</label>
+    <select id="type" name="type" [(ngModel)]="book.type" required>
+      <option *ngFor="let type of bookTypes" [value]="type">{{ type }}</option>
+    </select>
+  </div>
   <div *ngIf="error" style="color: red;">{{ error }}</div>
   <button type="submit" [disabled]="loading || !bookForm.form.valid">Create</button>
   <span *ngIf="loading">Saving...</span>
