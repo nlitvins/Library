@@ -28,7 +28,7 @@ export enum BookType {
 }
 
 export interface Book {
-  id?: number;
+    id: number;
   title: string;
   author: string;
   quantity: number;
@@ -63,7 +63,7 @@ export class BookService {
     return this.http.get<Book>(`${this.apiUrl}/${bookId}`, this.getAuthHeaders());
   }
 
-  addBook(book: Book): Observable<Book> {
+    createBook(book: Book): Observable<Book> {
     return this.http.post<Book>(this.apiUrl, book, this.getAuthHeaders());
   }
 
