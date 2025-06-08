@@ -17,8 +17,16 @@ function parseJwt(token: string): any {
 })
 export class ReservationListComponent implements OnInit {
   reservations: ReservationDetailed[] = [];
+    filteredReservations: ReservationDetailed[] = [];
   isUserReservations = false;
   notification: { message: string, color: string } | null = null;
+
+    // Filter properties
+    bookTitleFilter: string = '';
+    userNameFilter: string = '';
+    statusFilter: string = '';
+    dateFromFilter: string = '';
+    dateToFilter: string = '';
 
   constructor(
     private reservationService: ReservationService,
@@ -54,11 +62,47 @@ export class ReservationListComponent implements OnInit {
               email: user.email
             }
           }));
+            this.applyFilters();
         });
     } else {
       this.reservationService.getReservations()
-        .subscribe(data => this.reservations = data);
+          .subscribe(data => {
+              this.reservations = data;
+              this.applyFilters();
+          });
     }
+  }
+
+    applyFilters() {
+        this.filteredReservations = this.reservations.filter(reservation => {
+            const matchesBookTitle = !this.bookTitleFilter ||
+                reservation.book.title.toLowerCase().includes(this.bookTitleFilter.toLowerCase());
+
+            const fullName = `${reservation.user.name} ${reservation.user.secondName}`.toLowerCase();
+            const matchesUserName = !this.userNameFilter ||
+                fullName.includes(this.userNameFilter.toLowerCase());
+
+            const matchesStatus = !this.statusFilter ||
+                reservation.reservation.status === this.statusFilter;
+
+            const matchesDateFrom = !this.dateFromFilter ||
+                new Date(reservation.reservation.createdDate) >= new Date(this.dateFromFilter);
+
+            const matchesDateTo = !this.dateToFilter ||
+                new Date(reservation.reservation.createdDate) <= new Date(this.dateToFilter);
+
+            return matchesBookTitle && matchesUserName && matchesStatus &&
+                matchesDateFrom && matchesDateTo;
+        });
+    }
+
+    clearFilters() {
+        this.bookTitleFilter = '';
+        this.userNameFilter = '';
+        this.statusFilter = '';
+        this.dateFromFilter = '';
+        this.dateToFilter = '';
+        this.applyFilters();
   }
 
   get isLibrarian(): boolean {

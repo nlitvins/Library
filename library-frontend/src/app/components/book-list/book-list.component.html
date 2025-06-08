@@ -1,6 +1,31 @@
 <h2>Books</h2>
 <button *ngIf="isLibrarian" routerLink="/books/new" style="margin-bottom: 15px;">Create Book</button>
-<table *ngIf="books.length > 0; else noBooks" class="book-table">
+
+<div class="filters">
+    <div class="filter-group">
+        <input type="text" [(ngModel)]="titleFilter" (ngModelChange)="applyFilters()" placeholder="Filter by title...">
+        <input type="text" [(ngModel)]="authorFilter" (ngModelChange)="applyFilters()"
+               placeholder="Filter by author...">
+        <select [(ngModel)]="genreFilter" (ngModelChange)="applyFilters()">
+            <option value="">All Genres</option>
+            <option *ngFor="let genre of bookGenres" [value]="genre">{{ genre | enumFormat }}</option>
+        </select>
+        <select [(ngModel)]="typeFilter" (ngModelChange)="applyFilters()">
+            <option value="">All Types</option>
+            <option *ngFor="let type of bookTypes" [value]="type">{{ type | enumFormat }}</option>
+        </select>
+        <select [(ngModel)]="statusFilter" (ngModelChange)="applyFilters()">
+            <option value="">All Statuses</option>
+            <option *ngFor="let status of bookStatuses" [value]="status">{{ status | enumFormat }}</option>
+        </select>
+        <input type="number" [(ngModel)]="minPagesFilter" (ngModelChange)="applyFilters()" placeholder="Min pages...">
+        <input type="number" [(ngModel)]="minQuantityFilter" (ngModelChange)="applyFilters()"
+               placeholder="Min quantity...">
+        <button (click)="clearFilters()">Clear Filters</button>
+    </div>
+</div>
+
+<table *ngIf="filteredBooks.length > 0; else noBooks" class="book-table">
   <caption>Available Books</caption>
   <thead>
   <tr>
@@ -19,7 +44,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let book of books">
+  <tr *ngFor="let book of filteredBooks">
     <td *ngIf="isLibrarian">{{ book.id }}</td>
     <td>{{ book.title }}</td>
     <td>{{ book.author }}</td>

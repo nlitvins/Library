@@ -1,5 +1,27 @@
 <h2>{{ isUserReservations ? 'My Reservations' : 'All Reservations' }}</h2>
-<table *ngIf="reservations.length > 0; else noReservations">
+
+<div class="filters">
+    <div class="filter-group">
+        <input type="text" [(ngModel)]="bookTitleFilter" (ngModelChange)="applyFilters()"
+               placeholder="Filter by book title...">
+        <input type="text" [(ngModel)]="userNameFilter" (ngModelChange)="applyFilters()"
+               placeholder="Filter by user name...">
+        <select [(ngModel)]="statusFilter" (ngModelChange)="applyFilters()">
+            <option value="">All Statuses</option>
+            <option value="NEW">New</option>
+            <option value="RECEIVED">Received</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="CANCELLED">Cancelled</option>
+            <option value="OVERDUE">Overdue</option>
+            <option value="LOST">Lost</option>
+        </select>
+        <input type="date" [(ngModel)]="dateFromFilter" (ngModelChange)="applyFilters()" placeholder="From date...">
+        <input type="date" [(ngModel)]="dateToFilter" (ngModelChange)="applyFilters()" placeholder="To date...">
+        <button (click)="clearFilters()">Clear Filters</button>
+    </div>
+</div>
+
+<table *ngIf="filteredReservations.length > 0; else noReservations">
   <thead>
   <tr>
     <th>ID</th>
@@ -12,7 +34,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let reservation of reservations">
+  <tr *ngFor="let reservation of filteredReservations">
     <td>{{ reservation.reservation.id }}</td>
     <td>
       <div class="book-info">
@@ -26,7 +48,7 @@
         <div class="email">{{ reservation.user.email }}</div>
       </div>
     </td>
-    <td>{{ reservation.reservation.status }}</td>
+      <td>{{ reservation.reservation.status | enumFormat }}</td>
     <td>{{ reservation.reservation.createdDate | date:'dd.MM.yyyy HH:mm' }}</td>
     <td>{{ reservation.reservation.termDate | date:'dd.MM.yyyy HH:mm' }}</td>
     <td>
