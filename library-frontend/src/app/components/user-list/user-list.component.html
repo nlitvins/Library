@@ -1,6 +1,38 @@
 <h2>Users</h2>
+<div class="filter-container">
+  <div class="filter-row">
+    <input
+      type="text"
+      [(ngModel)]="filters.name"
+      (input)="applyFilter()"
+      placeholder="Filter by name and surname..."
+      class="filter-input"
+    >
+    <input
+      type="text"
+      [(ngModel)]="filters.email"
+      (input)="applyFilter()"
+      placeholder="Filter by email..."
+      class="filter-input"
+    >
+    <!-- <input
+      type="text"
+      [(ngModel)]="filters.phone"
+      (input)="applyFilter()"
+      placeholder="Filter by phone..."
+      class="filter-input"
+    >
+    <input
+      type="text"
+      [(ngModel)]="filters.role"
+      (input)="applyFilter()"
+      placeholder="Filter by role..."
+      class="filter-input"
+    > -->
+  </div>
+</div>
 <button *ngIf="isAdmin" routerLink="/users/new" style="margin-bottom: 15px;">Create User</button>
-<table *ngIf="users.length > 0; else noUsers" class="user-table">
+<table *ngIf="filteredUsers.length > 0; else noUsers" class="user-table">
   <thead>
   <tr>
     <th></th>
@@ -15,7 +47,7 @@
   </tr>
   </thead>
   <tbody>
-  <ng-container *ngFor="let user of users">
+  <ng-container *ngFor="let user of filteredUsers">
     <tr [class.expanded]="isUserExpanded(user.id)" (click)="toggleUserExpansion(user.id)" class="user-row">
       <td class="expand-icon">
         <span class="material-icons">{{ isUserExpanded(user.id) ? 'expand_less' : 'expand_more' }}</span>

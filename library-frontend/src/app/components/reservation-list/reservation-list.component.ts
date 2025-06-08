@@ -17,6 +17,14 @@ function parseJwt(token: string): any {
 })
 export class ReservationListComponent implements OnInit {
   reservations: ReservationDetailed[] = [];
+  filteredReservations: ReservationDetailed[] = [];
+  filters = {
+    bookTitle: '',
+    bookAuthor: '',
+    userName: '',
+    status: '',
+    id: ''
+  };
   isUserReservations = false;
   notification: { message: string, color: string } | null = null;
 
@@ -54,11 +62,32 @@ export class ReservationListComponent implements OnInit {
               email: user.email
             }
           }));
+          this.filteredReservations = this.reservations;
         });
     } else {
       this.reservationService.getReservations()
-        .subscribe(data => this.reservations = data);
+        .subscribe(data => {
+          this.reservations = data;
+          this.filteredReservations = data;
+        });
     }
+  }
+
+  applyFilter(): void {
+    this.filteredReservations = this.reservations.filter(reservation => {
+      const bookTitleMatch = !this.filters.bookTitle ||
+        reservation.book.title.toLowerCase().includes(this.filters.bookTitle.toLowerCase().trim());
+      const bookAuthorMatch = !this.filters.bookAuthor ||
+        reservation.book.author.toLowerCase().includes(this.filters.bookAuthor.toLowerCase().trim());
+      const userNameMatch = !this.filters.userName ||
+        (reservation.user.name + ' ' + reservation.user.secondName).toLowerCase().includes(this.filters.userName.toLowerCase().trim());
+      const statusMatch = !this.filters.status ||
+        reservation.reservation.status.toLowerCase().includes(this.filters.status.toLowerCase().trim());
+      const idMatch = !this.filters.id ||
+        reservation.reservation.id.toString().includes(this.filters.id.trim());
+
+      return bookTitleMatch && bookAuthorMatch && userNameMatch && statusMatch && idMatch;
+    });
   }
 
   get isLibrarian(): boolean {
