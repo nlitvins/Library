@@ -2,9 +2,11 @@ package com.nlitvins.web_application.domain.usecase;
 
 import com.nlitvins.web_application.domain.exception.BookNotFoundException;
 import com.nlitvins.web_application.domain.exception.BookQuantityIsZeroException;
+import com.nlitvins.web_application.domain.exception.BookStatusNotAvailableException;
 import com.nlitvins.web_application.domain.exception.UserHasSameReservationException;
 import com.nlitvins.web_application.domain.exception.UserHasTooManyActiveReservationsException;
 import com.nlitvins.web_application.domain.model.Book;
+import com.nlitvins.web_application.domain.model.BookStatus;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.repository.BookRepository;
@@ -31,6 +33,10 @@ public class ReservationCreateUseCase {
 
         if (book == null) {
             throw new BookNotFoundException(reservation.getBookId());
+        }
+
+        if (book.getStatus() == BookStatus.NOT_AVAILABLE) {
+            throw new BookStatusNotAvailableException();
         }
 
         if (book.getQuantity() == 0) {

@@ -2,9 +2,11 @@ package com.nlitvins.web_application.domain.usecase;
 
 import com.nlitvins.web_application.domain.exception.BookNotFoundException;
 import com.nlitvins.web_application.domain.exception.BookQuantityIsZeroException;
+import com.nlitvins.web_application.domain.exception.BookStatusNotAvailableException;
 import com.nlitvins.web_application.domain.exception.UserHasSameReservationException;
 import com.nlitvins.web_application.domain.exception.UserHasTooManyActiveReservationsException;
 import com.nlitvins.web_application.domain.model.Book;
+import com.nlitvins.web_application.domain.model.BookStatus;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.outbound.repository.fake.BookRepositoryFake;
@@ -65,13 +67,14 @@ class ReservationCreateUseCaseTest {
                 .build();
     }
 
-    private Book givenUnavailableBook() {
+    private Book givenBookWithQuantityZero() {
         return bookRepository.save(
                 Book.builder()
                         .id(1233)
                         .title("Lord Farquaad")
                         .author("Jack")
                         .quantity(0)
+                        .status(BookStatus.AVAILABLE)
                         .build()
         );
     }
@@ -83,6 +86,19 @@ class ReservationCreateUseCaseTest {
                         .title("Book of rust")
                         .author("Karton")
                         .quantity(3)
+                        .status(BookStatus.AVAILABLE)
+                        .build()
+        );
+    }
+
+    private Book givenBookWithStatusNotAvailable(int id) {
+        return bookRepository.save(
+                Book.builder()
+                        .id(id)
+                        .title("Book of rust")
+                        .author("Karton")
+                        .quantity(3)
+                        .status(BookStatus.NOT_AVAILABLE)
                         .build()
         );
     }
@@ -90,11 +106,21 @@ class ReservationCreateUseCaseTest {
     @Test
     void throwExceptionWhenBookIsUnavailable() {
         int userId = 123;
-        Book book = givenUnavailableBook();
+        Book book = givenBookWithQuantityZero();
         Reservation reservation = newReservation(1, book.getId(), userId);
 
         BookQuantityIsZeroException thrown = assertThrows(BookQuantityIsZeroException.class, () -> sut.registerReservation(reservation));
         assertEquals("Book: " + book.getId() + " quantity is zero", thrown.getMessage());
+    }
+
+    @Test
+    void throwExceptionWhenBookStatusIsNotAvailable() {
+        int userId = 123;
+        Book book = givenBookWithStatusNotAvailable(userId);
+        Reservation reservation = newReservation(1, book.getId(), userId);
+
+        BookStatusNotAvailableException thrown = assertThrows(BookStatusNotAvailableException.class, () -> sut.registerReservation(reservation));
+        assertEquals("Book isn't available", thrown.getMessage());
     }
 
     @Test
@@ -144,6 +170,20 @@ class ReservationCreateUseCaseTest {
         sut.registerReservation(reservation);
 
         Reservation savedReservation = reservationRepository.findById(121);
+        assertNotNull(savedReservation);
+    }
+
+    @Test
+    void savaReservationWhenBookStatusAvailable() {
+        Reservation expected = reservationRepository.findById(121);
+        assertNull(expected);
+
+        int userId = 123;
+        Book book = givenAvailableBook(userId);
+        Reservation reservation = newReservation(1, book.getId(), userId);
+
+        sut.registerReservation(reservation);
+        Reservation savedReservation = reservationRepository.findById(1);
         assertNotNull(savedReservation);
     }
 
