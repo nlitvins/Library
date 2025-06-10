@@ -1,7 +1,10 @@
 package com.nlitvins.web_application.inbound.model;
 
+import com.nlitvins.web_application.domain.model.UserRole;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Builder
 public class UserResponse {
     private int id;
@@ -11,33 +14,6 @@ public class UserResponse {
     private String email;
     private Integer mobileNumber;
     private String personCode;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSecondName() {
-        return secondName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPersonCode() {
-        return personCode;
-    }
-
-    public Integer getMobileNumber() {
-        return mobileNumber;
-    }
+    private UserRole role;
 }
 

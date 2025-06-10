@@ -1,6 +1,7 @@
 package com.nlitvins.web_application.domain.usecase;
 
 import com.nlitvins.web_application.domain.model.User;
+import com.nlitvins.web_application.domain.model.UserRole;
 import com.nlitvins.web_application.domain.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,19 @@ public class UserReadUseCase {
     public User registerUser(User user) {
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
+        user.setRole(UserRole.STARTER);
+        return userRepository.save(user);
+    }
+
+    public User setUserRole(int id) {
+        User user = userRepository.findById(id);
+        user.setRole(UserRole.USER);
+        return userRepository.save(user);
+    }
+
+    public User setLibrarianRole(int id) {
+        User user = userRepository.findById(id);
+        user.setRole(UserRole.LIBRARIAN);
         return userRepository.save(user);
     }
 }

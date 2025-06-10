@@ -9,6 +9,7 @@ import com.nlitvins.web_application.inbound.utils.InboundMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,4 +47,17 @@ public class UserController {
         return InboundMapper.Users.toDTO(savedUser);
     }
 
+    @PutMapping
+    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
+    public UserResponse setUserRole(@RequestBody int userId) {
+        User savedUser = userReadUseCase.setUserRole(userId);
+        return InboundMapper.Users.toDTO(savedUser);
+    }
+
+    @PutMapping("/librarian")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public UserResponse setLibrarianRole(@RequestBody int userId) {
+        User savedUser = userReadUseCase.setLibrarianRole(userId);
+        return InboundMapper.Users.toDTO(savedUser);
+    }
 }
