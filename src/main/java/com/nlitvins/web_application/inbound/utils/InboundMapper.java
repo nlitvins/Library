@@ -89,6 +89,7 @@ public class InboundMapper {
                     .email(user.getEmail())
                     .mobileNumber(user.getMobileNumber())
                     .personCode(user.getPersonCode())
+                    .role(user.getRole())
                     .build();
         }
 
