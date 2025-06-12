@@ -63,7 +63,6 @@ public class InboundMapper {
 
         public static User toDomain(UserRequest request) {
             return User.builder()
-                    .id(request.getId())
                     .name(request.getName())
                     .secondName(request.getSecondName())
                     .userName(request.getUserName())
@@ -90,6 +89,7 @@ public class InboundMapper {
                     .email(user.getEmail())
                     .mobileNumber(user.getMobileNumber())
                     .personCode(user.getPersonCode())
+                    .role(user.getRole())
                     .build();
         }
 

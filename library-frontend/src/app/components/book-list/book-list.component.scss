@@ -155,3 +155,36 @@ button[title]:hover::after {
   z-index: 10;
   opacity: 0.95;
 }
+
+.action-button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-right: 0.5rem;
+  transition: all 0.2s;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &.available {
+    background: #4caf50;
+    color: white;
+
+    &:hover {
+      background: #388e3c;
+    }
+  }
+
+  &.not-available {
+    background: #ff9800;
+    color: white;
+
+    &:hover {
+      background: #f57c00;
+    }
+  }
+}
+

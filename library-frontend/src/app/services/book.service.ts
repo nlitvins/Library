@@ -1,7 +1,8 @@
+import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
+import {Reservation} from './reservation.service';
 
 export enum BookStatus {
   AVAILABLE = 'AVAILABLE',
@@ -28,7 +29,7 @@ export enum BookType {
 }
 
 export interface Book {
-    id: number;
+  id: number;
   title: string;
   author: string;
   quantity: number;
@@ -45,10 +46,8 @@ export interface Book {
   providedIn: 'root'
 })
 export class BookService {
+  private http = inject(HttpClient);
   private apiUrl = environment.apiUrl + '/books';
-
-  constructor(private http: HttpClient) {
-  }
 
   private getAuthHeaders() {
     const token = localStorage.getItem('jwt');
@@ -63,11 +62,11 @@ export class BookService {
     return this.http.get<Book>(`${this.apiUrl}/${bookId}`, this.getAuthHeaders());
   }
 
-    createBook(book: Book): Observable<Book> {
+  createBook(book: Book): Observable<Book> {
     return this.http.post<Book>(this.apiUrl, book, this.getAuthHeaders());
   }
 
-  reserveBook(reservation: { bookId: number, userId: number }): Observable<any> {
-    return this.http.post(environment.apiUrl + '/reservations', reservation, this.getAuthHeaders());
+  reserveBook(reservation: { bookId: number, userId: number }): Observable<Reservation> {
+    return this.http.post<Reservation>(environment.apiUrl + '/reservations', reservation, this.getAuthHeaders());
   }
 }

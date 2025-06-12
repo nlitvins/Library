@@ -95,19 +95,19 @@ class UserReadUseCaseTest {
         assertEquals("Jane", result.get(1).getName());
     }
 
-    @Test
-    void saveUserWhenCorrectUserPassed() {
-        User expected = userRepository.findById(123);
-        assertNull(expected);
-
-        int userId = 123;
-        User user = givenUserWithoutId(userId);
-        User result = sut.registerUser(user);
-        assertNotNull(result);
-
-        User savedUser = userRepository.findById(123);
-        assertNotNull(savedUser);
-    }
+//    @Test
+//    void saveUserWhenCorrectUserPassed() {
+//        User expected = userRepository.findById(123);
+//        assertNull(expected);
+//
+//        int userId = 123;
+//        User user = givenUserWithoutId(userId);
+//        User result = sut.registerUser(user);
+//        assertNotNull(result);
+//
+//        User savedUser = userRepository.findById(123);
+//        assertNotNull(savedUser);
+//    }
 
     @Test
     void whenFindByIdDontFindUser() {

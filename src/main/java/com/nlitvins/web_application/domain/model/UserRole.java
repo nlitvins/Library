@@ -3,7 +3,8 @@ package com.nlitvins.web_application.domain.model;
 public enum UserRole {
     USER((short) 1),
     LIBRARIAN((short) 2),
-    ADMIN((short) 3);
+    ADMIN((short) 3),
+    STARTER((short) 4);
 
     public final short id;
 
