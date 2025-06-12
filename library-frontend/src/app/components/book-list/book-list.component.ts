@@ -94,8 +94,7 @@ export class BookListComponent implements OnInit {
     setTimeout(() => this.notification = null, 3000);
   }
 
-  reserveBook(bookId?: number) {
-    if (bookId === undefined) return;
+  reserveBook(bookId: number) {
     const jwt = localStorage.getItem('jwt');
     if (!jwt) return;
     const user = this.authUtils.parseJwt(jwt);
@@ -103,6 +102,20 @@ export class BookListComponent implements OnInit {
     this.bookService.reserveBook({bookId, userId: user.userId}).subscribe({
       next: () => this.showNotification('Reservation successful!', 'green'),
       error: () => this.showNotification('Failed to reserve book.', 'red')
+    });
+  }
+
+  changeBookStatus(bookId: number) {
+    this.bookService.changeBookStatus(bookId).subscribe({
+      next: () => {
+        this.showNotification('Book status changed!', 'green')
+        this.books = this.books.map(book => book.id === bookId ? {
+          ...book,
+          status: book.status === BookStatus.AVAILABLE ? BookStatus.NOT_AVAILABLE : BookStatus.AVAILABLE
+        } : book);
+        this.applyFilters();
+      },
+      error: () => this.showNotification('Failed to change book status.', 'red')
     });
   }
 }

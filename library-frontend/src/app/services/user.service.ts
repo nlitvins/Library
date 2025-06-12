@@ -45,11 +45,11 @@ export class UserService {
   }
 
   activateUser(userId: number): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/${userId}`, {}, this.getAuthHeaders());
+    return this.http.put<User>(`${this.apiUrl}/${userId}/role/user`, {}, this.getAuthHeaders());
   }
 
   activateLibrarian(userId: number): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/${userId}/librarian`, {}, this.getAuthHeaders());
+    return this.http.put<User>(`${this.apiUrl}/${userId}/role/librarian`, {}, this.getAuthHeaders());
   }
 
 }

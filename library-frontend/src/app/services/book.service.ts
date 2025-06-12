@@ -69,4 +69,8 @@ export class BookService {
   reserveBook(reservation: { bookId: number, userId: number }): Observable<Reservation> {
     return this.http.post<Reservation>(environment.apiUrl + '/reservations', reservation, this.getAuthHeaders());
   }
+
+  changeBookStatus(bookId: number): Observable<Book> {
+    return this.http.put<Book>(`${this.apiUrl}/${bookId}/status`, {}, this.getAuthHeaders());
+  }
 }
