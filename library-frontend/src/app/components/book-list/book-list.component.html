@@ -64,8 +64,12 @@
       <button *ngIf="book.quantity > 0" (click)="reserveBook(book.id)" title="Reserve this book">Reserve</button>
     </td>
     <td *ngIf="isLibrarian">
-      <button *ngIf="book.status === 'AVAILABLE'" class="action-button not-available">Not Available</button>
-      <button *ngIf="book.status === 'NOT_AVAILABLE'" class="action-button available">Available</button>
+      <button *ngIf="book.status === 'AVAILABLE'" (click)="changeBookStatus(book.id)"
+              class="action-button not-available">Not Available
+      </button>
+      <button *ngIf="book.status === 'NOT_AVAILABLE'" (click)="changeBookStatus(book.id)"
+              class="action-button available">Available
+      </button>
     </td>
   </tr>
   </tbody>

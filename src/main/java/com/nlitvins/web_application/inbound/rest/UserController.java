@@ -54,14 +54,14 @@ public class UserController {
         return InboundMapper.Users.toDTO(savedUser);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/role/user")
     @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
     public UserResponse setUserRole(@PathVariable int id) {
         User user = userSetRoleUseCase.setUserRole(id);
         return InboundMapper.Users.toDTO(user);
     }
 
-    @PutMapping("/{id}/librarian")
+    @PutMapping("/{id}/role/librarian")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserResponse setLibrarianRole(@PathVariable int id) {
         User user = userSetRoleUseCase.setLibrarianRole(id);
