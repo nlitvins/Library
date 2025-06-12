@@ -1,5 +1,5 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 
@@ -7,15 +7,17 @@ export interface User {
   id: number;
   name: string;
   secondName: string;
+  userName: string;
   email: string;
   mobileNumber: string;
-  role: string;
   personCode: string;
+  role: string;
 }
 
 export interface CreateUserRequest {
   name: string;
   secondName: string;
+  userName: string;
   email: string;
   mobileNumber: string;
   personCode: string;
@@ -27,8 +29,7 @@ export interface CreateUserRequest {
 export class UserService {
   private apiUrl = environment.apiUrl + '/users';
 
-  constructor(private http: HttpClient) {
-  }
+  private http = inject(HttpClient);
 
   private getAuthHeaders() {
     const token = localStorage.getItem('jwt');
@@ -42,4 +43,13 @@ export class UserService {
   registerUser(user: CreateUserRequest): Observable<User> {
     return this.http.post<User>(this.apiUrl, user, this.getAuthHeaders());
   }
+
+  activateUser(userId: number): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/${userId}`, this.getAuthHeaders());
+  }
+
+  activateLibrarian(userId: number): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/${userId}/librarian`, this.getAuthHeaders());
+  }
+
 }

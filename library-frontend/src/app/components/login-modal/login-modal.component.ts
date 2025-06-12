@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 
@@ -8,19 +8,18 @@ import {environment} from '../../../environments/environment';
   styleUrls: ['./login-modal.component.scss']
 })
 export class LoginModalComponent {
-  @Output() close = new EventEmitter<void>();
+  @Output() modalClose = new EventEmitter<void>();
   @Output() loginSuccess = new EventEmitter<{ token: string, username: string }>();
+
+  private http = inject(HttpClient);
 
   username = '';
   password = '';
   loading = false;
   error: string | null = null;
 
-  constructor(private http: HttpClient) {
-  }
-
   $emitClose() {
-    this.close.emit();
+    this.modalClose.emit();
   }
 
   onSubmit() {
@@ -33,9 +32,9 @@ export class LoginModalComponent {
       next: (res) => {
         localStorage.setItem('jwt', res.token);
         this.loginSuccess.emit({token: res.token, username: this.username});
-        this.close.emit();
+        this.modalClose.emit();
       },
-      error: (err) => {
+      error: () => {
         this.error = 'Login failed. Please check your credentials.';
         this.loading = false;
       }

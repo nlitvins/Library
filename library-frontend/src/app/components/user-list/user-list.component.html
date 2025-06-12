@@ -1,16 +1,17 @@
 <h2>Users</h2>
-<button *ngIf="isAdmin" routerLink="/users/new" style="margin-bottom: 15px;">Create User</button>
 <table *ngIf="users.length > 0; else noUsers" class="user-table">
   <thead>
   <tr>
     <th></th>
     <th>ID</th>
+    <th>Username</th>
     <th>Name</th>
     <th>Second Name</th>
     <th>Email</th>
     <th>Phone</th>
     <th>Person Code</th>
     <th>Role</th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
@@ -20,12 +21,17 @@
         <span class="material-icons">{{ isUserExpanded(user.id) ? 'expand_less' : 'expand_more' }}</span>
       </td>
       <td>{{ user.id }}</td>
+      <td>{{ user.userName }}</td>
       <td>{{ user.name }}</td>
       <td>{{ user.secondName }}</td>
       <td>{{ user.email }}</td>
       <td>{{ user.mobileNumber }}</td>
       <td>{{ user.personCode }}</td>
-      <td>{{ user.role }}</td>
+      <td>{{ user.role | enumFormat }}</td>
+      <td>
+        <button *ngIf="canActivateUser(user)" (click)="activateUser(user.id)">Activate User</button>
+        <button *ngIf="canActivateLibrarian(user)" (click)="activateLibrarian(user.id)">Activate Librarian</button>
+      </td>
     </tr>
     <tr *ngIf="isUserExpanded(user.id)" class="reservations-row">
       <td colspan="9">

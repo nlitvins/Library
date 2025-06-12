@@ -2,27 +2,27 @@
 <button *ngIf="isLibrarian" routerLink="/books/new" style="margin-bottom: 15px;">Create Book</button>
 
 <div class="filters">
-    <div class="filter-group">
-        <input type="text" [(ngModel)]="titleFilter" (ngModelChange)="applyFilters()" placeholder="Filter by title...">
-        <input type="text" [(ngModel)]="authorFilter" (ngModelChange)="applyFilters()"
-               placeholder="Filter by author...">
-        <select [(ngModel)]="genreFilter" (ngModelChange)="applyFilters()">
-            <option value="">All Genres</option>
-            <option *ngFor="let genre of bookGenres" [value]="genre">{{ genre | enumFormat }}</option>
-        </select>
-        <select [(ngModel)]="typeFilter" (ngModelChange)="applyFilters()">
-            <option value="">All Types</option>
-            <option *ngFor="let type of bookTypes" [value]="type">{{ type | enumFormat }}</option>
-        </select>
-        <select [(ngModel)]="statusFilter" (ngModelChange)="applyFilters()">
-            <option value="">All Statuses</option>
-            <option *ngFor="let status of bookStatuses" [value]="status">{{ status | enumFormat }}</option>
-        </select>
-        <input type="number" [(ngModel)]="minPagesFilter" (ngModelChange)="applyFilters()" placeholder="Min pages...">
-        <input type="number" [(ngModel)]="minQuantityFilter" (ngModelChange)="applyFilters()"
-               placeholder="Min quantity...">
-        <button (click)="clearFilters()">Clear Filters</button>
-    </div>
+  <div class="filter-group">
+    <input type="text" [(ngModel)]="titleFilter" (ngModelChange)="applyFilters()" placeholder="Filter by title...">
+    <input type="text" [(ngModel)]="authorFilter" (ngModelChange)="applyFilters()"
+           placeholder="Filter by author...">
+    <select [(ngModel)]="genreFilter" (ngModelChange)="applyFilters()">
+      <option value="">All Genres</option>
+      <option *ngFor="let genre of bookGenres" [value]="genre">{{ genre | enumFormat }}</option>
+    </select>
+    <select [(ngModel)]="typeFilter" (ngModelChange)="applyFilters()">
+      <option value="">All Types</option>
+      <option *ngFor="let type of bookTypes" [value]="type">{{ type | enumFormat }}</option>
+    </select>
+    <select [(ngModel)]="statusFilter" (ngModelChange)="applyFilters()">
+      <option value="">All Statuses</option>
+      <option *ngFor="let status of bookStatuses" [value]="status">{{ status | enumFormat }}</option>
+    </select>
+    <input type="number" [(ngModel)]="minPagesFilter" (ngModelChange)="applyFilters()" placeholder="Min pages...">
+    <input type="number" [(ngModel)]="minQuantityFilter" (ngModelChange)="applyFilters()"
+           placeholder="Min quantity...">
+    <button (click)="clearFilters()">Clear Filters</button>
+  </div>
 </div>
 
 <table *ngIf="filteredBooks.length > 0; else noBooks" class="book-table">
@@ -41,6 +41,7 @@
     <th>Status</th>
     <th>Quantity</th>
     <th *ngIf="isUser"></th>
+    <th *ngIf="isLibrarian"></th>
   </tr>
   </thead>
   <tbody>
@@ -48,19 +49,23 @@
     <td *ngIf="isLibrarian">{{ book.id }}</td>
     <td>{{ book.title }}</td>
     <td>{{ book.author }}</td>
-      <td>{{ book.genre | enumFormat }}</td>
-      <td>{{ book.type | enumFormat }}</td>
+    <td>{{ book.genre | enumFormat }}</td>
+    <td>{{ book.type | enumFormat }}</td>
     <td>{{ book.pages }}</td>
     <td>{{ book.edition }}</td>
     <td>{{ book.creationYear | date:'yyyy' }}</td>
     <td>{{ book.releaseDate | date:'dd.MM.yyyy' }}</td>
-      <td>{{ book.status | enumFormat }}</td>
+    <td>{{ book.status | enumFormat }}</td>
     <td>
       <span *ngIf="book.quantity > 0">{{ book.quantity }}</span>
       <span *ngIf="book.quantity === 0" class="badge badge-out">Out of stock</span>
     </td>
     <td *ngIf="isUser">
       <button *ngIf="book.quantity > 0" (click)="reserveBook(book.id)" title="Reserve this book">Reserve</button>
+    </td>
+    <td *ngIf="isLibrarian">
+      <button *ngIf="book.status === 'AVAILABLE'" class="action-button not-available">Not Available</button>
+      <button *ngIf="book.status === 'NOT_AVAILABLE'" class="action-button available">Available</button>
     </td>
   </tr>
   </tbody>

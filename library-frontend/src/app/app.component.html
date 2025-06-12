@@ -9,10 +9,13 @@
   <div class="nav-right">
     <span *ngIf="displayName" class="nav-user">Logged in as <b>{{ displayName }}</b></span>
     <button *ngIf="!displayName" (click)="showLogin = true">Login</button>
+    <button *ngIf="!displayName" (click)="showRegister = true">Register</button>
     <button *ngIf="displayName" (click)="logout()">Logout</button>
   </div>
 </nav>
 <div class="main-content">
   <router-outlet></router-outlet>
-  <app-login-modal *ngIf="showLogin" (close)="showLogin = false" (loginSuccess)="onLogin($event)"></app-login-modal>
+  <app-login-modal *ngIf="showLogin" (modalClose)="showLogin = false"
+                   (loginSuccess)="onLogin($event)"></app-login-modal>
+  <app-register-modal *ngIf="showRegister" (modalClose)="showRegister = false"></app-register-modal>
 </div>

@@ -1,8 +1,12 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {BehaviorSubject} from 'rxjs';
 
-function parseJwt(token: string): any {
+interface JwtPayload {
+  exp?: number;
+}
+
+function parseJwt(token: string): JwtPayload {
   try {
     return JSON.parse(atob(token.split('.')[1]));
   } catch {
@@ -14,11 +18,12 @@ function parseJwt(token: string): any {
   providedIn: 'root'
 })
 export class AuthService {
-  private tokenExpirationCheckInterval: any;
+  private router = inject(Router);
+  private tokenExpirationCheckInterval: number | undefined;
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private router: Router) {
+  constructor() {
     this.checkToken();
   }
 
@@ -26,7 +31,7 @@ export class AuthService {
     const token = localStorage.getItem('jwt');
     if (token) {
       const decodedToken = parseJwt(token);
-      const expirationTime = decodedToken.exp * 1000; // Convert to milliseconds
+      const expirationTime = decodedToken.exp ? decodedToken.exp * 1000 : 0; // Convert to milliseconds
       const currentTime = Date.now();
 
       if (currentTime >= expirationTime) {
@@ -48,11 +53,11 @@ export class AuthService {
     }
 
     // Check token every minute
-    this.tokenExpirationCheckInterval = setInterval(() => {
+    this.tokenExpirationCheckInterval = window.setInterval(() => {
       const token = localStorage.getItem('jwt');
       if (token) {
         const decodedToken = parseJwt(token);
-        const expirationTime = decodedToken.exp * 1000;
+        const expirationTime = decodedToken.exp ? decodedToken.exp * 1000 : 0;
         const currentTime = Date.now();
 
         if (currentTime >= expirationTime) {
@@ -85,7 +90,7 @@ export class AuthService {
     if (!token) return true;
 
     const decodedToken = parseJwt(token);
-    const expirationTime = decodedToken.exp * 1000;
+    const expirationTime = decodedToken.exp ? decodedToken.exp * 1000 : 0;
     return Date.now() >= expirationTime;
   }
 }

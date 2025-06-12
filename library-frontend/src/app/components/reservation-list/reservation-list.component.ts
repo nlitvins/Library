@@ -1,14 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ReservationDetailed, ReservationService} from '../../services/reservation.service';
 import {ActivatedRoute} from '@angular/router';
-
-function parseJwt(token: string): any {
-  try {
-    return JSON.parse(atob(token.split('.')[1]));
-  } catch {
-    return {};
-  }
-}
+import {AuthUtilsService} from '../../services/auth-utils.service';
 
 @Component({
   selector: 'app-reservation-list',
@@ -16,23 +9,21 @@ function parseJwt(token: string): any {
   styleUrls: ['./reservation-list.component.scss']
 })
 export class ReservationListComponent implements OnInit {
+  private reservationService = inject(ReservationService);
+  private route = inject(ActivatedRoute);
+  private authUtils = inject(AuthUtilsService);
+
   reservations: ReservationDetailed[] = [];
-    filteredReservations: ReservationDetailed[] = [];
+  filteredReservations: ReservationDetailed[] = [];
   isUserReservations = false;
   notification: { message: string, color: string } | null = null;
 
-    // Filter properties
-    bookTitleFilter: string = '';
-    userNameFilter: string = '';
-    statusFilter: string = '';
-    dateFromFilter: string = '';
-    dateToFilter: string = '';
-
-  constructor(
-    private reservationService: ReservationService,
-    private route: ActivatedRoute
-  ) {
-  }
+  // Filter properties
+  bookTitleFilter = '';
+  userNameFilter = '';
+  statusFilter = '';
+  dateFromFilter = '';
+  dateToFilter = '';
 
   ngOnInit(): void {
     this.isUserReservations = this.route.snapshot.url[0]?.path === 'my-reservations';
@@ -41,9 +32,8 @@ export class ReservationListComponent implements OnInit {
 
   loadReservations(): void {
     if (this.isUserReservations) {
-      const jwt = localStorage.getItem('jwt');
-      if (!jwt) return;
-      const user = parseJwt(jwt);
+      const user = this.authUtils.getCurrentUser();
+      if (!user) return;
       this.reservationService.getReservationsByCurrentUser()
         .subscribe(data => {
           // For user reservations, we need to create a detailed view with the same book info
@@ -56,67 +46,61 @@ export class ReservationListComponent implements OnInit {
               quantity: 0  // Not available in basic reservation
             },
             user: {
-              id: user.id,
-              name: user.name,
-              secondName: user.secondName,
-              email: user.email
+              id: user.userId || 0,
+              name: user.name || '',
+              secondName: user.secondName || '',
+              email: user.email || ''
             }
           }));
-            this.applyFilters();
+          this.applyFilters();
         });
     } else {
       this.reservationService.getReservations()
-          .subscribe(data => {
-              this.reservations = data;
-              this.applyFilters();
-          });
+        .subscribe(data => {
+          this.reservations = data;
+          this.applyFilters();
+        });
     }
   }
 
-    applyFilters() {
-        this.filteredReservations = this.reservations.filter(reservation => {
-            const matchesBookTitle = !this.bookTitleFilter ||
-                reservation.book.title.toLowerCase().includes(this.bookTitleFilter.toLowerCase());
+  applyFilters() {
+    this.filteredReservations = this.reservations.filter(reservation => {
+      const matchesBookTitle = !this.bookTitleFilter ||
+        reservation.book.title.toLowerCase().includes(this.bookTitleFilter.toLowerCase());
 
-            const fullName = `${reservation.user.name} ${reservation.user.secondName}`.toLowerCase();
-            const matchesUserName = !this.userNameFilter ||
-                fullName.includes(this.userNameFilter.toLowerCase());
+      const fullName = `${reservation.user.name} ${reservation.user.secondName}`.toLowerCase();
+      const matchesUserName = !this.userNameFilter ||
+        fullName.includes(this.userNameFilter.toLowerCase());
 
-            const matchesStatus = !this.statusFilter ||
-                reservation.reservation.status === this.statusFilter;
+      const matchesStatus = !this.statusFilter ||
+        reservation.reservation.status === this.statusFilter;
 
-            const matchesDateFrom = !this.dateFromFilter ||
-                new Date(reservation.reservation.createdDate) >= new Date(this.dateFromFilter);
+      const matchesDateFrom = !this.dateFromFilter ||
+        new Date(reservation.reservation.createdDate) >= new Date(this.dateFromFilter);
 
-            const matchesDateTo = !this.dateToFilter ||
-                new Date(reservation.reservation.createdDate) <= new Date(this.dateToFilter);
+      const matchesDateTo = !this.dateToFilter ||
+        new Date(reservation.reservation.createdDate) <= new Date(this.dateToFilter);
 
-            return matchesBookTitle && matchesUserName && matchesStatus &&
-                matchesDateFrom && matchesDateTo;
-        });
-    }
+      return matchesBookTitle && matchesUserName && matchesStatus &&
+        matchesDateFrom && matchesDateTo;
+    });
+  }
 
-    clearFilters() {
-        this.bookTitleFilter = '';
-        this.userNameFilter = '';
-        this.statusFilter = '';
-        this.dateFromFilter = '';
-        this.dateToFilter = '';
-        this.applyFilters();
+  clearFilters() {
+    this.bookTitleFilter = '';
+    this.userNameFilter = '';
+    this.statusFilter = '';
+    this.dateFromFilter = '';
+    this.dateToFilter = '';
+    this.applyFilters();
   }
 
   get isLibrarian(): boolean {
-    const jwt = localStorage.getItem('jwt');
-    if (!jwt) return false;
-    const user = parseJwt(jwt);
-    return user.role === 'ROLE_LIBRARIAN';
+    return this.authUtils.isLibrarian();
   }
 
   get isUser(): boolean {
-    const jwt = localStorage.getItem('jwt');
-    if (!jwt) return false;
-    const user = parseJwt(jwt);
-    return user.role === 'ROLE_USER';
+    return this.authUtils.isUser();
   }
 
   showNotification(message: string, color: string) {

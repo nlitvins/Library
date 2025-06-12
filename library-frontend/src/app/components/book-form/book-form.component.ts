@@ -1,13 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Book, BookGenre, BookService, BookStatus, BookType} from '../../services/book.service';
+import {FormValidationService} from '../../services/form-validation.service';
 
 @Component({
   selector: 'app-book-form',
   templateUrl: './book-form.component.html',
   styleUrls: ['./book-form.component.scss']
 })
-export class BookFormComponent implements OnInit {
+export class BookFormComponent {
+  private bookService = inject(BookService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private formValidation = inject(FormValidationService);
+
   book: Book = {
     id: 0,
     title: '',
@@ -29,14 +35,9 @@ export class BookFormComponent implements OnInit {
 
   notification: { message: string, color: string } | null = null;
 
-  constructor(
-    private bookService: BookService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
-  }
-
-  ngOnInit(): void {
+  getValidationMessage(control: any, fieldName: string): string {
+    if (!control || !control.touched) return '';
+    return this.formValidation.getValidationMessage(control, fieldName);
   }
 
   onSubmit(): void {
