@@ -18,4 +18,9 @@ public class ReservationDetailedUseCase {
     public List<ReservationDetailed> findAll() {
         return reservationDetailedRepository.findAll();
     }
+
+    public List<ReservationDetailed> findByUserId(int userId) {
+        return reservationDetailedRepository.findByUserId(userId);
+    }
+
 }
