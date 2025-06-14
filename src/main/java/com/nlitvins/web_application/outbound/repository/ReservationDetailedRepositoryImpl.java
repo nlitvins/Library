@@ -61,6 +61,29 @@ public class ReservationDetailedRepositoryImpl implements ReservationDetailedRep
         return reservationDetailedList;
     }
 
+    @Override
+    public List<ReservationDetailed> findByUserId(int userId) {
+        List<ReservationEntity> reservationEntities = reservationJpaRepository.findByUserId(userId);
+        Set<Integer> bookIds = new HashSet<>();
+
+        for (ReservationEntity reservationEntity : reservationEntities) {
+            bookIds.add(reservationEntity.getBookId());
+        }
+
+        Map<Integer, Book> bookMap = getBookMap(bookIds);
+
+        List<ReservationDetailed> reservationDetailedList = new ArrayList<>();
+        for (ReservationEntity reservationEntity : reservationEntities) {
+            reservationDetailedList.add(
+                    ReservationDetailed.builder()
+                            .reservation(OutboundMapper.Reservations.toDomain(reservationEntity))
+                            .book(bookMap.get(reservationEntity.getBookId()))
+                            .build()
+            );
+        }
+        return reservationDetailedList;
+    }
+
     private Map<Integer, Book> getBookMap(Set<Integer> bookIds) {
         List<BookEntity> bookEntities = bookJpaRepository.findByIdIn(bookIds);
         Map<Integer, Book> bookMap = new HashMap<>();

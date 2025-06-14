@@ -1,5 +1,25 @@
 <h2>Users</h2>
-<table *ngIf="users.length > 0; else noUsers" class="user-table">
+
+<div class="filters">
+  <div class="filter-group">
+    <input type="text" [(ngModel)]="nameFilter" (ngModelChange)="applyFilters()"
+           placeholder="Filter by name or username...">
+    <input type="text" [(ngModel)]="emailFilter" (ngModelChange)="applyFilters()"
+           placeholder="Filter by email...">
+    <select [(ngModel)]="roleFilter" (ngModelChange)="applyFilters()">
+      <option value="">All Roles</option>
+      <option value="STARTER">Starter</option>
+      <option value="USER">User</option>
+      <option value="LIBRARIAN">Librarian</option>
+      <option value="ADMIN">Admin</option>
+    </select>
+    <input type="text" [(ngModel)]="personCodeFilter" (ngModelChange)="applyFilters()"
+           placeholder="Filter by person code...">
+    <button (click)="clearFilters()">Clear Filters</button>
+  </div>
+</div>
+
+<table *ngIf="filteredUsers.length > 0; else noUsers" class="user-table">
   <thead>
   <tr>
     <th></th>
@@ -15,7 +35,7 @@
   </tr>
   </thead>
   <tbody>
-  <ng-container *ngFor="let user of users">
+  <ng-container *ngFor="let user of filteredUsers">
     <tr [class.expanded]="isUserExpanded(user.id)" (click)="toggleUserExpansion(user.id)" class="user-row">
       <td class="expand-icon">
         <span class="material-icons">{{ isUserExpanded(user.id) ? 'expand_less' : 'expand_more' }}</span>
@@ -45,19 +65,43 @@
             <thead>
             <tr>
               <th>ID</th>
-              <!-- <th>Book Title</th> -->
+              <th>Book</th>
               <th>Status</th>
               <th>Reservation Date</th>
               <th>Return Date</th>
+              <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let reservation of getUserReservations(user.id)">
-              <td>{{ reservation.id }}</td>
-              <!-- <td>{{ reservation.book?.title }}</td> -->
-              <td>{{ reservation.status }}</td>
-              <td>{{ reservation.createdDate | date:'dd.MM.yyyy HH:mm' }}</td>
-              <td>{{ reservation.termDate | date:'dd.MM.yyyy HH:mm' }}</td>
+
+              <td>{{ reservation.reservation.id }}</td>
+              <td>
+                <div class="book-info">
+                  <div class="title">{{ reservation.book.title }}</div>
+                  <div class="author">{{ reservation.book.author }}</div>
+                </div>
+              </td>
+              <td>{{ reservation.reservation.status | enumFormat }}</td>
+              <td>{{ reservation.reservation.createdDate | date:'dd.MM.yyyy HH:mm' }}</td>
+              <td>{{ reservation.reservation.termDate | date:'dd.MM.yyyy HH:mm' }}</td>
+              <td>
+                <button *ngIf="canIssue(reservation)"
+                        (click)="issueBook(reservation.reservation.id)"
+                        class="action-button issue">
+                  Issue
+                </button>
+                <button *ngIf="canComplete(reservation)"
+                        (click)="completeReservation(reservation.reservation.id)"
+                        class="action-button complete">
+                  Complete
+                </button>
+                <button *ngIf="canMarkAsLost(reservation)"
+                        (click)="markAsLost(reservation.reservation.id)"
+                        class="action-button lost">
+                  Mark as Lost
+                </button>
+              </td>
             </tr>
             </tbody>
           </table>

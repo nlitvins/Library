@@ -62,6 +62,7 @@ public class InboundMapper {
     public static class Users {
 
         public static User toDomain(UserRequest request) {
+
             return User.builder()
                     .name(request.getName())
                     .secondName(request.getSecondName())
@@ -81,6 +82,9 @@ public class InboundMapper {
         }
 
         public static UserResponse toDTO(User user) {
+            if (user == null) {
+                return null;
+            }
             return UserResponse.builder()
                     .id(user.getId())
                     .name(user.getName())

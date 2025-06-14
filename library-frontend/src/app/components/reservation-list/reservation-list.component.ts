@@ -32,26 +32,9 @@ export class ReservationListComponent implements OnInit {
 
   loadReservations(): void {
     if (this.isUserReservations) {
-      const user = this.authUtils.getCurrentUser();
-      if (!user) return;
-      this.reservationService.getReservationsByCurrentUser()
+      this.reservationService.getReservationsDetailedByCurrentUser()
         .subscribe(data => {
-          // For user reservations, we need to create a detailed view with the same book info
-          this.reservations = data.map(r => ({
-            reservation: r,
-            book: {
-              id: r.bookId || 0,
-              title: '',  // Not available in basic reservation
-              author: '',  // Not available in basic reservation
-              quantity: 0  // Not available in basic reservation
-            },
-            user: {
-              id: user.userId || 0,
-              name: user.name || '',
-              secondName: user.secondName || '',
-              email: user.email || ''
-            }
-          }));
+          this.reservations = data;
           this.applyFilters();
         });
     } else {
@@ -68,9 +51,14 @@ export class ReservationListComponent implements OnInit {
       const matchesBookTitle = !this.bookTitleFilter ||
         reservation.book.title.toLowerCase().includes(this.bookTitleFilter.toLowerCase());
 
-      const fullName = `${reservation.user.name} ${reservation.user.secondName}`.toLowerCase();
-      const matchesUserName = !this.userNameFilter ||
-        fullName.includes(this.userNameFilter.toLowerCase());
+      let matchesUserName = false;
+      if (!this.isUserReservations) {
+        const fullName = `${reservation.user.name} ${reservation.user.secondName}`.toLowerCase();
+        matchesUserName = !this.userNameFilter ||
+          fullName.includes(this.userNameFilter.toLowerCase());
+      } else {
+        matchesUserName = true;
+      }
 
       const matchesStatus = !this.statusFilter ||
         reservation.reservation.status === this.statusFilter;
