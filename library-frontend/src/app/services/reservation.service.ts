@@ -47,12 +47,12 @@ export class ReservationService {
     return this.http.get<ReservationDetailed[]>(`${this.apiUrl}/detailed`, this.getAuthHeaders());
   }
 
-  getReservationsByCurrentUser(): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.apiUrl}/user`, this.getAuthHeaders());
+  getReservationsDetailedByUserId(userId: number): Observable<ReservationDetailed[]> {
+    return this.http.get<ReservationDetailed[]>(`${this.apiUrl}/detailed/user/${userId}`, this.getAuthHeaders());
   }
 
-  getReservationsByUserId(userId: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.apiUrl}/user/${userId}`, this.getAuthHeaders());
+  getReservationsDetailedByCurrentUser(): Observable<ReservationDetailed[]> {
+    return this.http.get<ReservationDetailed[]>(`${this.apiUrl}/detailed/user`, this.getAuthHeaders());
   }
 
   receiveBook(id: number): Observable<Reservation> {
