@@ -4,7 +4,7 @@
     <div class="filter-group">
         <input type="text" [(ngModel)]="bookTitleFilter" (ngModelChange)="applyFilters()"
                placeholder="Filter by book title...">
-        <input type="text" [(ngModel)]="userNameFilter" (ngModelChange)="applyFilters()"
+      <input *ngIf="!isUserReservations" type="text" [(ngModel)]="userNameFilter" (ngModelChange)="applyFilters()"
                placeholder="Filter by user name...">
         <select [(ngModel)]="statusFilter" (ngModelChange)="applyFilters()">
             <option value="">All Statuses</option>
@@ -26,7 +26,7 @@
   <tr>
     <th>ID</th>
     <th>Book</th>
-    <th>User</th>
+    <th *ngIf="!isUserReservations">User</th>
     <th>Status</th>
     <th>Reservation Date</th>
     <th>Return Date</th>
@@ -42,7 +42,7 @@
         <div class="author">{{ reservation.book.author }}</div>
       </div>
     </td>
-    <td>
+    <td *ngIf="!isUserReservations">
       <div class="user-info">
         <div class="name">{{ reservation.user.name }} {{ reservation.user.secondName }}</div>
         <div class="email">{{ reservation.user.email }}</div>
