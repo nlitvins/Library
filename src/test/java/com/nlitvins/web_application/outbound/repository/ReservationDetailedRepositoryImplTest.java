@@ -15,9 +15,7 @@ import org.junit.jupiter.api.TestInstance;
 import java.util.List;
 import java.util.Set;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ReservationDetailedRepositoryImplTest {
@@ -53,6 +51,7 @@ class ReservationDetailedRepositoryImplTest {
         reservationEntity.setUserId(userId);
         reservationEntity.setBookId(bookId);
         reservationEntity.setStatus((short) 1);
+        reservationEntity.setExtensionCount((short) 1);
         return reservationEntity;
     }
 
@@ -62,6 +61,9 @@ class ReservationDetailedRepositoryImplTest {
         bookEntity.setTitle("Title " + id);
         bookEntity.setAuthor("Author " + id);
         bookEntity.setQuantity(1);
+        bookEntity.setStatus((short) 1);
+        bookEntity.setGenre((short) 1);
+        bookEntity.setType((short) 1);
         return bookEntity;
     }
 

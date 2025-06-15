@@ -18,6 +18,6 @@ public enum BookType {
                 return bookType;
             }
         }
-        throw new IllegalArgumentException(String.format("Book genre with id %d does not exits", id));
+        throw new IllegalArgumentException(String.format("Book type with id %d does not exits", id));
     }
 }
