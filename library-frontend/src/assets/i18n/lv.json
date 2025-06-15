@@ -202,7 +202,7 @@
       "NEW": "Jauna",
       "RECEIVED": "Saņemta",
       "COMPLETED": "Pabeigta",
-      "CANCELLED": "Atcelta",
+      "CANCELED": "Atcelta",
       "OVERDUE": "Nokavēta",
       "LOST": "Pazaudēta"
     },
@@ -234,4 +234,4 @@
       "NEWSPAPER": "Avīze"
     }
   }
-} 
+}

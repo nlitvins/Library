@@ -211,7 +211,7 @@
       "NEW": "New",
       "RECEIVED": "Received",
       "COMPLETED": "Completed",
-      "CANCELLED": "Cancelled",
+      "CANCELED": "Cancelled",
       "OVERDUE": "Overdue",
       "LOST": "Lost"
     },
@@ -243,4 +243,4 @@
       "NEWSPAPER": "Newspaper"
     }
   }
-} 
+}
