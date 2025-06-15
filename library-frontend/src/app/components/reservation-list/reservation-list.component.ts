@@ -34,17 +34,20 @@ export class ReservationListComponent implements OnInit {
   }
 
   loadReservations(): void {
+    const scrollPosition = window.scrollY;
     if (this.isUserReservations) {
       this.reservationService.getReservationsDetailedByCurrentUser()
         .subscribe(data => {
           this.reservations = data;
           this.applyFilters();
+          window.scrollTo(0, scrollPosition);
         });
     } else {
       this.reservationService.getReservations()
         .subscribe(data => {
           this.reservations = data;
           this.applyFilters();
+          window.scrollTo(0, scrollPosition);
         });
     }
   }

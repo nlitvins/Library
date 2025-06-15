@@ -104,6 +104,7 @@ export class BookListComponent implements OnInit {
   }
 
   changeBookStatus(bookId: number) {
+    const scrollPosition = window.scrollY;
     this.bookService.changeBookStatus(bookId).subscribe({
       next: () => {
         this.showNotification(this.translate.instant('books.notifications.statusChangeSuccess'), 'green')
@@ -112,6 +113,7 @@ export class BookListComponent implements OnInit {
           status: book.status === BookStatus.AVAILABLE ? BookStatus.NOT_AVAILABLE : BookStatus.AVAILABLE
         } : book);
         this.applyFilters();
+        window.scrollTo(0, scrollPosition);
       },
       error: () => this.showNotification(this.translate.instant('books.notifications.statusChangeError'), 'red')
     });

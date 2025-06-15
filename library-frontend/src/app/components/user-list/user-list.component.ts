@@ -86,13 +86,16 @@ export class UserListComponent implements OnInit {
     if (this.loadingReservations.has(userId)) return;
 
     this.loadingReservations.add(userId);
+    const scrollPosition = window.scrollY;
     this.reservationService.getReservationsDetailedByUserId(userId).subscribe({
       next: (reservations) => {
         this.userReservations.set(userId, reservations);
         this.loadingReservations.delete(userId);
+        window.scrollTo(0, scrollPosition);
       },
       error: () => {
         this.loadingReservations.delete(userId);
+        window.scrollTo(0, scrollPosition);
       }
     });
   }
@@ -122,19 +125,23 @@ export class UserListComponent implements OnInit {
   }
 
   activateUser(userId: number): void {
+    const scrollPosition = window.scrollY;
     this.userService.activateUser(userId).subscribe(() => {
       this.userService.getUsers().subscribe(data => {
         this.users = data;
         this.applyFilters();
+        window.scrollTo(0, scrollPosition);
       });
     });
   }
 
   activateLibrarian(userId: number): void {
+    const scrollPosition = window.scrollY;
     this.userService.activateLibrarian(userId).subscribe(() => {
       this.userService.getUsers().subscribe(data => {
         this.users = data;
         this.applyFilters();
+        window.scrollTo(0, scrollPosition);
       });
     });
   }
