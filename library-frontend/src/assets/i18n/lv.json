@@ -77,8 +77,8 @@
     },
     "actions": {
       "reserve": "Rezervēt",
-      "notAvailable": "Nav Pieejams",
-      "available": "Pieejams"
+      "notAvailable": "Nav Pieejama",
+      "available": "Pieejama"
     },
     "noBooks": "Grāmatas nav atrastas.",
     "notifications": {

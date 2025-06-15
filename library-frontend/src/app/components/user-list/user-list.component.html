@@ -49,11 +49,11 @@
       <td>{{ user.personCode }}</td>
       <td>{{ user.role | enumFormat }}</td>
       <td>
-        <button *ngIf="canActivateUser(user)"
-                (click)="activateUser(user.id)">{{ 'users.actions.activateUser' | translate }}
+        <button *ngIf="canActivateUser(user)" (click)="activateUser(user.id)"
+                class="action-button activate">{{ 'users.actions.activateUser' | translate }}
         </button>
-        <button *ngIf="canActivateLibrarian(user)"
-                (click)="activateLibrarian(user.id)">{{ 'users.actions.activateLibrarian' | translate }}
+        <button *ngIf="canActivateLibrarian(user)" (click)="activateLibrarian(user.id)"
+                class="action-button activate">{{ 'users.actions.activateLibrarian' | translate }}
         </button>
       </td>
     </tr>

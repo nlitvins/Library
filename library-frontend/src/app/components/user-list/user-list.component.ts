@@ -123,13 +123,19 @@ export class UserListComponent implements OnInit {
 
   activateUser(userId: number): void {
     this.userService.activateUser(userId).subscribe(() => {
-      this.userService.getUsers().subscribe(data => this.users = data);
+      this.userService.getUsers().subscribe(data => {
+        this.users = data;
+        this.applyFilters();
+      });
     });
   }
 
   activateLibrarian(userId: number): void {
     this.userService.activateLibrarian(userId).subscribe(() => {
-      this.userService.getUsers().subscribe(data => this.users = data);
+      this.userService.getUsers().subscribe(data => {
+        this.users = data;
+        this.applyFilters();
+      });
     });
   }
 
