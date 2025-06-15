@@ -147,9 +147,9 @@ export class UserListComponent implements OnInit {
 
   issueBook(id: number) {
     this.reservationService.receiveBook(id).subscribe({
-      next: () => {
+      next: (reservation) => {
         this.showNotification(this.translate.instant('users.notifications.issueSuccess'), 'green');
-        this.loadUserReservations(id);
+        this.loadUserReservations(reservation.userId);
       },
       error: () => this.showNotification(this.translate.instant('users.notifications.issueError'), 'red')
     });
@@ -157,9 +157,9 @@ export class UserListComponent implements OnInit {
 
   completeReservation(id: number) {
     this.reservationService.completeReservation(id).subscribe({
-      next: () => {
+      next: (reservation) => {
         this.showNotification(this.translate.instant('users.notifications.completeSuccess'), 'green');
-        this.loadUserReservations(id);
+        this.loadUserReservations(reservation.userId);
       },
       error: () => this.showNotification(this.translate.instant('users.notifications.completeError'), 'red')
     });
@@ -167,9 +167,9 @@ export class UserListComponent implements OnInit {
 
   markAsLost(id: number) {
     this.reservationService.loseBook(id).subscribe({
-      next: () => {
+      next: (reservation) => {
         this.showNotification(this.translate.instant('users.notifications.lostSuccess'), 'green');
-        this.loadUserReservations(id);
+        this.loadUserReservations(reservation.userId);
       },
       error: () => this.showNotification(this.translate.instant('users.notifications.lostError'), 'red')
     });
