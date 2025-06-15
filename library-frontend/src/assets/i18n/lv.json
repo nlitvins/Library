@@ -1,0 +1,237 @@
+{
+  "nav": {
+    "books": "Grāmatas",
+    "users": "Lietotāji",
+    "reservations": "Rezervācijas",
+    "myReservations": "Manas Rezervācijas",
+    "login": "Pieslēgties",
+    "register": "Reģistrēties",
+    "logout": "Iziet",
+    "loggedInAs": "Pieslēdzies kā"
+  },
+  "auth": {
+    "login": "Pieslēgties",
+    "register": "Reģistrēties",
+    "email": "E-pasts",
+    "password": "Parole",
+    "name": "Vārds",
+    "secondName": "Uzvārds",
+    "userName": "Lietotājvārds",
+    "mobileNumber": "Mobilā tālruņa numurs",
+    "personCode": "Personas kods",
+    "submit": "Iesniegt",
+    "cancel": "Atcelt",
+    "registrationFailed": "Reģistrācija neizdevās. Lūdzu, mēģiniet vēlreiz.",
+    "loginFailed": "Pieslēgšanās neizdevās. Lūdzu, pārbaudiet savus datus.",
+    "loggingIn": "Pieslēdzas..."
+  },
+  "validation": {
+    "required": "Šis lauks ir obligāts",
+    "email": "Lūdzu, ievadiet derīgu e-pasta adresi",
+    "minlength": "Jābūt vismaz {{min}} rakstzīmēm",
+    "maxlength": "Jābūt ne vairāk kā {{max}} rakstzīmēm",
+    "pattern": {
+      "phone": "Lūdzu, ievadiet derīgu mobilā tālruņa numuru (8-12 cipari)",
+      "personCode": "Personas kodam jābūt 11 cipariem",
+      "email": "Lūdzu, ievadiet derīgu e-pasta adresi",
+      "default": "Nederīgs formāts"
+    },
+    "min": "Jābūt vismaz {{min}}",
+    "max": "Jābūt ne vairāk kā {{max}}",
+    "dateRange": "Beigu datumam jābūt pēc sākuma datuma",
+    "invalid": "{{field}} nav derīgs"
+  },
+  "books": {
+    "title": "Grāmatas",
+    "create": "Pievienot Grāmatu",
+    "filters": {
+      "title": "Filtrēt pēc nosaukuma...",
+      "author": "Filtrēt pēc autora...",
+      "genre": {
+        "all": "Visas Žanri"
+      },
+      "type": {
+        "all": "Visi Veidi"
+      },
+      "status": {
+        "all": "Visi Statusi"
+      },
+      "minPages": "Min. lappušu skaits...",
+      "minQuantity": "Min. daudzums...",
+      "clear": "Notīrīt Filtrus"
+    },
+    "table": {
+      "caption": "Pieejamās Grāmatas",
+      "id": "ID",
+      "title": "Nosaukums",
+      "author": "Autors",
+      "genre": "Žanrs",
+      "type": "Veids",
+      "pages": "Lappuses",
+      "edition": "Izdevums",
+      "creationYear": "Izveides Gads",
+      "releaseDate": "Izdošanas Datums",
+      "status": "Statuss",
+      "quantity": "Daudzums",
+      "outOfStock": "Nav noliktavā"
+    },
+    "actions": {
+      "reserve": "Rezervēt",
+      "notAvailable": "Nav Pieejams",
+      "available": "Pieejams"
+    },
+    "noBooks": "Grāmatas nav atrastas.",
+    "notifications": {
+      "reserveSuccess": "Rezervācija veiksmīga!",
+      "reserveError": "Neizdevās rezervēt grāmatu.",
+      "statusChangeSuccess": "Grāmatas statuss nomainīts!",
+      "statusChangeError": "Neizdevās nomainīt grāmatas statusu."
+    }
+  },
+  "reservations": {
+    "title": {
+      "my": "Manas Rezervācijas",
+      "all": "Visas Rezervācijas"
+    },
+    "filters": {
+      "bookTitle": "Filtrēt pēc grāmatas nosaukuma...",
+      "userName": "Filtrēt pēc lietotāja vārda...",
+      "status": {
+        "all": "Visi Statusi",
+        "new": "Jauna",
+        "received": "Saņemta",
+        "completed": "Pabeigta",
+        "cancelled": "Atcelta",
+        "overdue": "Nokavēta",
+        "lost": "Pazaudēta"
+      },
+      "dateFrom": "No datuma...",
+      "dateTo": "Līdz datumam...",
+      "clear": "Notīrīt Filtrus"
+    },
+    "table": {
+      "id": "ID",
+      "book": "Grāmata",
+      "user": "Lietotājs",
+      "status": "Statuss",
+      "reservationDate": "Rezervācijas Datums",
+      "returnDate": "Atgriešanas Datums",
+      "actions": "Darbības"
+    },
+    "actions": {
+      "extend": "Pagarināt",
+      "cancel": "Atcelt",
+      "issue": "Izsniegt",
+      "complete": "Pabeigt",
+      "markAsLost": "Atzīmēt kā Pazaudētu"
+    },
+    "noReservations": "Rezervācijas nav atrastas.",
+    "notifications": {
+      "extendSuccess": "Rezervācija veiksmīgi pagarināta!",
+      "extendError": "Neizdevās pagarināt rezervāciju.",
+      "cancelSuccess": "Rezervācija veiksmīgi atcelta!",
+      "cancelError": "Neizdevās atcelt rezervāciju.",
+      "issueSuccess": "Grāmata veiksmīgi izsniegta!",
+      "issueError": "Neizdevās izsniegt grāmatu.",
+      "completeSuccess": "Rezervācija veiksmīgi pabeigta!",
+      "completeError": "Neizdevās pabeigt rezervāciju.",
+      "lostSuccess": "Grāmata veiksmīgi atzīmēta kā pazaudēta!",
+      "lostError": "Neizdevās atzīmēt grāmatu kā pazaudētu."
+    }
+  },
+  "users": {
+    "title": "Lietotāji",
+    "filters": {
+      "name": "Filtrēt pēc vārda vai lietotājvārda...",
+      "email": "Filtrēt pēc e-pasta...",
+      "role": {
+        "all": "Visas Lomas",
+        "starter": "Sācējs",
+        "user": "Lietotājs",
+        "librarian": "Bibliotekārs",
+        "admin": "Administrators"
+      },
+      "personCode": "Filtrēt pēc personas koda...",
+      "clear": "Notīrīt Filtrus"
+    },
+    "table": {
+      "id": "ID",
+      "username": "Lietotājvārds",
+      "name": "Vārds",
+      "secondName": "Uzvārds",
+      "email": "E-pasts",
+      "phone": "Tālrunis",
+      "personCode": "Personas Kods",
+      "role": "Loma",
+      "actions": "Darbības"
+    },
+    "actions": {
+      "activateUser": "Aktivizēt Lietotāju",
+      "activateLibrarian": "Aktivizēt Bibliotekāru"
+    },
+    "reservations": {
+      "title": "Lietotāja Rezervācijas",
+      "loading": "Ielādē rezervācijas...",
+      "noReservations": "Šim lietotājam nav atrastas rezervācijas.",
+      "table": {
+        "id": "ID",
+        "book": "Grāmata",
+        "status": "Statuss",
+        "reservationDate": "Rezervācijas Datums",
+        "returnDate": "Atgriešanas Datums",
+        "actions": "Darbības"
+      },
+      "actions": {
+        "issue": "Izsniegt",
+        "complete": "Pabeigt",
+        "markAsLost": "Atzīmēt kā Pazaudētu"
+      }
+    },
+    "noUsers": "Lietotāji nav atrasti.",
+    "notifications": {
+      "issueSuccess": "Grāmata veiksmīgi izsniegta!",
+      "issueError": "Neizdevās izsniegt grāmatu.",
+      "completeSuccess": "Rezervācija veiksmīgi pabeigta!",
+      "completeError": "Neizdevās pabeigt rezervāciju.",
+      "lostSuccess": "Grāmata veiksmīgi atzīmēta kā pazaudēta!",
+      "lostError": "Neizdevās atzīmēt grāmatu kā pazaudētu."
+    }
+  },
+  "enums": {
+    "reservationStatus": {
+      "NEW": "Jauna",
+      "RECEIVED": "Saņemta",
+      "COMPLETED": "Pabeigta",
+      "CANCELLED": "Atcelta",
+      "OVERDUE": "Nokavēta",
+      "LOST": "Pazaudēta"
+    },
+    "userRole": {
+      "STARTER": "Sācējs",
+      "USER": "Lietotājs",
+      "LIBRARIAN": "Bibliotekārs",
+      "ADMIN": "Administrators"
+    },
+    "bookStatus": {
+      "AVAILABLE": "Pieejama",
+      "NOT_AVAILABLE": "Nav Pieejama"
+    },
+    "bookGenre": {
+      "ROMANCE": "Romantika",
+      "MODERNIST": "Modernisms",
+      "CLASSIC": "Klasika",
+      "MAGICAL_REALISM": "Magiskais reālisms",
+      "DYSTOPIAN": "Distopija",
+      "FANTASY": "Fantastika",
+      "ADVENTURE": "Piedzīvojums",
+      "PHILOSOPHICAL": "Filozofiskā",
+      "ANCIENT": "Senā",
+      "RELIGIOUS": "Reliģija"
+    },
+    "bookType": {
+      "BOOK": "Grāmata",
+      "MAGAZINE": "Žurnāls",
+      "NEWSPAPER": "Avīze"
+    }
+  }
+} 

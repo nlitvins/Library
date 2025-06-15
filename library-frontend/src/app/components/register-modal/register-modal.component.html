@@ -1,62 +1,63 @@
 <div class="modal-overlay" (click)="modalClose.emit()" tabindex="0" (keydown.escape)="modalClose.emit()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <div class="modal-header">
-      <h2>Register</h2>
+      <h2>{{ 'auth.register' | translate }}</h2>
       <button class="close-button" (click)="modalClose.emit()" (keydown.enter)="modalClose.emit()" tabindex="0">×
       </button>
     </div>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label for="userName">Username</label>
-        <input type="text" id="userName" formControlName="userName" placeholder="Enter your username">
+        <label for="userName">{{ 'auth.userName' | translate }}</label>
+        <input type="text" id="userName" formControlName="userName" [placeholder]="'auth.userName' | translate">
         <div class="error-message" *ngIf="registerForm.get('userName')?.touched">
           {{ getValidationMessage('userName') }}
         </div>
       </div>
 
       <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" formControlName="email" placeholder="Enter your email">
+        <label for="email">{{ 'auth.email' | translate }}</label>
+        <input type="email" id="email" formControlName="email" [placeholder]="'auth.email' | translate">
         <div class="error-message" *ngIf="registerForm.get('email')?.touched">
           {{ getValidationMessage('email') }}
         </div>
       </div>
 
       <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" formControlName="password" placeholder="Enter your password">
+        <label for="password">{{ 'auth.password' | translate }}</label>
+        <input type="password" id="password" formControlName="password" [placeholder]="'auth.password' | translate">
         <div class="error-message" *ngIf="registerForm.get('password')?.touched">
           {{ getValidationMessage('password') }}
         </div>
       </div>
 
       <div class="form-group">
-        <label for="name">First Name</label>
-        <input type="text" id="name" formControlName="name" placeholder="Enter your first name">
+        <label for="name">{{ 'auth.name' | translate }}</label>
+        <input type="text" id="name" formControlName="name" [placeholder]="'auth.name' | translate">
         <div class="error-message" *ngIf="registerForm.get('name')?.touched">
           {{ getValidationMessage('name') }}
         </div>
       </div>
 
       <div class="form-group">
-        <label for="secondName">Last Name</label>
-        <input type="text" id="secondName" formControlName="secondName" placeholder="Enter your last name">
+        <label for="secondName">{{ 'auth.secondName' | translate }}</label>
+        <input type="text" id="secondName" formControlName="secondName" [placeholder]="'auth.secondName' | translate">
         <div class="error-message" *ngIf="registerForm.get('secondName')?.touched">
           {{ getValidationMessage('secondName') }}
         </div>
       </div>
 
       <div class="form-group">
-        <label for="mobileNumber">Mobile Number</label>
-        <input type="tel" id="mobileNumber" formControlName="mobileNumber" placeholder="Enter your mobile number">
+        <label for="mobileNumber">{{ 'auth.mobileNumber' | translate }}</label>
+        <input type="tel" id="mobileNumber" formControlName="mobileNumber"
+               [placeholder]="'auth.mobileNumber' | translate">
         <div class="error-message" *ngIf="registerForm.get('mobileNumber')?.touched">
           {{ getValidationMessage('mobileNumber') }}
         </div>
       </div>
 
       <div class="form-group">
-        <label for="personCode">Personal Code</label>
-        <input type="text" id="personCode" formControlName="personCode" placeholder="Enter your personal code">
+        <label for="personCode">{{ 'auth.personCode' | translate }}</label>
+        <input type="text" id="personCode" formControlName="personCode" [placeholder]="'auth.personCode' | translate">
         <div class="error-message" *ngIf="registerForm.get('personCode')?.touched">
           {{ getValidationMessage('personCode') }}
         </div>
@@ -65,7 +66,7 @@
       <div class="error-message" *ngIf="error">{{ error }}</div>
 
       <div class="button-group">
-        <button type="submit" [disabled]="!registerForm.valid">Register</button>
+        <button type="submit" [disabled]="!registerForm.valid">{{ 'auth.register' | translate }}</button>
       </div>
     </form>
   </div>

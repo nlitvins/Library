@@ -1,7 +1,10 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {User, UserService} from '../../services/user.service';
-import {ReservationDetailed, ReservationService} from '../../services/reservation.service';
+import {UserService} from '../../services/user.service';
+import {ReservationService} from '../../services/reservation.service';
+import {User} from '../../models/user.model';
+import {ReservationDetailed} from '../../models/reservation.model';
 import {AuthUtilsService} from '../../services/auth-utils.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-list',
@@ -12,6 +15,7 @@ export class UserListComponent implements OnInit {
   private userService = inject(UserService);
   private reservationService = inject(ReservationService);
   private authUtils = inject(AuthUtilsService);
+  private translate = inject(TranslateService);
 
   users: User[] = [];
   filteredUsers: User[] = [];
@@ -144,30 +148,30 @@ export class UserListComponent implements OnInit {
   issueBook(id: number) {
     this.reservationService.receiveBook(id).subscribe({
       next: () => {
-        this.showNotification('Book issued successfully!', 'green');
+        this.showNotification(this.translate.instant('users.notifications.issueSuccess'), 'green');
         this.loadUserReservations(id);
       },
-      error: () => this.showNotification('Failed to issue book.', 'red')
+      error: () => this.showNotification(this.translate.instant('users.notifications.issueError'), 'red')
     });
   }
 
   completeReservation(id: number) {
     this.reservationService.completeReservation(id).subscribe({
       next: () => {
-        this.showNotification('Reservation completed successfully!', 'green');
+        this.showNotification(this.translate.instant('users.notifications.completeSuccess'), 'green');
         this.loadUserReservations(id);
       },
-      error: () => this.showNotification('Failed to complete reservation.', 'red')
+      error: () => this.showNotification(this.translate.instant('users.notifications.completeError'), 'red')
     });
   }
 
   markAsLost(id: number) {
     this.reservationService.loseBook(id).subscribe({
       next: () => {
-        this.showNotification('Book marked as lost successfully!', 'green');
+        this.showNotification(this.translate.instant('users.notifications.lostSuccess'), 'green');
         this.loadUserReservations(id);
       },
-      error: () => this.showNotification('Failed to mark book as lost.', 'red')
+      error: () => this.showNotification(this.translate.instant('users.notifications.lostError'), 'red')
     });
   }
 

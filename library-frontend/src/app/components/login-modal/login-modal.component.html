@@ -1,19 +1,19 @@
 <div class="modal-backdrop">
   <div class="modal">
-    <h3>Login</h3>
+    <h3>{{ 'auth.login' | translate }}</h3>
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
       <div>
-        <label for="username">Username:</label>
+        <label for="username">{{ 'auth.userName' | translate }}:</label>
         <input id="username" name="username" [(ngModel)]="username" required/>
       </div>
       <div>
-        <label for="password">Password:</label>
+        <label for="password">{{ 'auth.password' | translate }}:</label>
         <input id="password" name="password" type="password" [(ngModel)]="password" required/>
       </div>
       <div *ngIf="error" style="color: red;">{{ error }}</div>
-      <button type="submit" [disabled]="loading || !loginForm.form.valid">Login</button>
-      <button type="button" (click)="$emitClose()" style="margin-left: 10px;">Cancel</button>
-      <span *ngIf="loading">Logging in...</span>
+      <button type="submit" [disabled]="loading || !loginForm.form.valid">{{ 'auth.login' | translate }}</button>
+      <button type="button" (click)="$emitClose()" style="margin-left: 10px;">{{ 'auth.cancel' | translate }}</button>
+      <span *ngIf="loading">{{ 'auth.loggingIn' | translate }}</span>
     </form>
   </div>
 </div>

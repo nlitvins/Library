@@ -1,11 +1,8 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {Book, BookGenre, BookService, BookStatus, BookType} from '../../services/book.service';
+import {BookService} from '../../services/book.service';
+import {Book, BookGenre, BookStatus, BookType} from '../../models/book.model';
 import {AuthUtilsService} from '../../services/auth-utils.service';
-
-interface JwtPayload {
-  role?: string;
-  userId?: number;
-}
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-book-list',
@@ -15,6 +12,7 @@ interface JwtPayload {
 export class BookListComponent implements OnInit {
   private bookService = inject(BookService);
   private authUtils = inject(AuthUtilsService);
+  private translate = inject(TranslateService);
 
   books: Book[] = [];
   filteredBooks: Book[] = [];
@@ -100,22 +98,22 @@ export class BookListComponent implements OnInit {
     const user = this.authUtils.parseJwt(jwt);
     if (!user.userId) return;
     this.bookService.reserveBook({bookId, userId: user.userId}).subscribe({
-      next: () => this.showNotification('Reservation successful!', 'green'),
-      error: () => this.showNotification('Failed to reserve book.', 'red')
+      next: () => this.showNotification(this.translate.instant('books.notifications.reserveSuccess'), 'green'),
+      error: () => this.showNotification(this.translate.instant('books.notifications.reserveError'), 'red')
     });
   }
 
   changeBookStatus(bookId: number) {
     this.bookService.changeBookStatus(bookId).subscribe({
       next: () => {
-        this.showNotification('Book status changed!', 'green')
+        this.showNotification(this.translate.instant('books.notifications.statusChangeSuccess'), 'green')
         this.books = this.books.map(book => book.id === bookId ? {
           ...book,
           status: book.status === BookStatus.AVAILABLE ? BookStatus.NOT_AVAILABLE : BookStatus.AVAILABLE
         } : book);
         this.applyFilters();
       },
-      error: () => this.showNotification('Failed to change book status.', 'red')
+      error: () => this.showNotification(this.translate.instant('books.notifications.statusChangeError'), 'red')
     });
   }
 }

@@ -1,36 +1,38 @@
-<h2>{{ isUserReservations ? 'My Reservations' : 'All Reservations' }}</h2>
+<h2>{{ isUserReservations ? ('reservations.title.my' | translate) : ('reservations.title.all' | translate) }}</h2>
 
 <div class="filters">
     <div class="filter-group">
         <input type="text" [(ngModel)]="bookTitleFilter" (ngModelChange)="applyFilters()"
-               placeholder="Filter by book title...">
+               [placeholder]="'reservations.filters.bookTitle' | translate">
       <input *ngIf="!isUserReservations" type="text" [(ngModel)]="userNameFilter" (ngModelChange)="applyFilters()"
-               placeholder="Filter by user name...">
+             [placeholder]="'reservations.filters.userName' | translate">
         <select [(ngModel)]="statusFilter" (ngModelChange)="applyFilters()">
-            <option value="">All Statuses</option>
-            <option value="NEW">New</option>
-            <option value="RECEIVED">Received</option>
-            <option value="COMPLETED">Completed</option>
-            <option value="CANCELLED">Cancelled</option>
-            <option value="OVERDUE">Overdue</option>
-            <option value="LOST">Lost</option>
+          <option value="">{{ 'reservations.filters.status.all' | translate }}</option>
+          <option value="NEW">{{ 'reservations.filters.status.new' | translate }}</option>
+          <option value="RECEIVED">{{ 'reservations.filters.status.received' | translate }}</option>
+          <option value="COMPLETED">{{ 'reservations.filters.status.completed' | translate }}</option>
+          <option value="CANCELLED">{{ 'reservations.filters.status.cancelled' | translate }}</option>
+          <option value="OVERDUE">{{ 'reservations.filters.status.overdue' | translate }}</option>
+          <option value="LOST">{{ 'reservations.filters.status.lost' | translate }}</option>
         </select>
-        <input type="date" [(ngModel)]="dateFromFilter" (ngModelChange)="applyFilters()" placeholder="From date...">
-        <input type="date" [(ngModel)]="dateToFilter" (ngModelChange)="applyFilters()" placeholder="To date...">
-        <button (click)="clearFilters()">Clear Filters</button>
+      <input type="date" [(ngModel)]="dateFromFilter" (ngModelChange)="applyFilters()"
+             [placeholder]="'reservations.filters.dateFrom' | translate">
+      <input type="date" [(ngModel)]="dateToFilter" (ngModelChange)="applyFilters()"
+             [placeholder]="'reservations.filters.dateTo' | translate">
+      <button (click)="clearFilters()">{{ 'reservations.filters.clear' | translate }}</button>
     </div>
 </div>
 
 <table *ngIf="filteredReservations.length > 0; else noReservations">
   <thead>
   <tr>
-    <th>ID</th>
-    <th>Book</th>
-    <th *ngIf="!isUserReservations">User</th>
-    <th>Status</th>
-    <th>Reservation Date</th>
-    <th>Return Date</th>
-    <th>Actions</th>
+    <th>{{ 'reservations.table.id' | translate }}</th>
+    <th>{{ 'reservations.table.book' | translate }}</th>
+    <th *ngIf="!isUserReservations">{{ 'reservations.table.user' | translate }}</th>
+    <th>{{ 'reservations.table.status' | translate }}</th>
+    <th>{{ 'reservations.table.reservationDate' | translate }}</th>
+    <th>{{ 'reservations.table.returnDate' | translate }}</th>
+    <th>{{ 'reservations.table.actions' | translate }}</th>
   </tr>
   </thead>
   <tbody>
@@ -48,41 +50,41 @@
         <div class="email">{{ reservation.user.email }}</div>
       </div>
     </td>
-      <td>{{ reservation.reservation.status | enumFormat }}</td>
+    <td>{{ reservation.reservation.status | enumFormat }}</td>
     <td>{{ reservation.reservation.createdDate | date:'dd.MM.yyyy HH:mm' }}</td>
     <td>{{ reservation.reservation.termDate | date:'dd.MM.yyyy HH:mm' }}</td>
     <td>
       <button *ngIf="canExtend(reservation)"
               (click)="extendReservation(reservation.reservation.id)"
               class="action-button extend">
-        Extend
+        {{ 'reservations.actions.extend' | translate }}
       </button>
       <button *ngIf="canCancel(reservation)"
               (click)="cancelReservation(reservation.reservation.id)"
               class="action-button cancel">
-        Cancel
+        {{ 'reservations.actions.cancel' | translate }}
       </button>
       <button *ngIf="canIssue(reservation)"
               (click)="issueBook(reservation.reservation.id)"
               class="action-button issue">
-        Issue
+        {{ 'reservations.actions.issue' | translate }}
       </button>
       <button *ngIf="canComplete(reservation)"
               (click)="completeReservation(reservation.reservation.id)"
               class="action-button complete">
-        Complete
+        {{ 'reservations.actions.complete' | translate }}
       </button>
       <button *ngIf="canMarkAsLost(reservation)"
               (click)="markAsLost(reservation.reservation.id)"
               class="action-button lost">
-        Mark as Lost
+        {{ 'reservations.actions.markAsLost' | translate }}
       </button>
     </td>
   </tr>
   </tbody>
 </table>
 <ng-template #noReservations>
-  <p>No reservations found.</p>
+  <p>{{ 'reservations.noReservations' | translate }}</p>
 </ng-template>
 
 <div *ngIf="notification" class="notification" [ngStyle]="{ background: notification.color }">

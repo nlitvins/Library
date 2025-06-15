@@ -1,21 +1,21 @@
-<h2>Users</h2>
+<h2>{{ 'users.title' | translate }}</h2>
 
 <div class="filters">
   <div class="filter-group">
     <input type="text" [(ngModel)]="nameFilter" (ngModelChange)="applyFilters()"
-           placeholder="Filter by name or username...">
+           [placeholder]="'users.filters.name' | translate">
     <input type="text" [(ngModel)]="emailFilter" (ngModelChange)="applyFilters()"
-           placeholder="Filter by email...">
+           [placeholder]="'users.filters.email' | translate">
     <select [(ngModel)]="roleFilter" (ngModelChange)="applyFilters()">
-      <option value="">All Roles</option>
-      <option value="STARTER">Starter</option>
-      <option value="USER">User</option>
-      <option value="LIBRARIAN">Librarian</option>
-      <option value="ADMIN">Admin</option>
+      <option value="">{{ 'users.filters.role.all' | translate }}</option>
+      <option value="STARTER">{{ 'users.filters.role.starter' | translate }}</option>
+      <option value="USER">{{ 'users.filters.role.user' | translate }}</option>
+      <option value="LIBRARIAN">{{ 'users.filters.role.librarian' | translate }}</option>
+      <option value="ADMIN">{{ 'users.filters.role.admin' | translate }}</option>
     </select>
     <input type="text" [(ngModel)]="personCodeFilter" (ngModelChange)="applyFilters()"
-           placeholder="Filter by person code...">
-    <button (click)="clearFilters()">Clear Filters</button>
+           [placeholder]="'users.filters.personCode' | translate">
+    <button (click)="clearFilters()">{{ 'users.filters.clear' | translate }}</button>
   </div>
 </div>
 
@@ -23,14 +23,14 @@
   <thead>
   <tr>
     <th></th>
-    <th>ID</th>
-    <th>Username</th>
-    <th>Name</th>
-    <th>Second Name</th>
-    <th>Email</th>
-    <th>Phone</th>
-    <th>Person Code</th>
-    <th>Role</th>
+    <th>{{ 'users.table.id' | translate }}</th>
+    <th>{{ 'users.table.username' | translate }}</th>
+    <th>{{ 'users.table.name' | translate }}</th>
+    <th>{{ 'users.table.secondName' | translate }}</th>
+    <th>{{ 'users.table.email' | translate }}</th>
+    <th>{{ 'users.table.phone' | translate }}</th>
+    <th>{{ 'users.table.personCode' | translate }}</th>
+    <th>{{ 'users.table.role' | translate }}</th>
     <th></th>
   </tr>
   </thead>
@@ -49,32 +49,35 @@
       <td>{{ user.personCode }}</td>
       <td>{{ user.role | enumFormat }}</td>
       <td>
-        <button *ngIf="canActivateUser(user)" (click)="activateUser(user.id)">Activate User</button>
-        <button *ngIf="canActivateLibrarian(user)" (click)="activateLibrarian(user.id)">Activate Librarian</button>
+        <button *ngIf="canActivateUser(user)"
+                (click)="activateUser(user.id)">{{ 'users.actions.activateUser' | translate }}
+        </button>
+        <button *ngIf="canActivateLibrarian(user)"
+                (click)="activateLibrarian(user.id)">{{ 'users.actions.activateLibrarian' | translate }}
+        </button>
       </td>
     </tr>
     <tr *ngIf="isUserExpanded(user.id)" class="reservations-row">
       <td colspan="9">
         <div class="reservations-container">
-          <h3>User Reservations</h3>
+          <h3>{{ 'users.reservations.title' | translate }}</h3>
           <div *ngIf="isLoadingReservations(user.id)" class="loading">
-            Loading reservations...
+            {{ 'users.reservations.loading' | translate }}
           </div>
           <table *ngIf="!isLoadingReservations(user.id) && getUserReservations(user.id).length > 0"
                  class="reservations-table">
             <thead>
             <tr>
-              <th>ID</th>
-              <th>Book</th>
-              <th>Status</th>
-              <th>Reservation Date</th>
-              <th>Return Date</th>
-              <th>Actions</th>
+              <th>{{ 'users.reservations.table.id' | translate }}</th>
+              <th>{{ 'users.reservations.table.book' | translate }}</th>
+              <th>{{ 'users.reservations.table.status' | translate }}</th>
+              <th>{{ 'users.reservations.table.reservationDate' | translate }}</th>
+              <th>{{ 'users.reservations.table.returnDate' | translate }}</th>
+              <th>{{ 'users.reservations.table.actions' | translate }}</th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let reservation of getUserReservations(user.id)">
-
               <td>{{ reservation.reservation.id }}</td>
               <td>
                 <div class="book-info">
@@ -89,17 +92,17 @@
                 <button *ngIf="canIssue(reservation)"
                         (click)="issueBook(reservation.reservation.id)"
                         class="action-button issue">
-                  Issue
+                  {{ 'users.reservations.actions.issue' | translate }}
                 </button>
                 <button *ngIf="canComplete(reservation)"
                         (click)="completeReservation(reservation.reservation.id)"
                         class="action-button complete">
-                  Complete
+                  {{ 'users.reservations.actions.complete' | translate }}
                 </button>
                 <button *ngIf="canMarkAsLost(reservation)"
                         (click)="markAsLost(reservation.reservation.id)"
                         class="action-button lost">
-                  Mark as Lost
+                  {{ 'users.reservations.actions.markAsLost' | translate }}
                 </button>
               </td>
             </tr>
@@ -107,7 +110,7 @@
           </table>
           <p *ngIf="!isLoadingReservations(user.id) && getUserReservations(user.id).length === 0"
              class="no-reservations">
-            No reservations found for this user.
+            {{ 'users.reservations.noReservations' | translate }}
           </p>
         </div>
       </td>
@@ -116,5 +119,9 @@
   </tbody>
 </table>
 <ng-template #noUsers>
-  <p>No users found.</p>
+  <p>{{ 'users.noUsers' | translate }}</p>
 </ng-template>
+
+<div *ngIf="notification" class="notification" [ngStyle]="{ background: notification.color }">
+  {{ notification.message }}
+</div>

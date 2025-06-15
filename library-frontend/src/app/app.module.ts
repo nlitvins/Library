@@ -1,7 +1,9 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -13,6 +15,12 @@ import {LoginModalComponent} from './components/login-modal/login-modal.componen
 import {RegisterModalComponent} from './components/register-modal/register-modal.component';
 import {AuthInterceptor} from './interceptors/auth.interceptor';
 import {EnumFormatPipe} from './pipes/enum-format.pipe';
+import {LanguageSelectorComponent} from './components/language-selector/language-selector.component';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -23,14 +31,23 @@ import {EnumFormatPipe} from './pipes/enum-format.pipe';
     BookFormComponent,
     LoginModalComponent,
     RegisterModalComponent,
-    EnumFormatPipe
+    EnumFormatPipe,
+    LanguageSelectorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

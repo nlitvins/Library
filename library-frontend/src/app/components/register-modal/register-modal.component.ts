@@ -2,6 +2,7 @@ import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {UserService} from '../../services/user.service';
 import {FormValidationService} from '../../services/form-validation.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register-modal',
@@ -15,6 +16,7 @@ export class RegisterModalComponent {
   private fb = inject(FormBuilder);
   private userService = inject(UserService);
   private formValidation = inject(FormValidationService);
+  private translate = inject(TranslateService);
 
   registerForm: FormGroup;
   error: string | null = null;
@@ -51,7 +53,7 @@ export class RegisterModalComponent {
           this.modalClose.emit();
         },
         error: (error: { error?: { message?: string } }) => {
-          this.error = error.error?.message ?? 'Registration failed. Please try again.';
+          this.error = error.error?.message ?? this.translate.instant('auth.registrationFailed');
         }
       });
     }
