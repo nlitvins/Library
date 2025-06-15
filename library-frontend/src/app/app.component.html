@@ -1,16 +1,17 @@
 <nav class="nav-bar">
   <div class="nav-left">
     <span class="nav-logo">📚</span>
-    <a routerLink="/books" routerLinkActive="active">Books</a>
-    <a *ngIf="isAdmin || isLibrarian" routerLink="/users" routerLinkActive="active">Users</a>
-    <a *ngIf="isLibrarian" routerLink="/reservations" routerLinkActive="active">Reservations</a>
-    <a *ngIf="isUser" routerLink="/my-reservations" routerLinkActive="active">My Reservations</a>
+    <a routerLink="/books" routerLinkActive="active">{{ 'nav.books' | translate }}</a>
+    <a *ngIf="isAdmin || isLibrarian" routerLink="/users" routerLinkActive="active">{{ 'nav.users' | translate }}</a>
+    <a *ngIf="isLibrarian" routerLink="/reservations" routerLinkActive="active">{{ 'nav.reservations' | translate }}</a>
+    <a *ngIf="isUser" routerLink="/my-reservations" routerLinkActive="active">{{ 'nav.myReservations' | translate }}</a>
   </div>
   <div class="nav-right">
-    <span *ngIf="displayName" class="nav-user">Logged in as <b>{{ displayName }}</b></span>
-    <button *ngIf="!displayName" (click)="showLogin = true">Login</button>
-    <button *ngIf="!displayName" (click)="showRegister = true">Register</button>
-    <button *ngIf="displayName" (click)="logout()">Logout</button>
+    <app-language-selector></app-language-selector>
+    <span *ngIf="displayName" class="nav-user">{{ 'nav.loggedInAs' | translate }} <b>{{ displayName }}</b></span>
+    <button *ngIf="!displayName" (click)="showLogin = true">{{ 'nav.login' | translate }}</button>
+    <button *ngIf="!displayName" (click)="showRegister = true">{{ 'nav.register' | translate }}</button>
+    <button *ngIf="displayName" (click)="logout()">{{ 'nav.logout' | translate }}</button>
   </div>
 </nav>
 <div class="main-content">

@@ -1,7 +1,9 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {ReservationDetailed, ReservationService} from '../../services/reservation.service';
+import {ReservationService} from '../../services/reservation.service';
+import {ReservationDetailed} from '../../models/reservation.model';
 import {ActivatedRoute} from '@angular/router';
 import {AuthUtilsService} from '../../services/auth-utils.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reservation-list',
@@ -12,6 +14,7 @@ export class ReservationListComponent implements OnInit {
   private reservationService = inject(ReservationService);
   private route = inject(ActivatedRoute);
   private authUtils = inject(AuthUtilsService);
+  private translate = inject(TranslateService);
 
   reservations: ReservationDetailed[] = [];
   filteredReservations: ReservationDetailed[] = [];
@@ -31,17 +34,20 @@ export class ReservationListComponent implements OnInit {
   }
 
   loadReservations(): void {
+    const scrollPosition = window.scrollY;
     if (this.isUserReservations) {
       this.reservationService.getReservationsDetailedByCurrentUser()
         .subscribe(data => {
           this.reservations = data;
           this.applyFilters();
+          window.scrollTo(0, scrollPosition);
         });
     } else {
       this.reservationService.getReservations()
         .subscribe(data => {
           this.reservations = data;
           this.applyFilters();
+          window.scrollTo(0, scrollPosition);
         });
     }
   }
@@ -119,50 +125,50 @@ export class ReservationListComponent implements OnInit {
   extendReservation(id: number) {
     this.reservationService.extendBook(id).subscribe({
       next: () => {
-        this.showNotification('Reservation extended successfully!', 'green');
+        this.showNotification(this.translate.instant('reservations.notifications.extendSuccess'), 'green');
         this.loadReservations();
       },
-      error: () => this.showNotification('Failed to extend reservation.', 'red')
+      error: () => this.showNotification(this.translate.instant('reservations.notifications.extendError'), 'red')
     });
   }
 
   cancelReservation(id: number) {
     this.reservationService.cancelReservation(id).subscribe({
       next: () => {
-        this.showNotification('Reservation cancelled successfully!', 'green');
+        this.showNotification(this.translate.instant('reservations.notifications.cancelSuccess'), 'green');
         this.loadReservations();
       },
-      error: () => this.showNotification('Failed to cancel reservation.', 'red')
+      error: () => this.showNotification(this.translate.instant('reservations.notifications.cancelError'), 'red')
     });
   }
 
   issueBook(id: number) {
     this.reservationService.receiveBook(id).subscribe({
       next: () => {
-        this.showNotification('Book issued successfully!', 'green');
+        this.showNotification(this.translate.instant('reservations.notifications.issueSuccess'), 'green');
         this.loadReservations();
       },
-      error: () => this.showNotification('Failed to issue book.', 'red')
+      error: () => this.showNotification(this.translate.instant('reservations.notifications.issueError'), 'red')
     });
   }
 
   completeReservation(id: number) {
     this.reservationService.completeReservation(id).subscribe({
       next: () => {
-        this.showNotification('Reservation completed successfully!', 'green');
+        this.showNotification(this.translate.instant('reservations.notifications.completeSuccess'), 'green');
         this.loadReservations();
       },
-      error: () => this.showNotification('Failed to complete reservation.', 'red')
+      error: () => this.showNotification(this.translate.instant('reservations.notifications.completeError'), 'red')
     });
   }
 
   markAsLost(id: number) {
     this.reservationService.loseBook(id).subscribe({
       next: () => {
-        this.showNotification('Book marked as lost successfully!', 'green');
+        this.showNotification(this.translate.instant('reservations.notifications.lostSuccess'), 'green');
         this.loadReservations();
       },
-      error: () => this.showNotification('Failed to mark book as lost.', 'red')
+      error: () => this.showNotification(this.translate.instant('reservations.notifications.lostError'), 'red')
     });
   }
 }

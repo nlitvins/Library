@@ -1,45 +1,48 @@
-<h2>Books</h2>
-<button *ngIf="isLibrarian" routerLink="/books/new" style="margin-bottom: 15px;">Create Book</button>
+<h2>{{ 'books.title' | translate }}</h2>
+<button *ngIf="isLibrarian" routerLink="/books/new" style="margin-bottom: 15px;">{{ 'books.create' | translate }}
+</button>
 
 <div class="filters">
   <div class="filter-group">
-    <input type="text" [(ngModel)]="titleFilter" (ngModelChange)="applyFilters()" placeholder="Filter by title...">
+    <input type="text" [(ngModel)]="titleFilter" (ngModelChange)="applyFilters()"
+           [placeholder]="'books.filters.title' | translate">
     <input type="text" [(ngModel)]="authorFilter" (ngModelChange)="applyFilters()"
-           placeholder="Filter by author...">
+           [placeholder]="'books.filters.author' | translate">
     <select [(ngModel)]="genreFilter" (ngModelChange)="applyFilters()">
-      <option value="">All Genres</option>
+      <option value="">{{ 'books.filters.genre.all' | translate }}</option>
       <option *ngFor="let genre of bookGenres" [value]="genre">{{ genre | enumFormat }}</option>
     </select>
     <select [(ngModel)]="typeFilter" (ngModelChange)="applyFilters()">
-      <option value="">All Types</option>
+      <option value="">{{ 'books.filters.type.all' | translate }}</option>
       <option *ngFor="let type of bookTypes" [value]="type">{{ type | enumFormat }}</option>
     </select>
     <select [(ngModel)]="statusFilter" (ngModelChange)="applyFilters()">
-      <option value="">All Statuses</option>
+      <option value="">{{ 'books.filters.status.all' | translate }}</option>
       <option *ngFor="let status of bookStatuses" [value]="status">{{ status | enumFormat }}</option>
     </select>
-    <input type="number" [(ngModel)]="minPagesFilter" (ngModelChange)="applyFilters()" placeholder="Min pages...">
+    <input type="number" [(ngModel)]="minPagesFilter" (ngModelChange)="applyFilters()"
+           [placeholder]="'books.filters.minPages' | translate">
     <input type="number" [(ngModel)]="minQuantityFilter" (ngModelChange)="applyFilters()"
-           placeholder="Min quantity...">
-    <button (click)="clearFilters()">Clear Filters</button>
+           [placeholder]="'books.filters.minQuantity' | translate">
+    <button (click)="clearFilters()">{{ 'books.filters.clear' | translate }}</button>
   </div>
 </div>
 
 <table *ngIf="filteredBooks.length > 0; else noBooks" class="book-table">
-  <caption>Available Books</caption>
+  <caption>{{ 'books.table.caption' | translate }}</caption>
   <thead>
   <tr>
-    <th *ngIf="isLibrarian">ID</th>
-    <th>Title</th>
-    <th>Author</th>
-    <th>Genre</th>
-    <th>Type</th>
-    <th>Pages</th>
-    <th>Edition</th>
-    <th>Creation Year</th>
-    <th>Release Date</th>
-    <th>Status</th>
-    <th>Quantity</th>
+    <th *ngIf="isLibrarian">{{ 'books.table.id' | translate }}</th>
+    <th>{{ 'books.table.title' | translate }}</th>
+    <th>{{ 'books.table.author' | translate }}</th>
+    <th>{{ 'books.table.genre' | translate }}</th>
+    <th>{{ 'books.table.type' | translate }}</th>
+    <th>{{ 'books.table.pages' | translate }}</th>
+    <th>{{ 'books.table.edition' | translate }}</th>
+    <th>{{ 'books.table.creationYear' | translate }}</th>
+    <th>{{ 'books.table.releaseDate' | translate }}</th>
+    <th>{{ 'books.table.status' | translate }}</th>
+    <th>{{ 'books.table.quantity' | translate }}</th>
     <th *ngIf="isUser"></th>
     <th *ngIf="isLibrarian"></th>
   </tr>
@@ -58,24 +61,28 @@
     <td>{{ book.status | enumFormat }}</td>
     <td>
       <span *ngIf="book.quantity > 0">{{ book.quantity }}</span>
-      <span *ngIf="book.quantity === 0" class="badge badge-out">Out of stock</span>
+      <span *ngIf="book.quantity === 0" class="badge badge-out">{{ 'books.table.outOfStock' | translate }}</span>
     </td>
     <td *ngIf="isUser">
-      <button *ngIf="book.quantity > 0" (click)="reserveBook(book.id)" title="Reserve this book">Reserve</button>
+      <button *ngIf="book.quantity > 0" (click)="reserveBook(book.id)" title="Reserve this book">
+        {{ 'books.actions.reserve' | translate }}
+      </button>
     </td>
     <td *ngIf="isLibrarian">
       <button *ngIf="book.status === 'AVAILABLE'" (click)="changeBookStatus(book.id)"
-              class="action-button not-available">Not Available
+              class="action-button not-available">
+        {{ 'books.actions.notAvailable' | translate }}
       </button>
       <button *ngIf="book.status === 'NOT_AVAILABLE'" (click)="changeBookStatus(book.id)"
-              class="action-button available">Available
+              class="action-button available">
+        {{ 'books.actions.available' | translate }}
       </button>
     </td>
   </tr>
   </tbody>
 </table>
 <ng-template #noBooks>
-  <p>No books found.</p>
+  <p>{{ 'books.noBooks' | translate }}</p>
 </ng-template>
 
 <div *ngIf="notification" class="notification" [ngStyle]="{ background: notification.color }">

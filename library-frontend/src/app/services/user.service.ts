@@ -2,26 +2,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
-
-export interface User {
-  id: number;
-  name: string;
-  secondName: string;
-  userName: string;
-  email: string;
-  mobileNumber: string;
-  personCode: string;
-  role: string;
-}
-
-export interface CreateUserRequest {
-  name: string;
-  secondName: string;
-  userName: string;
-  email: string;
-  mobileNumber: string;
-  personCode: string;
-}
+import {CreateUserRequest, User} from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'

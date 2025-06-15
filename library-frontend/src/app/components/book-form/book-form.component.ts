@@ -1,6 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Book, BookGenre, BookService, BookStatus, BookType} from '../../services/book.service';
+import {BookService} from '../../services/book.service';
+import {Book, BookGenre, BookStatus, BookType} from '../../models/book.model';
 import {FormValidationService} from '../../services/form-validation.service';
 
 @Component({

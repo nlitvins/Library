@@ -1,0 +1,15 @@
+.language-selector {
+  padding: 8px;
+}
+
+select {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+}
+
+select:hover {
+  border-color: #666;
+}

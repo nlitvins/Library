@@ -1,7 +1,10 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {User, UserService} from '../../services/user.service';
-import {ReservationDetailed, ReservationService} from '../../services/reservation.service';
+import {UserService} from '../../services/user.service';
+import {ReservationService} from '../../services/reservation.service';
+import {User} from '../../models/user.model';
+import {ReservationDetailed} from '../../models/reservation.model';
 import {AuthUtilsService} from '../../services/auth-utils.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-list',
@@ -12,6 +15,7 @@ export class UserListComponent implements OnInit {
   private userService = inject(UserService);
   private reservationService = inject(ReservationService);
   private authUtils = inject(AuthUtilsService);
+  private translate = inject(TranslateService);
 
   users: User[] = [];
   filteredUsers: User[] = [];
@@ -82,13 +86,16 @@ export class UserListComponent implements OnInit {
     if (this.loadingReservations.has(userId)) return;
 
     this.loadingReservations.add(userId);
+    const scrollPosition = window.scrollY;
     this.reservationService.getReservationsDetailedByUserId(userId).subscribe({
       next: (reservations) => {
         this.userReservations.set(userId, reservations);
         this.loadingReservations.delete(userId);
+        window.scrollTo(0, scrollPosition);
       },
       error: () => {
         this.loadingReservations.delete(userId);
+        window.scrollTo(0, scrollPosition);
       }
     });
   }
@@ -118,14 +125,24 @@ export class UserListComponent implements OnInit {
   }
 
   activateUser(userId: number): void {
+    const scrollPosition = window.scrollY;
     this.userService.activateUser(userId).subscribe(() => {
-      this.userService.getUsers().subscribe(data => this.users = data);
+      this.userService.getUsers().subscribe(data => {
+        this.users = data;
+        this.applyFilters();
+        window.scrollTo(0, scrollPosition);
+      });
     });
   }
 
   activateLibrarian(userId: number): void {
+    const scrollPosition = window.scrollY;
     this.userService.activateLibrarian(userId).subscribe(() => {
-      this.userService.getUsers().subscribe(data => this.users = data);
+      this.userService.getUsers().subscribe(data => {
+        this.users = data;
+        this.applyFilters();
+        window.scrollTo(0, scrollPosition);
+      });
     });
   }
 
@@ -143,31 +160,31 @@ export class UserListComponent implements OnInit {
 
   issueBook(id: number) {
     this.reservationService.receiveBook(id).subscribe({
-      next: () => {
-        this.showNotification('Book issued successfully!', 'green');
-        this.loadUserReservations(id);
+      next: (reservation) => {
+        this.showNotification(this.translate.instant('users.notifications.issueSuccess'), 'green');
+        this.loadUserReservations(reservation.userId);
       },
-      error: () => this.showNotification('Failed to issue book.', 'red')
+      error: () => this.showNotification(this.translate.instant('users.notifications.issueError'), 'red')
     });
   }
 
   completeReservation(id: number) {
     this.reservationService.completeReservation(id).subscribe({
-      next: () => {
-        this.showNotification('Reservation completed successfully!', 'green');
-        this.loadUserReservations(id);
+      next: (reservation) => {
+        this.showNotification(this.translate.instant('users.notifications.completeSuccess'), 'green');
+        this.loadUserReservations(reservation.userId);
       },
-      error: () => this.showNotification('Failed to complete reservation.', 'red')
+      error: () => this.showNotification(this.translate.instant('users.notifications.completeError'), 'red')
     });
   }
 
   markAsLost(id: number) {
     this.reservationService.loseBook(id).subscribe({
-      next: () => {
-        this.showNotification('Book marked as lost successfully!', 'green');
-        this.loadUserReservations(id);
+      next: (reservation) => {
+        this.showNotification(this.translate.instant('users.notifications.lostSuccess'), 'green');
+        this.loadUserReservations(reservation.userId);
       },
-      error: () => this.showNotification('Failed to mark book as lost.', 'red')
+      error: () => this.showNotification(this.translate.instant('users.notifications.lostError'), 'red')
     });
   }
 

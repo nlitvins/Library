@@ -1,5 +1,6 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {TranslateService} from '@ngx-translate/core';
 
 type ValidationMessageKey = 'required' | 'email' | 'minlength' | 'maxlength' | 'pattern' | 'min' | 'max' | 'dateRange';
 type ValidationMessage = string | ((value: any) => string);
@@ -8,6 +9,8 @@ type ValidationMessage = string | ((value: any) => string);
   providedIn: 'root'
 })
 export class FormValidationService {
+  private translate = inject(TranslateService);
+
   // Common validation patterns
   private readonly PHONE_PATTERN = '^[0-9]{8,12}$';
   private readonly PERSON_CODE_PATTERN = '^[0-9]{11}$';
@@ -112,20 +115,35 @@ export class FormValidationService {
 
     const errorKey = Object.keys(control.errors)[0] as ValidationMessageKey;
     const error = control.errors[errorKey];
-    const message = this.VALIDATION_MESSAGES[errorKey];
 
-    if (typeof message === 'function') {
-      if (errorKey === 'pattern') {
-        return message(error);
-      }
-      if (errorKey === 'minlength' || errorKey === 'maxlength') {
-        return message(error.requiredLength);
-      }
-      if (errorKey === 'min' || errorKey === 'max') {
-        return message(error[errorKey]);
-      }
+    switch (errorKey) {
+      case 'required':
+        return this.translate.instant('validation.required');
+      case 'email':
+        return this.translate.instant('validation.email');
+      case 'minlength':
+        return this.translate.instant('validation.minlength', {min: error.requiredLength});
+      case 'maxlength':
+        return this.translate.instant('validation.maxlength', {max: error.requiredLength});
+      case 'pattern':
+        if (error === this.PHONE_PATTERN) {
+          return this.translate.instant('validation.pattern.phone');
+        }
+        if (error === this.PERSON_CODE_PATTERN) {
+          return this.translate.instant('validation.pattern.personCode');
+        }
+        if (error === this.EMAIL_PATTERN) {
+          return this.translate.instant('validation.pattern.email');
+        }
+        return this.translate.instant('validation.pattern.default');
+      case 'min':
+        return this.translate.instant('validation.min', {min: error.min});
+      case 'max':
+        return this.translate.instant('validation.max', {max: error.max});
+      case 'dateRange':
+        return this.translate.instant('validation.dateRange');
+      default:
+        return this.translate.instant('validation.invalid', {field: fieldName});
     }
-
-    return message as string || `${fieldName} is invalid`;
   }
 }

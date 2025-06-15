@@ -1,6 +1,7 @@
 import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login-modal',
@@ -12,6 +13,7 @@ export class LoginModalComponent {
   @Output() loginSuccess = new EventEmitter<{ token: string, username: string }>();
 
   private http = inject(HttpClient);
+  private translate = inject(TranslateService);
 
   username = '';
   password = '';
@@ -35,7 +37,7 @@ export class LoginModalComponent {
         this.modalClose.emit();
       },
       error: () => {
-        this.error = 'Login failed. Please check your credentials.';
+        this.error = this.translate.instant('auth.loginFailed');
         this.loading = false;
       }
     });
