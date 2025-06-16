@@ -1,111 +1,111 @@
 <div class="book-form">
-    <h2>{{ book.id ? 'Edit Book' : 'Create Book' }}</h2>
+    <h2>{{ book.id ? ('books.editBook' | translate) : ('books.create' | translate) }}</h2>
     <form (ngSubmit)="onSubmit()" #bookForm="ngForm">
         <div class="form-row">
             <div class="form-group">
-                <label for="title">Title</label>
+                <label for="title">{{ 'books.table.title' | translate }}</label>
                 <input type="text" id="title" name="title" [(ngModel)]="book.title" required #title="ngModel">
-              <div class="error-message" *ngIf="title.touched">
-                {{ getValidationMessage(title, 'Title') }}
+                <div class="error-message" *ngIf="title.touched">
+                    {{ getValidationMessage(title, 'books.table.title' | translate) }}
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="author">Author</label>
+                <label for="author">{{ 'books.table.author' | translate }}</label>
                 <input type="text" id="author" name="author" [(ngModel)]="book.author" required #author="ngModel">
-              <div class="error-message" *ngIf="author.touched">
-                {{ getValidationMessage(author, 'Author') }}
+                <div class="error-message" *ngIf="author.touched">
+                    {{ getValidationMessage(author, 'books.table.author' | translate) }}
                 </div>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group">
-                <label for="genre">Genre</label>
+                <label for="genre">{{ 'books.table.genre' | translate }}</label>
                 <select id="genre" name="genre" [(ngModel)]="book.genre" required #genre="ngModel">
-                    <option value="">Select Genre</option>
+                    <option value="">{{ 'books.filters.genre.all' | translate }}</option>
                     <option *ngFor="let genre of bookGenres" [value]="genre">{{ genre | enumFormat }}</option>
                 </select>
-              <div class="error-message" *ngIf="genre.touched">
-                {{ getValidationMessage(genre, 'Genre') }}
+                <div class="error-message" *ngIf="genre.touched">
+                    {{ getValidationMessage(genre, 'books.table.genre' | translate) }}
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="type">Type</label>
+                <label for="type">{{ 'books.table.type' | translate }}</label>
                 <select id="type" name="type" [(ngModel)]="book.type" required #type="ngModel">
-                    <option value="">Select Type</option>
+                    <option value="">{{ 'books.filters.type.all' | translate }}</option>
                     <option *ngFor="let type of bookTypes" [value]="type">{{ type | enumFormat }}</option>
                 </select>
-              <div class="error-message" *ngIf="type.touched">
-                {{ getValidationMessage(type, 'Type') }}
+                <div class="error-message" *ngIf="type.touched">
+                    {{ getValidationMessage(type, 'books.table.type' | translate) }}
                 </div>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group">
-                <label for="pages">Pages</label>
+                <label for="pages">{{ 'books.table.pages' | translate }}</label>
                 <input type="number" id="pages" name="pages" [(ngModel)]="book.pages" required min="1" #pages="ngModel">
-              <div class="error-message" *ngIf="pages.touched">
-                {{ getValidationMessage(pages, 'Pages') }}
+                <div class="error-message" *ngIf="pages.touched">
+                    {{ getValidationMessage(pages, 'books.table.pages' | translate) }}
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="edition">Edition</label>
+                <label for="edition">{{ 'books.table.edition' | translate }}</label>
                 <input type="text" id="edition" name="edition" [(ngModel)]="book.edition" required #edition="ngModel">
-              <div class="error-message" *ngIf="edition.touched">
-                {{ getValidationMessage(edition, 'Edition') }}
+                <div class="error-message" *ngIf="edition.touched">
+                    {{ getValidationMessage(edition, 'books.table.edition' | translate) }}
                 </div>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group">
-                <label for="creationYear">Creation Year</label>
+                <label for="creationYear">{{ 'books.table.creationYear' | translate }}</label>
                 <input type="number" id="creationYear" name="creationYear" [(ngModel)]="book.creationYear" required
                        min="1" max="2024" #creationYear="ngModel">
-              <div class="error-message" *ngIf="creationYear.touched">
-                {{ getValidationMessage(creationYear, 'Creation Year') }}
+                <div class="error-message" *ngIf="creationYear.touched">
+                    {{ getValidationMessage(creationYear, 'books.table.creationYear' | translate) }}
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="releaseDate">Release Date</label>
+                <label for="releaseDate">{{ 'books.table.releaseDate' | translate }}</label>
                 <input type="date" id="releaseDate" name="releaseDate" [(ngModel)]="book.releaseDate" required
                        #releaseDate="ngModel">
-              <div class="error-message" *ngIf="releaseDate.touched">
-                {{ getValidationMessage(releaseDate, 'Release Date') }}
+                <div class="error-message" *ngIf="releaseDate.touched">
+                    {{ getValidationMessage(releaseDate, 'books.table.releaseDate' | translate) }}
                 </div>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group">
-                <label for="status">Status</label>
+                <label for="status">{{ 'books.table.status' | translate }}</label>
                 <select id="status" name="status" [(ngModel)]="book.status" required #status="ngModel">
-                    <option value="">Select Status</option>
+                    <option value="">{{ 'books.filters.status.all' | translate }}</option>
                     <option *ngFor="let status of bookStatuses" [value]="status">{{ status | enumFormat }}</option>
                 </select>
-              <div class="error-message" *ngIf="status.touched">
-                {{ getValidationMessage(status, 'Status') }}
+                <div class="error-message" *ngIf="status.touched">
+                    {{ getValidationMessage(status, 'books.table.status' | translate) }}
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="quantity">Quantity</label>
+                <label for="quantity">{{ 'books.table.quantity' | translate }}</label>
                 <input type="number" id="quantity" name="quantity" [(ngModel)]="book.quantity" required min="0"
                        #quantity="ngModel">
-              <div class="error-message" *ngIf="quantity.touched">
-                {{ getValidationMessage(quantity, 'Quantity') }}
+                <div class="error-message" *ngIf="quantity.touched">
+                    {{ getValidationMessage(quantity, 'books.table.quantity' | translate) }}
                 </div>
             </div>
         </div>
 
         <div class="button-group">
-            <button type="submit" [disabled]="bookForm.invalid">Save</button>
-            <button type="button" (click)="goBack()">Cancel</button>
+            <button type="submit" [disabled]="bookForm.invalid">{{ 'auth.submit' | translate }}</button>
+            <button type="button" (click)="goBack()">{{ 'auth.cancel' | translate }}</button>
         </div>
     </form>
 </div>

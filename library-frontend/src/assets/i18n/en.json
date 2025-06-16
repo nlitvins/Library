@@ -94,7 +94,9 @@
       "reserveSuccess": "Reservation successful!",
       "reserveError": "Failed to reserve book.",
       "statusChangeSuccess": "Book status changed!",
-      "statusChangeError": "Failed to change book status."
+      "statusChangeError": "Failed to change book status.",
+      "createSuccess": "Book created successfully!",
+      "createError": "Failed to create book."
     }
   },
   "reservations": {

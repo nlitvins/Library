@@ -85,7 +85,9 @@
       "reserveSuccess": "Rezervācija veiksmīga!",
       "reserveError": "Neizdevās rezervēt grāmatu.",
       "statusChangeSuccess": "Grāmatas statuss nomainīts!",
-      "statusChangeError": "Neizdevās nomainīt grāmatas statusu."
+      "statusChangeError": "Neizdevās nomainīt grāmatas statusu.",
+      "createSuccess": "Grāmata veiksmīgi pievienota!",
+      "createError": "Neizdevās pievienot grāmatu."
     }
   },
   "reservations": {

@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {BookService} from '../../services/book.service';
 import {Book, BookGenre, BookStatus, BookType} from '../../models/book.model';
 import {FormValidationService} from '../../services/form-validation.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-book-form',
@@ -14,6 +15,7 @@ export class BookFormComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private formValidation = inject(FormValidationService);
+  private translate = inject(TranslateService);
 
   book: Book = {
     id: 0,
@@ -44,10 +46,10 @@ export class BookFormComponent {
   onSubmit(): void {
     this.bookService.createBook(this.book).subscribe({
       next: () => {
-        this.showNotification('Book created successfully!', 'green');
+        this.showNotification(this.translate.instant('books.notifications.createSuccess'), 'green');
         this.goBack();
       },
-      error: () => this.showNotification('Failed to create book.', 'red')
+      error: () => this.showNotification(this.translate.instant('books.notifications.createError'), 'red')
     });
   }
 
