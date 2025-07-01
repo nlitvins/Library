@@ -36,6 +36,7 @@ public class ReservationReadUseCase {
         return reservationRepository.findByUserId(userId);
     }
 
+    //TODO
     public Reservation getById(int id) {
         return reservationRepository.findById(id);
     }

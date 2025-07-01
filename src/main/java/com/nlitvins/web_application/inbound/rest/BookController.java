@@ -1,6 +1,7 @@
 package com.nlitvins.web_application.inbound.rest;
 
 import com.nlitvins.web_application.domain.model.Book;
+import com.nlitvins.web_application.domain.usecase.BookCreateUseCase;
 import com.nlitvins.web_application.domain.usecase.BookReadUseCase;
 import com.nlitvins.web_application.domain.usecase.BookSetStatusUseCase;
 import com.nlitvins.web_application.inbound.model.BookCreateRequest;
@@ -25,10 +26,12 @@ public class BookController {
 
     private final BookReadUseCase bookReadUseCase;
     private final BookSetStatusUseCase bookSetStatusUseCase;
+    private final BookCreateUseCase bookCreateUseCase;
 
-    public BookController(BookReadUseCase bookReadUseCase, BookSetStatusUseCase bookSetStatusUseCase) {
+    public BookController(BookReadUseCase bookReadUseCase, BookSetStatusUseCase bookSetStatusUseCase, BookCreateUseCase bookCreateUseCase) {
         this.bookReadUseCase = bookReadUseCase;
         this.bookSetStatusUseCase = bookSetStatusUseCase;
+        this.bookCreateUseCase = bookCreateUseCase;
     }
 
     @GetMapping
@@ -47,7 +50,7 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
     public BookResponse postBook(@RequestBody BookCreateRequest request) {
         Book book = InboundMapper.Books.toDomain(request);
-        Book savedBook = bookReadUseCase.addBook(book);
+        Book savedBook = bookCreateUseCase.addBook(book);
         return InboundMapper.Books.toDTO(savedBook);
     }
 
