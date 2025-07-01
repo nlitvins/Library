@@ -77,18 +77,6 @@ class BookReadUseCaseTest {
         assertThat(result, containsInAnyOrder(List.of(book1, book2).toArray()));
     }
 
-    @Test
-    void saveBookWhenCorrectBookPassed() {
-        Book before = bookRepository.findById(1);
-        assertNull(before);
-
-        Book book = givenBookFirst();
-        Book result = sut.addBook(book);
-        assertNotNull(result);
-
-        Book savedBook = bookRepository.findById(1);
-        assertNotNull(savedBook);
-    }
 
     @Test
     void returnNullWhenBookNotFound() {

@@ -1,9 +1,11 @@
 package com.nlitvins.web_application.domain.model;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Setter;
 
 @Setter
+@EqualsAndHashCode
 @Builder(toBuilder = true)
 public class User {
 

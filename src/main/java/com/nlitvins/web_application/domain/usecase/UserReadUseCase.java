@@ -16,10 +16,6 @@ public class UserReadUseCase {
     }
 
     public List<User> getUsers() {
-        // 1. do business
-        // 2. call repository
         return userRepository.findAll();
-        // 3. do business
-        // 4. return domain objects
     }
 }
