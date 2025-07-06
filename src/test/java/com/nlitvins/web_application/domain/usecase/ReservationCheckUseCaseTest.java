@@ -2,7 +2,7 @@ package com.nlitvins.web_application.domain.usecase;
 
 
 import com.nlitvins.web_application.domain.exception.IllegalReservationStatusChangeException;
-import com.nlitvins.web_application.domain.exception.ReservationExtendionFailedException;
+import com.nlitvins.web_application.domain.exception.ReservationExtensionFailedException;
 import com.nlitvins.web_application.domain.exception.ReservationNotFoundException;
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
@@ -136,7 +136,7 @@ class ReservationCheckUseCaseTest {
         void throwExceptionWhenExtendBookWithIncorrectStatus(ReservationStatus status) {
             givenReservation(1, status, (short) 0);
 
-            ReservationExtendionFailedException thrown = assertThrows(ReservationExtendionFailedException.class, () -> sut.extendBook(1));
+            ReservationExtensionFailedException thrown = assertThrows(ReservationExtensionFailedException.class, () -> sut.extendBook(1));
             assertEquals("You can't extend reservation. Incorrect status or extension count.", thrown.getMessage());
         }
 
@@ -145,7 +145,7 @@ class ReservationCheckUseCaseTest {
         void throwExceptionWhenExtendBookWithIncorrectExtensionCountAndStatusNew(ReservationStatus status) {
             givenReservation(1, status, (short) 1);
 
-            ReservationExtendionFailedException thrown = assertThrows(ReservationExtendionFailedException.class, () -> sut.extendBook(1));
+            ReservationExtensionFailedException thrown = assertThrows(ReservationExtensionFailedException.class, () -> sut.extendBook(1));
             assertEquals("You can't extend reservation. Incorrect status or extension count.", thrown.getMessage());
         }
 
@@ -154,7 +154,7 @@ class ReservationCheckUseCaseTest {
         void throwExceptionWhenExtendBookWithIncorrectExtensionCountAndStatusReceived(ReservationStatus status) {
             givenReservation(1, status, (short) 3);
 
-            ReservationExtendionFailedException thrown = assertThrows(ReservationExtendionFailedException.class, () -> sut.extendBook(1));
+            ReservationExtensionFailedException thrown = assertThrows(ReservationExtensionFailedException.class, () -> sut.extendBook(1));
             assertEquals("You can't extend reservation. Incorrect status or extension count.", thrown.getMessage());
         }
 
