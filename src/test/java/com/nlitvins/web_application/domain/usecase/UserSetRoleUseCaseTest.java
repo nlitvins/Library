@@ -31,7 +31,43 @@ class UserSetRoleUseCaseTest {
         userRepository.clear();
     }
 
-    private User givenUserFirst() {
+    @Test
+    void returnRoleUserWhenUserRoleStarter() {
+        User user = givenUserFirst(UserRole.STARTER);
+
+        User result = sut.setUserRole(user.getId());
+
+        assertEquals(UserRole.USER, result.getRole());
+    }
+
+    @Test
+    void returnExceptionWhenUserIsActivated() {
+        User user = givenUserFirst(UserRole.USER);
+        int userId = user.getId();
+
+        UserAccountIsActivated thrown = assertThrows(UserAccountIsActivated.class, () -> sut.setUserRole(userId));
+        assertEquals("User johndoe account has been already activated", thrown.getMessage());
+    }
+
+    @Test
+    void returnRoleLibrarianWhenUserRoleStarter() {
+        User user = givenUserFirst(UserRole.STARTER);
+
+        User result = sut.setLibrarianRole(user.getId());
+
+        assertEquals(UserRole.LIBRARIAN, result.getRole());
+    }
+
+    @Test
+    void returnExceptionWhenLibrarianIsActivated() {
+        User user = givenUserFirst(UserRole.LIBRARIAN);
+        int userId = user.getId();
+
+        UserAccountIsActivated thrown = assertThrows(UserAccountIsActivated.class, () -> sut.setLibrarianRole(userId));
+        assertEquals("User johndoe account has been already activated", thrown.getMessage());
+    }
+
+    private User givenUserFirst(UserRole role) {
         return userRepository.save(User.builder()
                 .id(1)
                 .name("John")
@@ -41,39 +77,8 @@ class UserSetRoleUseCaseTest {
                 .email("johndoe@example.com")
                 .mobileNumber(20001111)
                 .personCode("190201-27314")
-                .role(UserRole.STARTER)
+                .role(role)
                 .build());
     }
-
-    @Test
-    void ReturnRoleUser() {
-        User user = givenUserFirst();
-
-        User result = sut.setUserRole(user.getId());
-
-        assertEquals(UserRole.USER, result.getRole());
-    }
-
-    @Test
-    void ReturnExceptionWhenUserIsActivated() {
-        User user = givenUserFirst();
-
-        User result = sut.setUserRole(user.getId());
-        assertEquals(UserRole.USER, result.getRole());
-
-        UserAccountIsActivated thrown = assertThrows(UserAccountIsActivated.class, () -> sut.setUserRole(result.getId()));
-        assertEquals("User johndoe account has been already activated", thrown.getMessage());
-    }
-
-    @Test
-    void ReturnRoleLibrarian() {
-        User user = givenUserFirst();
-
-        User result = sut.setLibrarianRole(user.getId());
-
-        assertEquals(UserRole.LIBRARIAN, result.getRole());
-    }
-
-
 }
 

@@ -1,6 +1,7 @@
 package com.nlitvins.web_application.domain.model;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Builder(toBuilder = true)
+@EqualsAndHashCode
 public class Reservation {
 
     private int id;

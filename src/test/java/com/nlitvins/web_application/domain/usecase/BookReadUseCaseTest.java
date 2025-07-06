@@ -35,6 +35,29 @@ class BookReadUseCaseTest {
         bookRepository.clear();
     }
 
+    @Test
+    void returnEmptyListWhenGetBooks() {
+        List<Book> result = sut.getBooks();
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void returnListWhenGetBooksCalled() {
+        Book book1 = givenBookFirst();
+        Book book2 = givenBookSecond();
+        List<Book> result = sut.getBooks();
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertThat(result, containsInAnyOrder(List.of(book1, book2).toArray()));
+    }
+
+    @Test
+    void returnNullWhenBookNotFound() {
+        Book result = bookRepository.findById(1);
+        assertNull(result);
+    }
+
     private Book givenBookFirst() {
         return bookRepository.save(
                 Book.builder()
@@ -56,32 +79,4 @@ class BookReadUseCaseTest {
                         .build()
         );
     }
-
-    @Test
-    void emptyListReturnWhenGetBooks() {
-        List<Book> result = sut.getBook();
-        assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void returnListWhenGetBooksCalled() {
-        List<Book> before = sut.getBook();
-        assertTrue(before.isEmpty());
-
-        Book book1 = givenBookFirst();
-        Book book2 = givenBookSecond();
-        List<Book> result = sut.getBook();
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertThat(result, containsInAnyOrder(List.of(book1, book2).toArray()));
-    }
-
-
-    @Test
-    void returnNullWhenBookNotFound() {
-        Book result = bookRepository.findById(1);
-        assertNull(result);
-    }
-
 }

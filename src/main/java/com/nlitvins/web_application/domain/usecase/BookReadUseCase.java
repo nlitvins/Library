@@ -16,11 +16,11 @@ public class BookReadUseCase {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> getBook() {
+    public List<Book> getBooks() {
         return bookRepository.findAll();
     }
 
-    public Book findById(int id) {
+    public Book getBookById(int id) {
         return bookRepository.findById(id);
     }
 }

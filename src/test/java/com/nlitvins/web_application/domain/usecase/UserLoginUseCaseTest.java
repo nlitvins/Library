@@ -43,8 +43,6 @@ class UserLoginUseCaseTest {
     void returnUserWhenUserLogin() {
         User user = givenUserFirst();
 
-//        when(jwtRepository.getToken(user)).thenReturn("mocked.jwt.token");
-//        doReturn("mocked.jwt.token").when(jwtRepository).getToken(any(User.class));
         doReturn("mocked.jwt.token").when(jwtRepository).getToken(user);
 
         User loginUser = User.builder()

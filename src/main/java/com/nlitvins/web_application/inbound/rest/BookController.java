@@ -36,13 +36,13 @@ public class BookController {
 
     @GetMapping
     public List<BookResponse> books() {
-        List<Book> book = bookReadUseCase.getBook();
+        List<Book> book = bookReadUseCase.getBooks();
         return InboundMapper.Books.toDTOList(book);
     }
 
     @GetMapping("/{bookId}")
     public BookResponse findBook(@PathVariable int bookId) {
-        Book book = bookReadUseCase.findById(bookId);
+        Book book = bookReadUseCase.getBookById(bookId);
         return InboundMapper.Books.toDTO(book);
     }
 

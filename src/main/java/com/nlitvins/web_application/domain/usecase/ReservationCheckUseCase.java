@@ -1,7 +1,7 @@
 package com.nlitvins.web_application.domain.usecase;
 
 import com.nlitvins.web_application.domain.exception.IllegalReservationStatusChangeException;
-import com.nlitvins.web_application.domain.exception.ReservationExceptionFailedException;
+import com.nlitvins.web_application.domain.exception.ReservationExtendionFailedException;
 import com.nlitvins.web_application.domain.exception.ReservationNotFoundException;
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
@@ -58,7 +58,7 @@ public class ReservationCheckUseCase {
         } else if (reservation.getStatus() == ReservationStatus.RECEIVED && extensionCount < 3) {
             reservation.setTermDate(termDate.plusDays(14));
         } else {
-            throw new ReservationExceptionFailedException();
+            throw new ReservationExtendionFailedException();
         }
 
         reservation.setExtensionCount((short) (extensionCount + 1));

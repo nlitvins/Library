@@ -28,6 +28,19 @@ class UserRegistrationUseCaseTest {
         userRepository.clear();
     }
 
+    @Test
+    void saveUserWhenCorrectUserPassed() {
+        User expected = userRepository.findById(1);
+        assertNull(expected);
+
+        User user = givenUserFirst();
+        User result = sut.registerUser(user);
+        assertNotNull(result);
+
+        User savedUser = userRepository.findById(1);
+        assertNotNull(savedUser);
+    }
+
     private User givenUserFirst() {
         return userRepository.save(User.builder()
                 .id(1)
@@ -40,19 +53,5 @@ class UserRegistrationUseCaseTest {
                 .personCode("190201-27314")
                 .role(null)
                 .build());
-    }
-
-
-    @Test
-    void saveUserWhenCorrectUserPassed() {
-        User expected = userRepository.findById(1);
-        assertNull(expected);
-
-        User user = givenUserFirst();
-        User result = sut.registerUser(user);
-        assertNotNull(result);
-
-        User savedUser = userRepository.findById(1);
-        assertNotNull(savedUser);
     }
 }
