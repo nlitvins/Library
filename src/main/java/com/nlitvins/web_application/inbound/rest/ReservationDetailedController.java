@@ -29,7 +29,7 @@ public class ReservationDetailedController {
     @GetMapping
     @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
     public List<ReservationDetailedResponse> findAll() {
-        List<ReservationDetailed> reservationDetailedList = reservationDetailedUseCase.findAll();
+        List<ReservationDetailed> reservationDetailedList = reservationDetailedUseCase.getAll();
         return InboundMapper.ReservationsDetailed.toDTOList(reservationDetailedList);
     }
 
@@ -44,7 +44,7 @@ public class ReservationDetailedController {
     @GetMapping("/user/{userId}")
     @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
     public List<ReservationDetailedResponse> findByUserId(@PathVariable int userId) {
-        List<ReservationDetailed> reservationDetailedList = reservationDetailedUseCase.findByUserId(userId);
+        List<ReservationDetailed> reservationDetailedList = reservationDetailedUseCase.getByUserId(userId);
         return InboundMapper.ReservationsDetailed.toDTOList(reservationDetailedList);
     }
 

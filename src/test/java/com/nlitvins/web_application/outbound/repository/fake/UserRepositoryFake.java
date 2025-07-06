@@ -3,7 +3,6 @@ package com.nlitvins.web_application.outbound.repository.fake;
 
 import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.domain.repository.UserRepository;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -13,6 +12,7 @@ import java.util.List;
 public class UserRepositoryFake implements UserRepository {
 
     private final HashMap<Integer, User> users = new HashMap<>();
+    private final HashMap<String, User> usersByUserName = new HashMap<>();
 
     @Override
     public List<User> findAll() {
@@ -28,17 +28,19 @@ public class UserRepositoryFake implements UserRepository {
     @Override
     public User save(User user) {
         users.put(user.getId(), user);
+        usersByUserName.put(user.getUserName(), user);
         return user.toBuilder().build();
     }
 
-    // TODO: fix
     @Override
     public User findByUserName(String userName) {
-        throw new NotImplementedException();
+        User user = usersByUserName.get(userName);
+        return user != null ? user.toBuilder().build() : null;
     }
 
     public void clear() {
         users.clear();
+        usersByUserName.clear();
     }
 
 }

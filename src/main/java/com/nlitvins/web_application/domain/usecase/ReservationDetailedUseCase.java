@@ -19,7 +19,7 @@ public class ReservationDetailedUseCase {
         this.jwtRepository = jwtRepository;
     }
 
-    public List<ReservationDetailed> findAll() {
+    public List<ReservationDetailed> getAll() {
         return reservationDetailedRepository.findAll();
     }
 
@@ -28,10 +28,10 @@ public class ReservationDetailedUseCase {
         if (userId == null) {
             return Collections.emptyList();
         }
-        return findByUserId(userId);
+        return getByUserId(userId);
     }
 
-    public List<ReservationDetailed> findByUserId(int userId) {
+    public List<ReservationDetailed> getByUserId(int userId) {
         return reservationDetailedRepository.findByUserId(userId);
     }
 

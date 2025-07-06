@@ -60,20 +60,6 @@ class UserReadUseCaseTest {
                 .build());
     }
 
-    private User givenUserWithoutId(int id) {
-        return User.builder()
-                .id(id)
-                .name("Jane")
-                .secondName("Smith")
-                .userName("janesmith")
-                .password("securePass2024")
-                .email("janesmith@example.com")
-                .mobileNumber(20001112)
-                .personCode("190202-27315")
-                .role(null)
-                .build();
-    }
-
     @Test
     void EmptyListReturnWhenGetUsers() {
         List<User> result = sut.getUsers();
@@ -94,20 +80,6 @@ class UserReadUseCaseTest {
         assertEquals("John", result.get(0).getName());
         assertEquals("Jane", result.get(1).getName());
     }
-
-//    @Test
-//    void saveUserWhenCorrectUserPassed() {
-//        User expected = userRepository.findById(123);
-//        assertNull(expected);
-//
-//        int userId = 123;
-//        User user = givenUserWithoutId(userId);
-//        User result = sut.registerUser(user);
-//        assertNotNull(result);
-//
-//        User savedUser = userRepository.findById(123);
-//        assertNotNull(savedUser);
-//    }
 
     @Test
     void whenFindByIdDontFindUser() {
