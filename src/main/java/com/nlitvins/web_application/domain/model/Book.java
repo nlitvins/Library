@@ -17,6 +17,7 @@ public class Book {
     private int id;
     private String title;
     private String author;
+    //TODO
     private boolean isBorrowed;
     private int quantity;
     private LocalDate creationYear;
