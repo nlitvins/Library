@@ -1,7 +1,8 @@
 # 📚 Library
 
 **Library** is a library management system. It allows users to browse books and
-librarians to manage them (add, edit, delete). The project includes authentication and role-based access control.
+librarians to manage them (add, reserve edit, delete). The project includes authentication and role-based access
+control.
 
 ---
 
@@ -26,14 +27,12 @@ librarians to manage them (add, edit, delete). The project includes authenticati
 
 **Frontend**:
 
-- React (or specify your framework)
-- TypeScript / JavaScript
-- Axios (for API requests)
+- Angular
+- TypeScript
 
 **DevOps**:
 
 - Docker & docker-compose
-- GitHub Actions (CI/CD)
 - Swagger / OpenAPI (API documentation)
 
 ---
