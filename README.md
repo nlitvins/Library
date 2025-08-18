@@ -1,7 +1,8 @@
 # 📚 Library
 
-**Library** is a library management system. It allows users to browse books and
-librarians to manage them (add, reserve edit, delete). The project includes authentication and role-based access
+**Library** is a library management system. It allows users to browse and reserve books and
+librarians to manage users and reservations (add, edit, delete). The project includes authentication and role-based
+access
 control.
 
 ---
