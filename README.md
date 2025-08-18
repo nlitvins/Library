@@ -11,6 +11,7 @@ control.
 
 - User authentication and registration
 - Roles: **Administrator**, **Librarian** and **Reader**
+- Book reservation
 - Book management (CRUD operations)
 - Book list with search and filtering
 - REST API for frontend-backend communication
@@ -56,7 +57,7 @@ docker-compose up --build
 After startup:
 
 - Backend: `http://localhost:8080`
-- Frontend: `http://localhost:3000`
+- Frontend: `http://localhost:5171` (run manually via .\start-fe.ps1)
 
 ---
 
@@ -90,9 +91,10 @@ http://localhost:8080/swagger-ui.html
 
 ## 🔮 Future
 
+- [ ] Write unit tests for the backend
+- [ ] Backend code refactoring with clean code rules
 - [ ] Improve frontend design
 - [ ] Add pagination and book search
-- [ ] Write unit tests for the backend
 - [ ] Automate deployment to a server
 
 ---
