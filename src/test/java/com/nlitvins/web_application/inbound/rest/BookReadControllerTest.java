@@ -2,24 +2,24 @@ package com.nlitvins.web_application.inbound.rest;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.usecase.BookReadUseCase;
-import com.nlitvins.web_application.inbound.model.BookCreateRequest;
 import com.nlitvins.web_application.inbound.model.BookResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
-import static com.nlitvins.web_application.utils.TestFactory.givenBook;
-import static com.nlitvins.web_application.utils.TestFactory.givenRequestBook;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static com.nlitvins.web_application.utils.TestFactory.givenBookResponses;
+import static com.nlitvins.web_application.utils.TestFactory.givenBooks;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class BookReadControllerTest extends AbstractControllerTest {
 
@@ -46,17 +46,35 @@ class BookReadControllerTest extends AbstractControllerTest {
 
         @Test
         void returnBooks() {
-            BookCreateRequest bookCreateRequest = givenRequestBook();
-            Book book = givenBook();
-            List<Book> books;
-            doReturn(book).when(bookReadUseCase).getBooks();
-            when(bookReadUseCase.getBooks()).thenReturn(books);
+            List<Book> books = givenBooks();
+            doReturn(books).when(bookReadUseCase).getBooks();
 
             List<BookResponse> booksResponse = controller.books();
 
             assertNotNull(booksResponse);
-            assertEquals(1, booksResponse.size());
-            assertThat(booksResponse, containsInAnyOrder(List.of(book).toArray()));
+            assertEquals(2, booksResponse.size());
+            assertEquals(givenBookResponses(), booksResponse);
+        }
+    }
+
+    @Nested
+    class ApiCalls {
+
+        @Test
+        void returnBooks() throws Exception {
+            List<Book> books = givenBooks();
+            doReturn(books).when(bookReadUseCase).getBooks();
+
+            MvcResult mvcResult = mockMvc.perform(
+                            MockMvcRequestBuilders.get(getControllerURI())
+                                    .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andReturn();
+
+            List<BookResponse> bookResponse = getResponseList(mvcResult, BookResponse.class);
+            assertEquals(givenBookResponses(), bookResponse);
         }
     }
 }

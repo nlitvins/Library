@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.TimeZone;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -56,5 +57,9 @@ public abstract class AbstractControllerTest {
 
     protected <T> T getResponseObject(MvcResult mvcResult, Class<T> clazz) throws IOException {
         return objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), clazz);
+    }
+
+    protected <T> List<T> getResponseList(MvcResult mvcResult, Class<T> clazz) throws IOException {
+        return objectMapper.readerForListOf(clazz).readValue(mvcResult.getResponse().getContentAsString());
     }
 } 

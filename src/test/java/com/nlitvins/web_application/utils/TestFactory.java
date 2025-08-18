@@ -8,8 +8,31 @@ import com.nlitvins.web_application.inbound.model.BookCreateRequest;
 import com.nlitvins.web_application.inbound.model.BookResponse;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestFactory {
+
+    public static List<Book> givenBooks() {
+        List<Book> books = new ArrayList<>();
+        books.add(givenBook());
+        books.add(givenBook());
+        return books;
+    }
+
+    public static List<BookCreateRequest> givenRequestBooks() {
+        List<BookCreateRequest> bookCreateRequests = new ArrayList<>();
+        bookCreateRequests.add(givenRequestBook());
+        bookCreateRequests.add(givenRequestBook());
+        return bookCreateRequests;
+    }
+
+    public static List<BookResponse> givenBookResponses() {
+        List<BookResponse> bookResponses = new ArrayList<>();
+        bookResponses.add(givenResponseBook());
+        bookResponses.add(givenResponseBook());
+        return bookResponses;
+    }
 
     public static BookCreateRequest givenRequestBook() {
         return BookCreateRequest.builder()
