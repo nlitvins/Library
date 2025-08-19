@@ -51,7 +51,7 @@ cd Library
 
 ### 2. Run backend
 
-#### 2.1 From Docker & local Spring application
+#### 2.1 Run with Docker & local Spring application
 
 ```bash
 docker compose up --build
