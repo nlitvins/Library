@@ -13,6 +13,7 @@ control.
 - Roles: **Administrator**, **Librarian** and **Reader**
 - Book reservation
 - Book management
+- Reservation management
 - Book list with search and filtering
 - REST API for frontend-backend communication
 
@@ -60,7 +61,7 @@ docker compose up --build
 gradle bootRun
 ```
 
-#### 2.2 From Docker only
+#### 2.2 Run with Docker only
 
 ```bash
 docker compose --profile backend up --build
