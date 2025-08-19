@@ -1,7 +1,7 @@
 # 📚 Library
 
 **Library** is a library management system. It allows users to browse and reserve books and
-librarians to manage users and reservations (add, edit, delete). The project includes authentication and role-based
+librarians to manage users, books and reservations. The project includes authentication and role-based
 access
 control.
 
@@ -12,7 +12,7 @@ control.
 - User authentication and registration
 - Roles: **Administrator**, **Librarian** and **Reader**
 - Book reservation
-- Book management (CRUD operations)
+- Book management
 - Book list with search and filtering
 - REST API for frontend-backend communication
 
@@ -57,7 +57,7 @@ docker-compose up --build
 After startup:
 
 - Backend: `http://localhost:8080`
-- Frontend: `http://localhost:5171` (run manually via .\start-fe.ps1)
+  - Frontend: `http://localhost:4200` (run manually via .\start-fe.ps1)
 
 ---
 
@@ -74,8 +74,8 @@ After startup:
   Password: `librarian123`
 
 - **Reader**  
-  Login: `user`  
-  Password: `user123`
+  Login: `testuser3`  
+  Password: `password123`
 
 ---
 
@@ -84,7 +84,7 @@ After startup:
 Swagger UI is available after startup:
 
 ```
-http://localhost:8080/swagger-ui.html
+http://localhost:8080/swagger-ui/index.html
 ```
 
 ---
