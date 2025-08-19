@@ -48,16 +48,39 @@ git clone https://github.com/nlitvins/Library.git
 cd Library
 ```
 
-### 2. Run with Docker
+### 2. Run backend
+
+#### 2.1 From Docker & local Spring application
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
-After startup:
+```bash
+gradle bootRun
+```
 
+#### 2.2 From Docker only
+
+```bash
+docker compose --profile backend up --build
+```
+
+### 3. Run frontend
+
+```bash
+.\start-fe.sh
+```
+
+### 4. Access application
 - Backend: `http://localhost:8080`
-  - Frontend: `http://localhost:4200` (run manually via .\start-fe.ps1)
+- Frontend: `http://localhost:4200`
+
+### 5. Clean Docker
+
+```bash
+docker compose --profile backend down --volumes --remove-orphans
+```
 
 ---
 
