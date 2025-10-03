@@ -11,20 +11,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestFactory {
+public class BookTestFactory {
 
     public static List<Book> givenBooks() {
         List<Book> books = new ArrayList<>();
         books.add(givenBook());
         books.add(givenBook());
         return books;
-    }
-
-    public static List<BookCreateRequest> givenRequestBooks() {
-        List<BookCreateRequest> bookCreateRequests = new ArrayList<>();
-        bookCreateRequests.add(givenRequestBook());
-        bookCreateRequests.add(givenRequestBook());
-        return bookCreateRequests;
     }
 
     public static List<BookResponse> givenBookResponses() {
@@ -36,6 +29,21 @@ public class TestFactory {
 
     public static BookCreateRequest givenRequestBook() {
         return BookCreateRequest.builder()
+                .title("Test Book")
+                .author("Test Author")
+                .quantity(4)
+                .creationYear(LocalDate.parse("1888-04-03"))
+                .status(BookStatus.AVAILABLE)
+                .genre(BookGenre.ADVENTURE)
+                .pages((short) 444)
+                .edition("Test-edition")
+                .releaseDate(LocalDate.parse("2021-10-09"))
+                .type(BookType.BOOK)
+                .build();
+    }
+
+    public static BookResponse givenResponseBook() {
+        return BookResponse.builder()
                 .title("Test Book")
                 .author("Test Author")
                 .quantity(4)
@@ -64,8 +72,25 @@ public class TestFactory {
                 .build();
     }
 
-    public static BookResponse givenResponseBook() {
+    public static Book givenBookWithId(int id) {
+        return Book.builder()
+                .id(id)
+                .title("Test Book")
+                .author("Test Author")
+                .quantity(4)
+                .creationYear(LocalDate.parse("1888-04-03"))
+                .status(BookStatus.AVAILABLE)
+                .genre(BookGenre.ADVENTURE)
+                .pages((short) 444)
+                .edition("Test-edition")
+                .releaseDate(LocalDate.parse("2021-10-09"))
+                .type(BookType.BOOK)
+                .build();
+    }
+
+    public static BookResponse givenResponseBook(int id) {
         return BookResponse.builder()
+                .id(id)
                 .title("Test Book")
                 .author("Test Author")
                 .quantity(4)

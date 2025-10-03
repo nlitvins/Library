@@ -1,10 +1,6 @@
-package com.nlitvins.web_application.domain.usecase;
+package com.nlitvins.web_application.domain.usecase.reservation;
 
-import com.nlitvins.web_application.domain.exception.BookNotFoundException;
-import com.nlitvins.web_application.domain.exception.BookQuantityIsZeroException;
-import com.nlitvins.web_application.domain.exception.BookStatusNotAvailableException;
-import com.nlitvins.web_application.domain.exception.UserHasSameReservationException;
-import com.nlitvins.web_application.domain.exception.UserHasTooManyActiveReservationsException;
+import com.nlitvins.web_application.domain.exception.*;
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.BookStatus;
 import com.nlitvins.web_application.domain.model.Reservation;

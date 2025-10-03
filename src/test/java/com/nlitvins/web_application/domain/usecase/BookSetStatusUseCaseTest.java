@@ -2,6 +2,7 @@ package com.nlitvins.web_application.domain.usecase;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.BookStatus;
+import com.nlitvins.web_application.domain.usecase.book.BookSetStatusUseCase;
 import com.nlitvins.web_application.outbound.repository.fake.BookRepositoryFake;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,25 @@ class BookSetStatusUseCaseTest {
         bookRepository = new BookRepositoryFake();
         sut = new BookSetStatusUseCase(bookRepository);
     }
+
+    @Test
+    void returnStatusAvailableWhenBookWasNotAvailable() {
+        Book book = givenBookStatusNotAvailable();
+
+        Book result = sut.setStatus(book.getId());
+
+        assertEquals(BookStatus.AVAILABLE, result.getStatus());
+    }
+
+    @Test
+    void returnStatusNotAvailableWhenBookWasAvailable() {
+        Book book = givenBookStatusAvailable();
+
+        Book result = sut.setStatus(book.getId());
+
+        assertEquals(BookStatus.NOT_AVAILABLE, result.getStatus());
+    }
+
 
     private Book givenBookStatusAvailable() {
         return bookRepository.save(
@@ -45,26 +65,6 @@ class BookSetStatusUseCaseTest {
                         .build()
         );
     }
-
-    @Test
-    void returnStatusAvailableWhenBookWasNotAvailable() {
-        Book book = givenBookStatusNotAvailable();
-
-        Book result = sut.setStatus(book.getId());
-
-        assertEquals(BookStatus.AVAILABLE, result.getStatus());
-    }
-
-    @Test
-    void returnStatusNotAvailableWhenBookWasAvailable() {
-        Book book = givenBookStatusAvailable();
-
-        Book result = sut.setStatus(book.getId());
-
-        assertEquals(BookStatus.NOT_AVAILABLE, result.getStatus());
-    }
-
-
 }
 
 

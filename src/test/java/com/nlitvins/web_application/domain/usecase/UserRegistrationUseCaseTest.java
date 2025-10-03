@@ -1,6 +1,7 @@
 package com.nlitvins.web_application.domain.usecase;
 
 import com.nlitvins.web_application.domain.model.User;
+import com.nlitvins.web_application.domain.usecase.user.UserRegistrationUseCase;
 import com.nlitvins.web_application.outbound.repository.fake.UserRepositoryFake;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

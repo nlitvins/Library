@@ -1,16 +1,12 @@
-package com.nlitvins.web_application.inbound.rest;
+package com.nlitvins.web_application.inbound.rest.reservation.detailed;
 
 import com.nlitvins.web_application.domain.model.ReservationDetailed;
-import com.nlitvins.web_application.domain.usecase.ReservationDetailedUseCase;
+import com.nlitvins.web_application.domain.usecase.reservation.ReservationDetailedUseCase;
 import com.nlitvins.web_application.inbound.model.ReservationDetailedResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 

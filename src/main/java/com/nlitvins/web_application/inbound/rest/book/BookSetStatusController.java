@@ -1,7 +1,7 @@
-package com.nlitvins.web_application.inbound.rest;
+package com.nlitvins.web_application.inbound.rest.book;
 
 import com.nlitvins.web_application.domain.model.Book;
-import com.nlitvins.web_application.domain.usecase.BookSetStatusUseCase;
+import com.nlitvins.web_application.domain.usecase.book.BookSetStatusUseCase;
 import com.nlitvins.web_application.inbound.model.BookResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;
 import org.springframework.security.access.prepost.PreAuthorize;

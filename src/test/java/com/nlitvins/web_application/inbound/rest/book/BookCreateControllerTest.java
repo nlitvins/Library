@@ -1,47 +1,25 @@
-package com.nlitvins.web_application.inbound.rest;
+package com.nlitvins.web_application.inbound.rest.book;
 
 import com.nlitvins.web_application.domain.model.Book;
-import com.nlitvins.web_application.domain.usecase.BookCreateUseCase;
+import com.nlitvins.web_application.domain.usecase.book.BookCreateUseCase;
 import com.nlitvins.web_application.inbound.model.BookCreateRequest;
 import com.nlitvins.web_application.inbound.model.BookResponse;
+import com.nlitvins.web_application.inbound.rest.AbstractControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static com.nlitvins.web_application.utils.TestFactory.givenBook;
-import static com.nlitvins.web_application.utils.TestFactory.givenRequestBook;
-import static com.nlitvins.web_application.utils.TestFactory.givenResponseBook;
+import static com.nlitvins.web_application.utils.BookTestFactory.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class BookCreateControllerTest extends AbstractControllerTest {
-
-    private final BookCreateUseCase bookCreateUseCase = mock();
-    private final BookCreateController controller = new BookCreateController(bookCreateUseCase);
-
-    @Override
-    protected String getControllerURI() {
-        return "/books";
-    }
-
-    @Override
-    protected Object getController() {
-        return controller;
-    }
-
-    @BeforeEach
-    void setUp() {
-        reset(bookCreateUseCase);
-    }
-
     @Nested
     class DirectCalls {
         @Test
@@ -58,7 +36,6 @@ class BookCreateControllerTest extends AbstractControllerTest {
 
     @Nested
     class ApiCalls {
-
         @Test
         void returnBookWhenBookCreated() throws Exception {
             BookCreateRequest bookCreateRequest = givenRequestBook();
@@ -80,4 +57,21 @@ class BookCreateControllerTest extends AbstractControllerTest {
 
     }
 
+    private final BookCreateUseCase bookCreateUseCase = mock();
+    private final BookCreateController controller = new BookCreateController(bookCreateUseCase);
+
+    @Override
+    protected String getControllerURI() {
+        return "/books";
+    }
+
+    @Override
+    protected Object getController() {
+        return controller;
+    }
+
+    @BeforeEach
+    void setUp() {
+        reset(bookCreateUseCase);
+    }
 }

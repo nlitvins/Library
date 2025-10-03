@@ -1,4 +1,4 @@
-package com.nlitvins.web_application.domain.usecase;
+package com.nlitvins.web_application.domain.usecase.book;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.repository.BookRepository;

@@ -1,6 +1,7 @@
 package com.nlitvins.web_application.domain.usecase;
 
 import com.nlitvins.web_application.domain.model.User;
+import com.nlitvins.web_application.domain.usecase.user.UserReadUseCase;
 import com.nlitvins.web_application.outbound.repository.fake.UserRepositoryFake;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,9 +11,7 @@ import org.junit.jupiter.api.TestInstance;
 import java.util.List;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserReadUseCaseTest {

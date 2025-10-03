@@ -4,6 +4,7 @@ import com.nlitvins.web_application.domain.exception.UserLoginException;
 import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.domain.model.UserRole;
 import com.nlitvins.web_application.domain.repository.JwtRepository;
+import com.nlitvins.web_application.domain.usecase.user.UserLoginUseCase;
 import com.nlitvins.web_application.outbound.repository.fake.UserRepositoryFake;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,10 +14,7 @@ import org.junit.jupiter.api.TestInstance;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserLoginUseCaseTest {

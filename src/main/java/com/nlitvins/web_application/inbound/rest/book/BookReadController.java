@@ -1,7 +1,7 @@
-package com.nlitvins.web_application.inbound.rest;
+package com.nlitvins.web_application.inbound.rest.book;
 
 import com.nlitvins.web_application.domain.model.Book;
-import com.nlitvins.web_application.domain.usecase.BookReadUseCase;
+import com.nlitvins.web_application.domain.usecase.book.BookReadUseCase;
 import com.nlitvins.web_application.inbound.model.BookResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;
 import org.springframework.web.bind.annotation.GetMapping;

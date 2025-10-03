@@ -7,13 +7,10 @@ import com.nlitvins.web_application.domain.exception.ReservationNotFoundExceptio
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
+import com.nlitvins.web_application.domain.usecase.reservation.ReservationCheckUseCase;
 import com.nlitvins.web_application.outbound.repository.fake.BookRepositoryFake;
 import com.nlitvins.web_application.outbound.repository.fake.ReservationRepositoryFake;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.MockedStatic;
