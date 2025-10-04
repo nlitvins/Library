@@ -5,6 +5,7 @@ import com.nlitvins.web_application.domain.usecase.reservation.ReservationCreate
 import com.nlitvins.web_application.inbound.model.ReservationCreateRequest;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class ReservationCreateController {
     }
 
     @PostMapping
-//    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ReservationResponse reserveBook(@RequestBody ReservationCreateRequest request) {
         Reservation reservation = InboundMapper.Reservations.toDomain(request);
         Reservation savedReservation = reservationCreateUseCase.registerReservation(reservation);

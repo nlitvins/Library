@@ -51,8 +51,22 @@ public class ReservationTestFactory {
                 .build();
     }
 
+    public static Reservation givenReservationWithBookId(int bookId) {
+        return Reservation.builder()
+                .id(1)
+                .userId(2)
+                .bookId(bookId)
+                .createdDate(LocalDateTime.now())
+                .termDate(LocalDateTime.now())
+                .status(ReservationStatus.NEW)
+                .extensionCount((short) 0)
+                .updatedDate(LocalDateTime.now())
+                .build();
+    }
+
     public static ReservationResponse givenReservationResponse() {
         return ReservationResponse.builder()
+                .id(1)
                 .userId(2)
                 .bookId(book().getId())
                 .createdDate(LocalDateTime.now())

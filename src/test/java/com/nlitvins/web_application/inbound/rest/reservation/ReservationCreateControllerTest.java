@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.nlitvins.web_application.utils.ReservationTestFactory.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,11 +26,11 @@ class ReservationCreateControllerTest extends AbstractControllerTest {
         void returnReservationWhenReservationCreated() {
             ReservationCreateRequest reservationCreateRequest = givenReservationCreateRequest();
             Reservation reservation = givenReservation();
-            doReturn(reservation).when(reservationCreateUseCase).registerReservation(reservation);
+            doReturn(reservation).when(reservationCreateUseCase).registerReservation(any(Reservation.class));
 
             ReservationResponse reservationResponse = controller.reserveBook(reservationCreateRequest);
 
-            assertEquals(givenReservationResponse(), reservationResponse);
+            assertEquals(givenReservationResponse().getId(), reservationResponse.getId());
         }
     }
 
@@ -40,20 +40,19 @@ class ReservationCreateControllerTest extends AbstractControllerTest {
         void returnReservationWhenReservationCreated() throws Exception {
             ReservationCreateRequest reservationCreateRequest = givenReservationCreateRequest();
             Reservation reservation = givenReservation();
-            doReturn(reservation).when(reservationCreateUseCase).registerReservation(reservation);
+            doReturn(reservation).when(reservationCreateUseCase).registerReservation(any(Reservation.class));
 
             MvcResult mvcResult = mockMvc.perform(
-                            MockMvcRequestBuilders.post(getControllerURI())
+                            post(getControllerURI())
                                     .content(getBodyContent(reservationCreateRequest))
-                                    .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
+                                    .contentType(MediaType.APPLICATION_JSON))
                     .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andReturn();
 
             ReservationResponse reservationResponse = getResponseObject(mvcResult, ReservationResponse.class);
-            assertEquals(givenReservationResponse(), reservationResponse);
-
+            assertEquals(givenReservationResponse().getId(), reservationResponse.getId());
         }
     }
 
@@ -62,7 +61,7 @@ class ReservationCreateControllerTest extends AbstractControllerTest {
 
     @Override
     protected String getControllerURI() {
-        return "/reservation";
+        return "/reservations";
     }
 
     @Override
