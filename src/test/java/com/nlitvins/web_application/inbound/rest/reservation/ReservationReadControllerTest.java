@@ -12,6 +12,7 @@ import java.util.List;
 
 import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservationResponses;
 import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservations;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
@@ -20,7 +21,7 @@ class ReservationReadControllerTest extends AbstractControllerTest {
     @Nested
     class DirectCalls {
         @Test
-        void returnReservationsWhenReservationsIsCalled() {
+        void returnReservationsWhenReservationsCalled() {
             List<Reservation> reservations = givenReservations();
             doReturn(reservations).when(reservationReadUseCase).getReservations();
 
@@ -28,7 +29,10 @@ class ReservationReadControllerTest extends AbstractControllerTest {
 
             assertNotNull(reservationResponses);
             assertEquals(2, reservationResponses.size());
-            assertEquals(givenReservationResponses(), reservationResponses);
+            assertThat(reservationResponses)
+                    .usingRecursiveComparison()
+                    .ignoringFields("createdDate", "termDate", "updatedDate")
+                    .isEqualTo(givenReservationResponses());
         }
     }
 

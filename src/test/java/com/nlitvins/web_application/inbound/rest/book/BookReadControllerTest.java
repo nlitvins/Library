@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.List;
 
 import static com.nlitvins.web_application.utils.BookTestFactory.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
@@ -24,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BookReadControllerTest extends AbstractControllerTest {
     @Nested
     class DirectCalls {
-
         @Test
         void returnBooks() {
             List<Book> books = givenBooks();
@@ -71,7 +71,6 @@ class BookReadControllerTest extends AbstractControllerTest {
 
     }
 
-    //TODO
     @Test
     void returnBookById() throws Exception {
         int bookId = 1;
@@ -87,7 +86,9 @@ class BookReadControllerTest extends AbstractControllerTest {
                 .andReturn();
 
         BookResponse bookResponse = getResponseObject(mvcResult, BookResponse.class);
-        assertEquals(givenResponseBook().getTitle(), bookResponse.getTitle());
+        assertThat(bookResponse)
+                .usingRecursiveComparison()
+                .isEqualTo(givenResponseBook(bookId));
 
     }
 
