@@ -54,7 +54,6 @@ class BookCreateControllerTest extends AbstractControllerTest {
 
     @Nested
     class ApiCalls {
-
         @Test
         void returnBookWhenBookCreated() throws Exception {
             BookCreateRequest bookCreateRequest = givenRequestBook();

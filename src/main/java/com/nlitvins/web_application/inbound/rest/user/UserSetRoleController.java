@@ -16,7 +16,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/users", produces = APPLICATION_JSON_VALUE)
 public class UserSetRoleController {
 
-    private UserSetRoleUseCase userSetRoleUseCase;
+    private final UserSetRoleUseCase userSetRoleUseCase;
 
     public UserSetRoleController(UserSetRoleUseCase userSetRoleUseCase) {
         this.userSetRoleUseCase = userSetRoleUseCase;
