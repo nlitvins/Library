@@ -23,6 +23,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class BookReadControllerTest extends AbstractControllerTest {
+
+    private final BookReadUseCase bookReadUseCase = mock();
+    private final BookReadController controller = new BookReadController(bookReadUseCase);
+
+    @Override
+    protected String getControllerURI() {
+        return "/books";
+    }
+
+    //TODO
+    protected String getIdControllerURI() {
+        return "/books/{bookId}";
+    }
+
+    @Override
+    protected Object getController() {
+        return controller;
+    }
+
+    @BeforeEach
+    void setUp() {
+        reset(bookReadUseCase);
+    }
+
     @Nested
     class DirectCalls {
         @Test
@@ -47,10 +71,10 @@ class BookReadControllerTest extends AbstractControllerTest {
 
             assertEquals(givenResponseBook(bookId), bookResponse);
         }
-
     }
     @Nested
     class ApiCalls {
+
 
         @Test
         void returnBooks() throws Exception {
@@ -90,27 +114,5 @@ class BookReadControllerTest extends AbstractControllerTest {
                 .usingRecursiveComparison()
                 .isEqualTo(givenResponseBook(bookId));
 
-    }
-
-    private final BookReadUseCase bookReadUseCase = mock();
-    private final BookReadController controller = new BookReadController(bookReadUseCase);
-
-    @Override
-    protected String getControllerURI() {
-        return "/books";
-    }
-
-    protected String getIdControllerURI() {
-        return "/books/{bookId}";
-    }
-
-    @Override
-    protected Object getController() {
-        return controller;
-    }
-
-    @BeforeEach
-    void setUp() {
-        reset(bookReadUseCase);
     }
 }

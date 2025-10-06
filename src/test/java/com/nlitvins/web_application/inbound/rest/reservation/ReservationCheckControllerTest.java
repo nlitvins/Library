@@ -20,8 +20,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class ReservationCheckControllerTest extends AbstractControllerTest {
+
+    private final ReservationCheckUseCase reservationCheckUseCase = mock();
+    private final ReservationCheckController controller = new ReservationCheckController(reservationCheckUseCase);
+
+    @Override
+    protected String getControllerURI() {
+        return "/reservations";
+    }
+
+    @Override
+    protected Object getController() {
+        return controller;
+    }
+
+    @BeforeEach
+    void setUp() {
+        reset(reservationCheckUseCase);
+    }
+
     @Nested
     class DirectCalls {
+
         @Test
         void returnReservationWhenReceiveReservation() {
             int id = 1;
@@ -74,7 +94,6 @@ class ReservationCheckControllerTest extends AbstractControllerTest {
             assertEquals(givenReservationResponse(1).getId(), reservationResponse.getId());
             assertEquals(givenReservationResponse(1).getStatus(), reservationResponse.getStatus());
         }
-
         @Test
         void returnReservationWhenLoseBook() {
             int id = 1;
@@ -87,10 +106,11 @@ class ReservationCheckControllerTest extends AbstractControllerTest {
             assertEquals(givenReservationResponse(1).getId(), reservationResponse.getId());
             assertEquals(givenReservationResponse(1).getStatus(), reservationResponse.getStatus());
         }
-    }
 
+    }
     @Nested
     class ApiCalls {
+
         @Test
         void returnReservationWhenReservationReceived() throws Exception {
             int id = 1;
@@ -174,7 +194,6 @@ class ReservationCheckControllerTest extends AbstractControllerTest {
             assertEquals(givenReservationResponse(1).getId(), reservationResponse.getId());
             assertEquals(givenReservationResponse(1).getStatus(), reservationResponse.getStatus());
         }
-
         @Test
         void returnReservationWhenLoseBook() throws Exception {
             int id = 1;
@@ -195,25 +214,6 @@ class ReservationCheckControllerTest extends AbstractControllerTest {
             assertEquals(givenReservationResponse(1).getId(), reservationResponse.getId());
             assertEquals(givenReservationResponse(1).getStatus(), reservationResponse.getStatus());
         }
-    }
-
-
-    private final ReservationCheckUseCase reservationCheckUseCase = mock();
-    private final ReservationCheckController controller = new ReservationCheckController(reservationCheckUseCase);
-
-    @Override
-    protected String getControllerURI() {
-        return "/reservations";
-    }
-
-    @Override
-    protected Object getController() {
-        return controller;
-    }
-
-    @BeforeEach
-    void setUp() {
-        reset(reservationCheckUseCase);
     }
 }
 

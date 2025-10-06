@@ -1,7 +1,6 @@
 package com.nlitvins.web_application.domain.model;
 
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +10,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @Builder(toBuilder = true)
-@EqualsAndHashCode
+//@EqualsAndHashCode
 public class Book {
 
     private int id;

@@ -20,6 +20,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class BookCreateControllerTest extends AbstractControllerTest {
+    private final BookCreateUseCase bookCreateUseCase = mock();
+    private final BookCreateController controller = new BookCreateController(bookCreateUseCase);
+
+    @Override
+    protected String getControllerURI() {
+        return "/books";
+    }
+
+    @Override
+    protected Object getController() {
+        return controller;
+    }
+
+    @BeforeEach
+    void setUp() {
+        reset(bookCreateUseCase);
+    }
+
     @Nested
     class DirectCalls {
         @Test
@@ -36,6 +54,7 @@ class BookCreateControllerTest extends AbstractControllerTest {
 
     @Nested
     class ApiCalls {
+
         @Test
         void returnBookWhenBookCreated() throws Exception {
             BookCreateRequest bookCreateRequest = givenRequestBook();
@@ -55,23 +74,5 @@ class BookCreateControllerTest extends AbstractControllerTest {
             assertEquals(givenResponseBook(), bookResponse);
         }
 
-    }
-
-    private final BookCreateUseCase bookCreateUseCase = mock();
-    private final BookCreateController controller = new BookCreateController(bookCreateUseCase);
-
-    @Override
-    protected String getControllerURI() {
-        return "/books";
-    }
-
-    @Override
-    protected Object getController() {
-        return controller;
-    }
-
-    @BeforeEach
-    void setUp() {
-        reset(bookCreateUseCase);
     }
 }

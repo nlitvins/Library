@@ -112,4 +112,18 @@ public class ReservationTestFactory {
                 .type(BookType.BOOK)
                 .build();
     }
+
+    public static User givenUser() {
+        return User.builder()
+                .id(2)
+                .name("Bob")
+                .secondName("Bob")
+                .userName("Bob")
+                .password("bob123")
+                .email("bob@example.com")
+                .mobileNumber(21111111)
+                .personCode("120871-27314")
+                .role(UserRole.USER)
+                .build();
+    }
 }

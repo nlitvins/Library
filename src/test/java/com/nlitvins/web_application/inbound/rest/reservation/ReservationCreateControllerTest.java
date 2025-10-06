@@ -20,6 +20,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class ReservationCreateControllerTest extends AbstractControllerTest {
+
+    private final ReservationCreateUseCase reservationCreateUseCase = mock();
+    private final ReservationCreateController controller = new ReservationCreateController(reservationCreateUseCase);
+
+    @Override
+    protected String getControllerURI() {
+        return "/reservations";
+    }
+
+    @Override
+    protected Object getController() {
+        return controller;
+    }
+
+    @BeforeEach
+    void setUp() {
+        reset(reservationCreateUseCase);
+    }
+
     @Nested
     class DirectCalls {
         @Test
@@ -32,8 +51,8 @@ class ReservationCreateControllerTest extends AbstractControllerTest {
 
             assertEquals(givenReservationResponse().getId(), reservationResponse.getId());
         }
-    }
 
+    }
     @Nested
     class ApiCalls {
         @Test
@@ -54,24 +73,7 @@ class ReservationCreateControllerTest extends AbstractControllerTest {
             ReservationResponse reservationResponse = getResponseObject(mvcResult, ReservationResponse.class);
             assertEquals(givenReservationResponse().getId(), reservationResponse.getId());
         }
-    }
 
-    private final ReservationCreateUseCase reservationCreateUseCase = mock();
-    private final ReservationCreateController controller = new ReservationCreateController(reservationCreateUseCase);
-
-    @Override
-    protected String getControllerURI() {
-        return "/reservations";
-    }
-
-    @Override
-    protected Object getController() {
-        return controller;
-    }
-
-    @BeforeEach
-    void setUp() {
-        reset(reservationCreateUseCase);
     }
 }
 
