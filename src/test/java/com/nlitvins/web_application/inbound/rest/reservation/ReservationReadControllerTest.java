@@ -14,11 +14,13 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
-import static com.nlitvins.web_application.utils.ReservationTestFactory.*;
+import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservationResponses;
+import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservations;
+import static com.nlitvins.web_application.utils.UserTestFactory.givenUser;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -54,9 +56,10 @@ class ReservationReadControllerTest extends AbstractControllerTest {
 
             List<ReservationResponse> reservationResponses = controller.reservations();
 
-            assertNotNull(reservationResponses);
-            assertEquals(2, reservationResponses.size());
-            assertThat(reservationResponses).usingRecursiveComparison().ignoringFields("createdDate", "termDate", "updatedDate").isEqualTo(givenReservationResponses());
+            assertThat(reservationResponses)
+                    .usingRecursiveComparison()
+                    .ignoringFields("id")
+                    .isEqualTo(givenReservationResponses());
         }
 
         @Test
@@ -70,9 +73,10 @@ class ReservationReadControllerTest extends AbstractControllerTest {
 
             List<ReservationResponse> reservationResponses = controller.reservationsByToken(token);
 
-            assertNotNull(reservationResponses);
-            assertEquals(2, reservationResponses.size());
-            assertThat(reservationResponses).usingRecursiveComparison().ignoringFields("createdDate", "termDate", "updatedDate").isEqualTo(givenReservationResponses());
+            assertThat(reservationResponses)
+                    .usingRecursiveComparison()
+                    .ignoringFields("id")
+                    .isEqualTo(givenReservationResponses());
         }
 
         @Test
@@ -82,9 +86,10 @@ class ReservationReadControllerTest extends AbstractControllerTest {
 
             List<ReservationResponse> reservationResponses = controller.reservationsByUserId(2);
 
-            assertNotNull(reservationResponses);
-            assertEquals(2, reservationResponses.size());
-            assertThat(reservationResponses).usingRecursiveComparison().ignoringFields("createdDate", "termDate", "updatedDate").isEqualTo(givenReservationResponses());
+            assertThat(reservationResponses)
+                    .usingRecursiveComparison()
+                    .ignoringFields("id")
+                    .isEqualTo(givenReservationResponses());
         }
     }
 
@@ -96,13 +101,19 @@ class ReservationReadControllerTest extends AbstractControllerTest {
             List<Reservation> reservations = givenReservations();
             doReturn(reservations).when(reservationReadUseCase).getReservations();
 
-            MvcResult mvcResult = mockMvc.perform(get(getControllerURI()).contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andReturn();
+            MvcResult mvcResult = mockMvc.perform(
+                            get(getControllerURI()))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andReturn();
 
             List<ReservationResponse> reservationResponses = getResponseList(mvcResult, ReservationResponse.class);
 
-            assertNotNull(reservationResponses);
-            assertEquals(2, reservationResponses.size());
-            assertThat(reservationResponses).usingRecursiveComparison().ignoringFields("createdDate", "termDate", "updatedDate").isEqualTo(givenReservationResponses());
+            assertThat(reservationResponses)
+                    .usingRecursiveComparison()
+                    .ignoringFields("id")
+                    .isEqualTo(givenReservationResponses());
         }
 
         @Test
@@ -111,9 +122,9 @@ class ReservationReadControllerTest extends AbstractControllerTest {
             String token = "none";
             doReturn(reservations).when(reservationReadUseCase).getReservationsByToken(token);
 
-            MvcResult mvcResult = mockMvc.perform(get(getControllerURI() + "/user")
-                            .header("Authorization", "Bearer " + token)
-                            .contentType(MediaType.APPLICATION_JSON))
+            MvcResult mvcResult = mockMvc.perform(
+                            get(getControllerURI() + "/user")
+                                    .header("Authorization", "Bearer " + token))
                     .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -121,12 +132,9 @@ class ReservationReadControllerTest extends AbstractControllerTest {
 
             List<ReservationResponse> reservationResponses = getResponseList(mvcResult, ReservationResponse.class);
 
-
-            assertNotNull(reservationResponses);
-//            assertEquals(2, reservationResponses.size());
             assertThat(reservationResponses)
                     .usingRecursiveComparison()
-                    .ignoringFields("createdDate", "termDate", "updatedDate")
+                    .ignoringFields("id")
                     .isEqualTo(givenReservationResponses());
         }
 
@@ -135,15 +143,19 @@ class ReservationReadControllerTest extends AbstractControllerTest {
             List<Reservation> reservations = givenReservations();
             doReturn(reservations).when(reservationReadUseCase).getReservationByUserId(2);
 
-            List<ReservationResponse> listReservationResponses = controller.reservationsByUserId(2);
-
-            MvcResult mvcResult = mockMvc.perform(get(getControllerURI() + "/user" + "/" + 2).contentType(getBodyContent(2)).contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andReturn();
+            MvcResult mvcResult = mockMvc.perform(
+                            get(getControllerURI() + "/user" + "/" + 2)
+                                    .contentType(getBodyContent(2)))
+                    .andDo(print()).andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andReturn();
 
             List<ReservationResponse> reservationResponses = getResponseList(mvcResult, ReservationResponse.class);
 
-            assertNotNull(reservationResponses);
-            assertEquals(2, reservationResponses.size());
-            assertThat(reservationResponses).usingRecursiveComparison().ignoringFields("createdDate", "termDate", "updatedDate").isEqualTo(givenReservationResponses());
+            assertThat(reservationResponses)
+                    .usingRecursiveComparison()
+                    .ignoringFields("id")
+                    .isEqualTo(givenReservationResponses());
         }
     }
 }

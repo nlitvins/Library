@@ -1,6 +1,7 @@
 package com.nlitvins.web_application.inbound.rest.reservation;
 
 import com.nlitvins.web_application.domain.model.Reservation;
+import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.usecase.reservation.ReservationCreateUseCase;
 import com.nlitvins.web_application.inbound.model.ReservationCreateRequest;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
@@ -11,9 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static com.nlitvins.web_application.utils.ReservationTestFactory.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservation;
+import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservationCreateRequest;
+import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservationResponse;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -45,21 +50,25 @@ class ReservationCreateControllerTest extends AbstractControllerTest {
         void returnReservationWhenReservationCreated() {
             ReservationCreateRequest reservationCreateRequest = givenReservationCreateRequest();
             Reservation reservation = givenReservation();
-            doReturn(reservation).when(reservationCreateUseCase).registerReservation(any(Reservation.class));
+            doReturn(reservation).when(reservationCreateUseCase).registerReservation(newReservation);
 
             ReservationResponse reservationResponse = controller.reserveBook(reservationCreateRequest);
 
-            assertEquals(givenReservationResponse().getId(), reservationResponse.getId());
+            assertThat(reservationResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(givenReservationResponse());
         }
 
     }
+
     @Nested
     class ApiCalls {
         @Test
         void returnReservationWhenReservationCreated() throws Exception {
             ReservationCreateRequest reservationCreateRequest = givenReservationCreateRequest();
             Reservation reservation = givenReservation();
-            doReturn(reservation).when(reservationCreateUseCase).registerReservation(any(Reservation.class));
+
+            doReturn(reservation).when(reservationCreateUseCase).registerReservation(newReservation);
 
             MvcResult mvcResult = mockMvc.perform(
                             post(getControllerURI())
@@ -71,9 +80,17 @@ class ReservationCreateControllerTest extends AbstractControllerTest {
                     .andReturn();
 
             ReservationResponse reservationResponse = getResponseObject(mvcResult, ReservationResponse.class);
-            assertEquals(givenReservationResponse().getId(), reservationResponse.getId());
+            assertThat(reservationResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(givenReservationResponse());
         }
-
     }
+
+    Reservation newReservation = Reservation.builder()
+            .userId(givenReservationCreateRequest().getUserId())
+            .bookId(givenReservationCreateRequest().getBookId())
+            .status(ReservationStatus.NEW)
+            .extensionCount((short) 0)
+            .build();
 }
 

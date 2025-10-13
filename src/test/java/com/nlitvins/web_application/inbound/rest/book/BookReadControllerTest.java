@@ -13,11 +13,14 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
-import static com.nlitvins.web_application.utils.BookTestFactory.*;
+import static com.nlitvins.web_application.utils.BookTestFactory.givenBookResponses;
+import static com.nlitvins.web_application.utils.BookTestFactory.givenBookWithId;
+import static com.nlitvins.web_application.utils.BookTestFactory.givenBooks;
+import static com.nlitvins.web_application.utils.BookTestFactory.givenResponseBook;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,9 +59,10 @@ class BookReadControllerTest extends AbstractControllerTest {
 
             List<BookResponse> booksResponse = controller.books();
 
-            assertNotNull(booksResponse);
-            assertEquals(2, booksResponse.size());
-            assertEquals(givenBookResponses(), booksResponse);
+            assertThat(booksResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(givenBookResponses());
+
         }
 
         @Test
@@ -69,50 +73,52 @@ class BookReadControllerTest extends AbstractControllerTest {
 
             BookResponse bookResponse = controller.findBook(bookId);
 
-            assertEquals(givenResponseBook(bookId), bookResponse);
+            assertThat(bookResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(givenResponseBook(bookId));
         }
     }
+
     @Nested
     class ApiCalls {
-
-
         @Test
         void returnBooks() throws Exception {
             List<Book> books = givenBooks();
             doReturn(books).when(bookReadUseCase).getBooks();
 
             MvcResult mvcResult = mockMvc.perform(
-                            MockMvcRequestBuilders.get(getControllerURI())
-                                    .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
+                            MockMvcRequestBuilders.get(getControllerURI()))
                     .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andReturn();
 
             List<BookResponse> bookResponse = getResponseList(mvcResult, BookResponse.class);
-            assertEquals(givenBookResponses(), bookResponse);
+            assertThat(bookResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(givenBookResponses());
         }
 
-    }
 
-    @Test
-    void returnBookById() throws Exception {
-        int bookId = 1;
-        Book book = givenBookWithId(bookId);
-        doReturn(book).when(bookReadUseCase).getBookById(bookId);
+        @Test
+        void returnBookById() throws Exception {
+            int bookId = 1;
+            Book book = givenBookWithId(bookId);
+            doReturn(book).when(bookReadUseCase).getBookById(bookId);
 
-        MvcResult mvcResult = mockMvc.perform(
-                        MockMvcRequestBuilders.get(getIdControllerURI(), bookId)
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
+            MvcResult mvcResult = mockMvc.perform(
+                            MockMvcRequestBuilders.get(getIdControllerURI(), bookId)
+                                    .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andReturn();
 
-        BookResponse bookResponse = getResponseObject(mvcResult, BookResponse.class);
-        assertThat(bookResponse)
-                .usingRecursiveComparison()
-                .isEqualTo(givenResponseBook(bookId));
+            BookResponse bookResponse = getResponseObject(mvcResult, BookResponse.class);
+            assertThat(bookResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(givenResponseBook(bookId));
 
+        }
     }
 }

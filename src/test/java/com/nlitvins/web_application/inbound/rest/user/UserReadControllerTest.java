@@ -15,9 +15,10 @@ import java.util.List;
 
 import static com.nlitvins.web_application.utils.UserTestFactory.givenUsers;
 import static com.nlitvins.web_application.utils.UserTestFactory.givenUsersResponse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -51,10 +52,10 @@ class UserReadControllerTest extends AbstractControllerTest {
 
             List<UserResponse> userResponses = controller.getUsers();
 
+            assertThat(userResponses)
+                    .usingRecursiveComparison()
+                    .isEqualTo(givenUsersResponse());
 
-            assertNotNull(userResponses);
-            assertEquals(2, userResponses.size());
-            assertEquals(givenUsersResponse(), userResponses);
         }
     }
 
@@ -66,15 +67,16 @@ class UserReadControllerTest extends AbstractControllerTest {
             doReturn(users).when(userReadUseCase).getUsers();
 
             MvcResult mvcResult = mockMvc.perform(
-                            MockMvcRequestBuilders.get(getControllerURI())
-                                    .contentType(MediaType.APPLICATION_JSON))
+                            MockMvcRequestBuilders.get(getControllerURI()))
                     .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andReturn();
 
             List<UserResponse> userResponses = getResponseList(mvcResult, UserResponse.class);
-            assertEquals(givenUsersResponse(), userResponses);
+            assertThat(userResponses)
+                    .usingRecursiveComparison()
+                    .isEqualTo(givenUsersResponse());
         }
     }
 

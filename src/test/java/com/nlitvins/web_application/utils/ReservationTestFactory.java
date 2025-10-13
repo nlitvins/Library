@@ -1,27 +1,29 @@
 package com.nlitvins.web_application.utils;
 
-import com.nlitvins.web_application.domain.model.*;
+import com.nlitvins.web_application.domain.model.Reservation;
+import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.inbound.model.ReservationCreateRequest;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.nlitvins.web_application.utils.BookTestFactory.givenBook;
 
 public class ReservationTestFactory {
 
     public static List<Reservation> givenReservations() {
         List<Reservation> reservations = new ArrayList<Reservation>();
-        reservations.add(givenReservation());
-        reservations.add(givenReservation());
+        reservations.add(givenReservation(1));
+        reservations.add(givenReservation(2));
         return reservations;
     }
 
     public static List<ReservationResponse> givenReservationResponses() {
         List<ReservationResponse> reservationResponses = new ArrayList<>();
-        reservationResponses.add(givenReservationResponse());
-        reservationResponses.add(givenReservationResponse());
+        reservationResponses.add(givenReservationResponse(1));
+        reservationResponses.add(givenReservationResponse(2));
         return reservationResponses;
     }
 
@@ -29,12 +31,12 @@ public class ReservationTestFactory {
         return Reservation.builder()
                 .id(1)
                 .userId(2)
-                .bookId(book().getId())
-                .createdDate(LocalDateTime.now())
-                .termDate(LocalDateTime.now())
+                .bookId(givenBook().getId())
+                .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .termDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
                 .status(ReservationStatus.NEW)
                 .extensionCount((short) 0)
-                .updatedDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
                 .build();
     }
 
@@ -42,12 +44,12 @@ public class ReservationTestFactory {
         return Reservation.builder()
                 .id(id)
                 .userId(2)
-                .bookId(book().getId())
-                .createdDate(LocalDateTime.now())
-                .termDate(LocalDateTime.now())
+                .bookId(givenBook().getId())
+                .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .termDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
                 .status(ReservationStatus.NEW)
                 .extensionCount((short) 0)
-                .updatedDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
                 .build();
     }
 
@@ -56,11 +58,11 @@ public class ReservationTestFactory {
                 .id(1)
                 .userId(2)
                 .bookId(bookId)
-                .createdDate(LocalDateTime.now())
-                .termDate(LocalDateTime.now())
+                .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .termDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
                 .status(ReservationStatus.NEW)
                 .extensionCount((short) 0)
-                .updatedDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
                 .build();
     }
 
@@ -68,12 +70,12 @@ public class ReservationTestFactory {
         return ReservationResponse.builder()
                 .id(1)
                 .userId(2)
-                .bookId(book().getId())
-                .createdDate(LocalDateTime.now())
-                .termDate(LocalDateTime.now())
+                .bookId(givenBook().getId())
+                .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .termDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
                 .status(ReservationStatus.NEW)
                 .extensionCount((short) 0)
-                .updatedDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
                 .build();
     }
 
@@ -81,12 +83,12 @@ public class ReservationTestFactory {
         return ReservationResponse.builder()
                 .id(id)
                 .userId(2)
-                .bookId(book().getId())
-                .createdDate(LocalDateTime.now())
-                .termDate(LocalDateTime.now())
+                .bookId(givenBook().getId())
+                .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .termDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
                 .status(ReservationStatus.NEW)
                 .extensionCount((short) 0)
-                .updatedDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
                 .build();
     }
 
@@ -94,36 +96,6 @@ public class ReservationTestFactory {
         return ReservationCreateRequest.builder()
                 .userId(2)
                 .bookId(3)
-                .build();
-    }
-
-    public static Book book() {
-        return Book.builder()
-                .id(3)
-                .title("Test Book")
-                .author("Test Author")
-                .quantity(4)
-                .creationYear(LocalDate.parse("1888-04-03"))
-                .status(BookStatus.AVAILABLE)
-                .genre(BookGenre.ADVENTURE)
-                .pages((short) 444)
-                .edition("Test-edition")
-                .releaseDate(LocalDate.parse("2021-10-09"))
-                .type(BookType.BOOK)
-                .build();
-    }
-
-    public static User givenUser() {
-        return User.builder()
-                .id(2)
-                .name("Bob")
-                .secondName("Bob")
-                .userName("Bob")
-                .password("bob123")
-                .email("bob@example.com")
-                .mobileNumber(21111111)
-                .personCode("120871-27314")
-                .role(UserRole.USER)
                 .build();
     }
 }

@@ -1,6 +1,10 @@
 package com.nlitvins.web_application.domain.usecase;
 
-import com.nlitvins.web_application.domain.exception.*;
+import com.nlitvins.web_application.domain.exception.BookNotFoundException;
+import com.nlitvins.web_application.domain.exception.BookQuantityIsZeroException;
+import com.nlitvins.web_application.domain.exception.BookStatusNotAvailableException;
+import com.nlitvins.web_application.domain.exception.UserHasSameReservationException;
+import com.nlitvins.web_application.domain.exception.UserHasTooManyActiveReservationsException;
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.BookStatus;
 import com.nlitvins.web_application.domain.model.Reservation;
@@ -18,7 +22,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mockStatic;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

@@ -13,8 +13,12 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import static com.nlitvins.web_application.utils.UserTestFactory.givenUser;
 import static com.nlitvins.web_application.utils.UserTestFactory.givenUserRequest;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.*;
+import static com.nlitvins.web_application.utils.UserTestFactory.givenUserResponse;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -46,11 +50,13 @@ class UserRegistrationControllerTest extends AbstractControllerTest {
         void returnRegisteredUser() {
             User user = givenUser();
             UserRequest userRequest = givenUserRequest();
-            doReturn(user).when(userRegistrationUseCase).registerUser(user);
+            doReturn(user).when(userRegistrationUseCase).registerUser(any(User.class));
 
             UserResponse userResponse = controller.registerUser(userRequest);
-//TODO
-            assertNull(userResponse);
+
+            assertThat(userResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(givenUserResponse());
         }
     }
 
@@ -60,7 +66,7 @@ class UserRegistrationControllerTest extends AbstractControllerTest {
         void returnRegisteredUser() throws Exception {
             User user = givenUser();
             UserRequest userRequest = givenUserRequest();
-            doReturn(user).when(userRegistrationUseCase).registerUser(user);
+            doReturn(user).when(userRegistrationUseCase).registerUser(any(User.class));
 
             MvcResult mvcResult = mockMvc.perform(
                             post(getControllerURI())
@@ -73,8 +79,9 @@ class UserRegistrationControllerTest extends AbstractControllerTest {
 
 
             UserResponse userResponse = getResponseObject(mvcResult, UserResponse.class);
-//TODO
-            assertNull(userResponse);
+            assertThat(userResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(givenUserResponse());
 
         }
     }

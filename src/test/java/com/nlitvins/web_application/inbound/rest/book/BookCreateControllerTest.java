@@ -11,9 +11,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static com.nlitvins.web_application.utils.BookTestFactory.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static com.nlitvins.web_application.utils.BookTestFactory.givenBook;
+import static com.nlitvins.web_application.utils.BookTestFactory.givenRequestBook;
+import static com.nlitvins.web_application.utils.BookTestFactory.givenResponseBook;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -48,7 +52,9 @@ class BookCreateControllerTest extends AbstractControllerTest {
 
             BookResponse bookResponse = controller.postBook(bookCreateRequest);
 
-            assertEquals(givenResponseBook(), bookResponse);
+            assertThat(bookResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(givenResponseBook());
         }
     }
 
@@ -70,7 +76,9 @@ class BookCreateControllerTest extends AbstractControllerTest {
                     .andReturn();
 
             BookResponse bookResponse = getResponseObject(mvcResult, BookResponse.class);
-            assertEquals(givenResponseBook(), bookResponse);
+            assertThat(bookResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(givenResponseBook());
         }
 
     }

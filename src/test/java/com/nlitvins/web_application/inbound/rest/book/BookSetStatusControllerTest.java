@@ -13,8 +13,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.nlitvins.web_application.utils.BookTestFactory.givenBookWithId;
 import static com.nlitvins.web_application.utils.BookTestFactory.givenResponseBook;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,8 +51,9 @@ class BookSetStatusControllerTest extends AbstractControllerTest {
 
             BookResponse bookResponse = controller.setBookStatus(book.getId());
 
-            assertEquals(givenResponseBook(1).getId(), bookResponse.getId());
-            assertEquals(givenResponseBook(1).getStatus(), bookResponse.getStatus());
+            assertThat(bookResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(givenResponseBook(bookId));
         }
     }
 
@@ -65,8 +68,7 @@ class BookSetStatusControllerTest extends AbstractControllerTest {
             doReturn(book).when(bookSetStatusUseCase).setStatus(book.getId());
 
             MvcResult mvcResult = mockMvc.perform(
-                            MockMvcRequestBuilders.put(getControllerURI(), bookId)
-                                    .contentType(MediaType.APPLICATION_JSON))
+                            MockMvcRequestBuilders.put(getControllerURI(), bookId))
                     .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -74,7 +76,10 @@ class BookSetStatusControllerTest extends AbstractControllerTest {
 
             BookResponse bookResponse = getResponseObject(mvcResult, BookResponse.class);
 
-            assertEquals(givenResponseBook(bookId).getStatus(), bookResponse.getStatus());
+
+            assertThat(bookResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(givenResponseBook(bookId));
 
         }
     }
