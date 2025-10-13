@@ -1,8 +1,7 @@
-package com.nlitvins.web_application.domain.usecase;
+package com.nlitvins.web_application.domain.usecase.book;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.BookStatus;
-import com.nlitvins.web_application.domain.usecase.book.BookSetStatusUseCase;
 import com.nlitvins.web_application.outbound.repository.fake.BookRepositoryFake;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.nlitvins.web_application.domain.usecase.user;
+package com.nlitvins.web_application.domain.usecase.login;
 
 
 import com.nlitvins.web_application.domain.exception.UserLoginException;

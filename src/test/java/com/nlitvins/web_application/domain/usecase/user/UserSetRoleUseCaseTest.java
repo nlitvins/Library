@@ -1,10 +1,9 @@
-package com.nlitvins.web_application.domain.usecase;
+package com.nlitvins.web_application.domain.usecase.user;
 
 
 import com.nlitvins.web_application.domain.exception.UserAccountIsActivated;
 import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.domain.model.UserRole;
-import com.nlitvins.web_application.domain.usecase.user.UserSetRoleUseCase;
 import com.nlitvins.web_application.outbound.repository.fake.UserRepositoryFake;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

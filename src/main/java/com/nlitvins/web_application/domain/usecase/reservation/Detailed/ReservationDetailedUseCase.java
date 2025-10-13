@@ -1,4 +1,4 @@
-package com.nlitvins.web_application.domain.usecase.reservation;
+package com.nlitvins.web_application.domain.usecase.reservation.Detailed;
 
 import com.nlitvins.web_application.domain.model.ReservationDetailed;
 import com.nlitvins.web_application.domain.repository.JwtRepository;

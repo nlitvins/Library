@@ -35,11 +35,6 @@ class BookReadControllerTest extends AbstractControllerTest {
         return "/books";
     }
 
-    //TODO
-    protected String getIdControllerURI() {
-        return "/books/{bookId}";
-    }
-
     @Override
     protected Object getController() {
         return controller;
@@ -107,8 +102,7 @@ class BookReadControllerTest extends AbstractControllerTest {
             doReturn(book).when(bookReadUseCase).getBookById(bookId);
 
             MvcResult mvcResult = mockMvc.perform(
-                            MockMvcRequestBuilders.get(getIdControllerURI(), bookId)
-                                    .contentType(MediaType.APPLICATION_JSON))
+                            MockMvcRequestBuilders.get(getControllerURI() + "/" + bookId))
                     .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))

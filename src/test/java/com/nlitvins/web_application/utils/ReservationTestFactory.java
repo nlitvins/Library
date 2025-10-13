@@ -33,10 +33,10 @@ public class ReservationTestFactory {
                 .userId(2)
                 .bookId(givenBook().getId())
                 .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
-                .termDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .termDate(LocalDateTime.parse("2025-07-05T23:59:59.999999999"))
                 .status(ReservationStatus.NEW)
                 .extensionCount((short) 0)
-                .updatedDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .updatedDate(LocalDateTime.parse("2025-06-05T23:59:59.999999999"))
                 .build();
     }
 
@@ -45,11 +45,12 @@ public class ReservationTestFactory {
                 .id(id)
                 .userId(2)
                 .bookId(givenBook().getId())
+
                 .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
-                .termDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .termDate(LocalDateTime.parse("2025-07-05T23:59:59.999999999"))
                 .status(ReservationStatus.NEW)
                 .extensionCount((short) 0)
-                .updatedDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .updatedDate(LocalDateTime.parse("2025-06-05T23:59:59.999999999"))
                 .build();
     }
 
@@ -58,11 +59,12 @@ public class ReservationTestFactory {
                 .id(1)
                 .userId(2)
                 .bookId(bookId)
+
                 .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
-                .termDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .termDate(LocalDateTime.parse("2025-07-05T23:59:59.999999999"))
                 .status(ReservationStatus.NEW)
                 .extensionCount((short) 0)
-                .updatedDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .updatedDate(LocalDateTime.parse("2025-06-05T23:59:59.999999999"))
                 .build();
     }
 
@@ -71,11 +73,12 @@ public class ReservationTestFactory {
                 .id(1)
                 .userId(2)
                 .bookId(givenBook().getId())
+
                 .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
-                .termDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .termDate(LocalDateTime.parse("2025-07-05T23:59:59.999999999"))
                 .status(ReservationStatus.NEW)
                 .extensionCount((short) 0)
-                .updatedDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .updatedDate(LocalDateTime.parse("2025-06-05T23:59:59.999999999"))
                 .build();
     }
 
@@ -85,10 +88,10 @@ public class ReservationTestFactory {
                 .userId(2)
                 .bookId(givenBook().getId())
                 .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
-                .termDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .termDate(LocalDateTime.parse("2025-07-05T23:59:59.999999999"))
                 .status(ReservationStatus.NEW)
                 .extensionCount((short) 0)
-                .updatedDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
+                .updatedDate(LocalDateTime.parse("2025-06-05T23:59:59.999999999"))
                 .build();
     }
 

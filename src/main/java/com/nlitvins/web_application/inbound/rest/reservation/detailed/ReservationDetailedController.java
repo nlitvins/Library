@@ -1,7 +1,7 @@
 package com.nlitvins.web_application.inbound.rest.reservation.detailed;
 
 import com.nlitvins.web_application.domain.model.ReservationDetailed;
-import com.nlitvins.web_application.domain.usecase.reservation.ReservationDetailedUseCase;
+import com.nlitvins.web_application.domain.usecase.reservation.Detailed.ReservationDetailedUseCase;
 import com.nlitvins.web_application.inbound.model.ReservationDetailedResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;
 import org.springframework.http.HttpHeaders;

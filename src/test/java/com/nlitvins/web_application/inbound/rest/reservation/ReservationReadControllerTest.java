@@ -58,7 +58,7 @@ class ReservationReadControllerTest extends AbstractControllerTest {
 
             assertThat(reservationResponses)
                     .usingRecursiveComparison()
-                    .ignoringFields("id")
+                    .ignoringCollectionOrder()
                     .isEqualTo(givenReservationResponses());
         }
 
@@ -75,7 +75,7 @@ class ReservationReadControllerTest extends AbstractControllerTest {
 
             assertThat(reservationResponses)
                     .usingRecursiveComparison()
-                    .ignoringFields("id")
+                    .ignoringCollectionOrder()
                     .isEqualTo(givenReservationResponses());
         }
 
@@ -88,7 +88,7 @@ class ReservationReadControllerTest extends AbstractControllerTest {
 
             assertThat(reservationResponses)
                     .usingRecursiveComparison()
-                    .ignoringFields("id")
+                    .ignoringCollectionOrder().ignoringFields("id")
                     .isEqualTo(givenReservationResponses());
         }
     }
@@ -112,7 +112,7 @@ class ReservationReadControllerTest extends AbstractControllerTest {
 
             assertThat(reservationResponses)
                     .usingRecursiveComparison()
-                    .ignoringFields("id")
+                    .ignoringCollectionOrder()
                     .isEqualTo(givenReservationResponses());
         }
 
@@ -134,7 +134,7 @@ class ReservationReadControllerTest extends AbstractControllerTest {
 
             assertThat(reservationResponses)
                     .usingRecursiveComparison()
-                    .ignoringFields("id")
+                    .ignoringCollectionOrder()
                     .isEqualTo(givenReservationResponses());
         }
 
@@ -154,7 +154,7 @@ class ReservationReadControllerTest extends AbstractControllerTest {
 
             assertThat(reservationResponses)
                     .usingRecursiveComparison()
-                    .ignoringFields("id")
+                    .ignoringCollectionOrder()
                     .isEqualTo(givenReservationResponses());
         }
     }

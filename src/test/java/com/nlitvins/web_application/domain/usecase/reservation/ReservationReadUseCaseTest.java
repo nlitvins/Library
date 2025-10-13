@@ -1,8 +1,7 @@
-package com.nlitvins.web_application.domain.usecase;
+package com.nlitvins.web_application.domain.usecase.reservation;
 
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
-import com.nlitvins.web_application.domain.usecase.reservation.ReservationReadUseCase;
 import com.nlitvins.web_application.outbound.repository.fake.ReservationRepositoryFake;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

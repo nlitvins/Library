@@ -1,4 +1,4 @@
-package com.nlitvins.web_application.domain.usecase;
+package com.nlitvins.web_application.domain.usecase.reservation;
 
 
 import com.nlitvins.web_application.domain.exception.IllegalReservationStatusChangeException;
@@ -7,7 +7,6 @@ import com.nlitvins.web_application.domain.exception.ReservationNotFoundExceptio
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
-import com.nlitvins.web_application.domain.usecase.reservation.ReservationCheckUseCase;
 import com.nlitvins.web_application.outbound.repository.fake.BookRepositoryFake;
 import com.nlitvins.web_application.outbound.repository.fake.ReservationRepositoryFake;
 import org.junit.jupiter.api.BeforeAll;

@@ -1,10 +1,9 @@
-package com.nlitvins.web_application.domain.usecase;
+package com.nlitvins.web_application.domain.usecase.login;
 
 import com.nlitvins.web_application.domain.exception.UserLoginException;
 import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.domain.model.UserRole;
 import com.nlitvins.web_application.domain.repository.JwtRepository;
-import com.nlitvins.web_application.domain.usecase.user.UserLoginUseCase;
 import com.nlitvins.web_application.outbound.repository.fake.UserRepositoryFake;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +21,7 @@ import static org.mockito.Mockito.verify;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserLoginUseCaseTest {
 
-    private UserLoginUseCase sut;
+    private com.nlitvins.web_application.domain.usecase.login.UserLoginUseCase sut;
 
     private JwtRepository jwtRepository;
     private UserRepositoryFake userRepository;
@@ -31,7 +30,7 @@ class UserLoginUseCaseTest {
     void setUp() {
         jwtRepository = mock();
         userRepository = new UserRepositoryFake();
-        sut = new UserLoginUseCase(userRepository, jwtRepository);
+        sut = new com.nlitvins.web_application.domain.usecase.login.UserLoginUseCase(userRepository, jwtRepository);
     }
 
     @BeforeEach

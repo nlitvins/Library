@@ -50,7 +50,7 @@ class ReservationCreateControllerTest extends AbstractControllerTest {
         void returnReservationWhenReservationCreated() {
             ReservationCreateRequest reservationCreateRequest = givenReservationCreateRequest();
             Reservation reservation = givenReservation();
-            doReturn(reservation).when(reservationCreateUseCase).registerReservation(newReservation);
+            doReturn(reservation).when(reservationCreateUseCase).registerReservation(newReservation());
 
             ReservationResponse reservationResponse = controller.reserveBook(reservationCreateRequest);
 
@@ -68,7 +68,7 @@ class ReservationCreateControllerTest extends AbstractControllerTest {
             ReservationCreateRequest reservationCreateRequest = givenReservationCreateRequest();
             Reservation reservation = givenReservation();
 
-            doReturn(reservation).when(reservationCreateUseCase).registerReservation(newReservation);
+            doReturn(reservation).when(reservationCreateUseCase).registerReservation(newReservation());
 
             MvcResult mvcResult = mockMvc.perform(
                             post(getControllerURI())
@@ -86,11 +86,13 @@ class ReservationCreateControllerTest extends AbstractControllerTest {
         }
     }
 
-    Reservation newReservation = Reservation.builder()
-            .userId(givenReservationCreateRequest().getUserId())
-            .bookId(givenReservationCreateRequest().getBookId())
-            .status(ReservationStatus.NEW)
-            .extensionCount((short) 0)
-            .build();
+    public Reservation newReservation() {
+        return Reservation.builder()
+                .userId(givenReservationCreateRequest().getUserId())
+                .bookId(givenReservationCreateRequest().getBookId())
+                .status(ReservationStatus.NEW)
+                .extensionCount((short) 0)
+                .build();
+    }
 }
 

@@ -62,6 +62,5 @@ public class UserTestFactory {
                 .personCode("120871-27314")
                 .role(UserRole.USER)
                 .build();
-
     }
 }

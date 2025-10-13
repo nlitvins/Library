@@ -2,7 +2,7 @@ package com.nlitvins.web_application.inbound.rest.login;
 
 
 import com.nlitvins.web_application.domain.model.User;
-import com.nlitvins.web_application.domain.usecase.user.UserLoginUseCase;
+import com.nlitvins.web_application.domain.usecase.login.UserLoginUseCase;
 import com.nlitvins.web_application.inbound.model.LoginRequest;
 import com.nlitvins.web_application.inbound.model.LoginResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;

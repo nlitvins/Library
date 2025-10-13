@@ -1,4 +1,4 @@
-package com.nlitvins.web_application.domain.usecase;
+package com.nlitvins.web_application.domain.usecase.reservation;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.BookGenre;
@@ -8,7 +8,6 @@ import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationDetailed;
 import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.domain.model.UserRole;
-import com.nlitvins.web_application.domain.usecase.reservation.ReservationDetailedUseCase;
 import com.nlitvins.web_application.outbound.repository.fake.JwtRepositoryFake;
 import com.nlitvins.web_application.outbound.repository.fake.ReservationDetailedRepositoryFake;
 import org.junit.jupiter.api.BeforeAll;
@@ -25,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ReservationDetailedUseCaseTest {
 
-    private ReservationDetailedUseCase sut;
+    private com.nlitvins.web_application.domain.usecase.reservation.Detailed.ReservationDetailedUseCase sut;
 
     private ReservationDetailedRepositoryFake reservationDetailedRepository;
     private JwtRepositoryFake jwtRepository;
@@ -34,7 +33,7 @@ class ReservationDetailedUseCaseTest {
     void setUp() {
         reservationDetailedRepository = new ReservationDetailedRepositoryFake();
         jwtRepository = new JwtRepositoryFake();
-        sut = new ReservationDetailedUseCase(reservationDetailedRepository, jwtRepository);
+        sut = new com.nlitvins.web_application.domain.usecase.reservation.Detailed.ReservationDetailedUseCase(reservationDetailedRepository, jwtRepository);
     }
 
     @BeforeEach
