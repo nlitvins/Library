@@ -6,12 +6,13 @@ import com.nlitvins.web_application.domain.repository.JwtRepository;
 import com.nlitvins.web_application.domain.usecase.reservation.ReservationReadUseCase;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
 import com.nlitvins.web_application.inbound.rest.AbstractControllerTest;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.List;
 
 import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservationResponses;
 import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservations;

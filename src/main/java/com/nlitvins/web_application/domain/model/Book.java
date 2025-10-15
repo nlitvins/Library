@@ -1,10 +1,11 @@
 package com.nlitvins.web_application.domain.model;
 
-import java.time.LocalDate;
-import java.util.Objects;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.Objects;
 
 @Setter
 @Getter
