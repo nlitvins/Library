@@ -55,7 +55,6 @@ class ReservationCheckControllerTest extends AbstractControllerTest {
             ReservationResponse reservationResponse = controller.receiveBook(reservation.getId());
             assertThat(reservationResponse)
                     .usingRecursiveComparison()
-                    .ignoringFields("createdDate", "termDate", "updatedDate")
                     .isEqualTo(givenReservationResponse);
 
         }
@@ -72,7 +71,6 @@ class ReservationCheckControllerTest extends AbstractControllerTest {
 
             assertThat(reservationResponse)
                     .usingRecursiveComparison()
-                    .ignoringFields("createdDate", "termDate", "updatedDate")
                     .isEqualTo(givenReservationResponse);
         }
 
@@ -88,7 +86,6 @@ class ReservationCheckControllerTest extends AbstractControllerTest {
 
             assertThat(reservationResponse)
                     .usingRecursiveComparison()
-                    .ignoringFields("createdDate", "termDate", "updatedDate")
                     .isEqualTo(givenReservationResponse);
         }
 
@@ -105,7 +102,6 @@ class ReservationCheckControllerTest extends AbstractControllerTest {
 
             assertThat(reservationResponse)
                     .usingRecursiveComparison()
-                    .ignoringFields("createdDate", "termDate", "updatedDate")
                     .isEqualTo(givenReservationResponse);
         }
 
@@ -121,7 +117,6 @@ class ReservationCheckControllerTest extends AbstractControllerTest {
 
             assertThat(reservationResponse)
                     .usingRecursiveComparison()
-                    .ignoringFields("createdDate", "termDate", "updatedDate")
                     .isEqualTo(givenReservationResponse);
         }
 
@@ -149,7 +144,6 @@ class ReservationCheckControllerTest extends AbstractControllerTest {
             ReservationResponse reservationResponse = getResponseObject(mvcResult, ReservationResponse.class);
             assertThat(reservationResponse)
                     .usingRecursiveComparison()
-                    .ignoringFields("createdDate", "termDate", "updatedDate")
                     .isEqualTo(givenReservationResponse);
         }
 
@@ -172,7 +166,6 @@ class ReservationCheckControllerTest extends AbstractControllerTest {
             ReservationResponse reservationResponse = getResponseObject(mvcResult, ReservationResponse.class);
             assertThat(reservationResponse)
                     .usingRecursiveComparison()
-                    .ignoringFields("createdDate", "termDate", "updatedDate")
                     .isEqualTo(givenReservationResponse);
         }
 
@@ -195,7 +188,6 @@ class ReservationCheckControllerTest extends AbstractControllerTest {
             ReservationResponse reservationResponse = getResponseObject(mvcResult, ReservationResponse.class);
             assertThat(reservationResponse)
                     .usingRecursiveComparison()
-                    .ignoringFields("createdDate", "termDate", "updatedDate")
                     .isEqualTo(givenReservationResponse);
         }
 
@@ -218,7 +210,6 @@ class ReservationCheckControllerTest extends AbstractControllerTest {
             ReservationResponse reservationResponse = getResponseObject(mvcResult, ReservationResponse.class);
             assertThat(reservationResponse)
                     .usingRecursiveComparison()
-                    .ignoringFields("createdDate", "termDate", "updatedDate")
                     .isEqualTo(givenReservationResponse);
         }
 
@@ -241,7 +232,6 @@ class ReservationCheckControllerTest extends AbstractControllerTest {
             ReservationResponse reservationResponse = getResponseObject(mvcResult, ReservationResponse.class);
             assertThat(reservationResponse)
                     .usingRecursiveComparison()
-                    .ignoringFields("createdDate", "termDate", "updatedDate")
                     .isEqualTo(givenReservationResponse);
         }
     }

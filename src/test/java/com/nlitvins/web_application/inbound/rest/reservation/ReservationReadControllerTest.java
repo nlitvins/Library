@@ -6,13 +6,12 @@ import com.nlitvins.web_application.domain.repository.JwtRepository;
 import com.nlitvins.web_application.domain.usecase.reservation.ReservationReadUseCase;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
 import com.nlitvins.web_application.inbound.rest.AbstractControllerTest;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
-
-import java.util.List;
 
 import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservationResponses;
 import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservations;
@@ -30,7 +29,7 @@ class ReservationReadControllerTest extends AbstractControllerTest {
 
     private final ReservationReadUseCase reservationReadUseCase = mock();
     private final ReservationReadController controller = new ReservationReadController(reservationReadUseCase);
-    private JwtRepository jwtRepository = mock();
+    private final JwtRepository jwtRepository = mock();
 
     @Override
     protected String getControllerURI() {
@@ -88,7 +87,7 @@ class ReservationReadControllerTest extends AbstractControllerTest {
 
             assertThat(reservationResponses)
                     .usingRecursiveComparison()
-                    .ignoringCollectionOrder().ignoringFields("id")
+                    .ignoringCollectionOrder()
                     .isEqualTo(givenReservationResponses());
         }
     }

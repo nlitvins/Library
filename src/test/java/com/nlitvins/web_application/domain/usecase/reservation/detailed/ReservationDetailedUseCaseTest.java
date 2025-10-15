@@ -1,4 +1,4 @@
-package com.nlitvins.web_application.domain.usecase.reservation;
+package com.nlitvins.web_application.domain.usecase.reservation.detailed;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.BookGenre;
@@ -10,12 +10,11 @@ import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.domain.model.UserRole;
 import com.nlitvins.web_application.outbound.repository.fake.JwtRepositoryFake;
 import com.nlitvins.web_application.outbound.repository.fake.ReservationDetailedRepositoryFake;
+import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-
-import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
