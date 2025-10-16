@@ -1,7 +1,7 @@
-package com.nlitvins.web_application.inbound.rest.reservation.detailed;
+package com.nlitvins.web_application.inbound.rest.reservation_detailed;
 
 import com.nlitvins.web_application.domain.model.ReservationDetailed;
-import com.nlitvins.web_application.domain.usecase.reservation.Detailed.ReservationDetailedUseCase;
+import com.nlitvins.web_application.domain.usecase.reservation_detailed.ReservationDetailedUseCase;
 import com.nlitvins.web_application.inbound.model.ReservationDetailedResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;
 import org.springframework.http.HttpHeaders;
@@ -35,8 +35,8 @@ public class ReservationDetailedController {
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public List<ReservationDetailedResponse> reservationDetailedByToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        List<ReservationDetailed> reservationDetailed = reservationDetailedUseCase.getReservationsByToken(extractToken(token));
+    public List<ReservationDetailedResponse> reservationDetailedByToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
+        List<ReservationDetailed> reservationDetailed = reservationDetailedUseCase.getReservationsByToken(extractToken(authHeader));
         return InboundMapper.ReservationsDetailed.toDTOList(reservationDetailed);
 
     }

@@ -1,8 +1,8 @@
-package com.nlitvins.web_application.inbound.rest.reservation.detailed;
+package com.nlitvins.web_application.inbound.rest.reservation_detailed;
 
 import com.nlitvins.web_application.domain.model.ReservationDetailed;
 import com.nlitvins.web_application.domain.repository.JwtRepository;
-import com.nlitvins.web_application.domain.usecase.reservation.Detailed.ReservationDetailedUseCase;
+import com.nlitvins.web_application.domain.usecase.reservation_detailed.ReservationDetailedUseCase;
 import com.nlitvins.web_application.inbound.model.ReservationDetailedResponse;
 import com.nlitvins.web_application.inbound.rest.AbstractControllerTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,12 +66,12 @@ class ReservationDetailedControllerTest extends AbstractControllerTest {
         @Test
         void returnAllByToken() {
             List<ReservationDetailed> reservationDetailedList = givenReservationDetailedList();
-//TODO
-            String token = jwtRepository.getToken(givenReservationDetailed().getUser());
+            String token = "token";
+            String authHeader = "Bearer " + token;
 
             doReturn(reservationDetailedList).when(reservationDetailedUseCase).getReservationsByToken(token);
 
-            List<ReservationDetailedResponse> reservationDetailedResponses = controller.reservationDetailedByToken(token);
+            List<ReservationDetailedResponse> reservationDetailedResponses = controller.reservationDetailedByToken(authHeader);
 
             assertThat(reservationDetailedResponses)
                     .usingRecursiveComparison()

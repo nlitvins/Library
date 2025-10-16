@@ -1,4 +1,4 @@
-package com.nlitvins.web_application.domain.usecase.reservation.detailed;
+package com.nlitvins.web_application.domain.usecase.reservation_detailed;
 
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.BookGenre;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ReservationDetailedUseCaseTest {
 
-    private com.nlitvins.web_application.domain.usecase.reservation.Detailed.ReservationDetailedUseCase sut;
+    private ReservationDetailedUseCase sut;
 
     private ReservationDetailedRepositoryFake reservationDetailedRepository;
     private JwtRepositoryFake jwtRepository;
@@ -33,7 +33,7 @@ class ReservationDetailedUseCaseTest {
     void setUp() {
         reservationDetailedRepository = new ReservationDetailedRepositoryFake();
         jwtRepository = new JwtRepositoryFake();
-        sut = new com.nlitvins.web_application.domain.usecase.reservation.Detailed.ReservationDetailedUseCase(reservationDetailedRepository, jwtRepository);
+        sut = new ReservationDetailedUseCase(reservationDetailedRepository, jwtRepository);
     }
 
     @BeforeEach

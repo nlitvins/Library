@@ -1,7 +1,6 @@
 package com.nlitvins.web_application.inbound.rest.reservation;
 
 import com.nlitvins.web_application.domain.model.Reservation;
-import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.domain.repository.JwtRepository;
 import com.nlitvins.web_application.domain.usecase.reservation.ReservationReadUseCase;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
@@ -16,7 +15,6 @@ import java.util.List;
 
 import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservationResponses;
 import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservations;
-import static com.nlitvins.web_application.utils.UserTestFactory.givenUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -65,13 +63,12 @@ class ReservationReadControllerTest extends AbstractControllerTest {
         @Test
         void returnReservationsWhenReservationsByToken() {
             List<Reservation> reservations = givenReservations();
-            User user = givenUser();
-            //TODO
-            String token = jwtRepository.getToken(user);
+            String token = "testToken";
+            String authHeader = "Bearer " + token;
 
             doReturn(reservations).when(reservationReadUseCase).getReservationsByToken(token);
 
-            List<ReservationResponse> reservationResponses = controller.reservationsByToken(token);
+            List<ReservationResponse> reservationResponses = controller.reservationsByToken(authHeader);
 
             assertThat(reservationResponses)
                     .usingRecursiveComparison()
@@ -119,7 +116,7 @@ class ReservationReadControllerTest extends AbstractControllerTest {
         @Test
         void returnReservationsWhenReservationsByToken() throws Exception {
             List<Reservation> reservations = givenReservations();
-            String token = "none";
+            String token = "testToken";
             doReturn(reservations).when(reservationReadUseCase).getReservationsByToken(token);
 
             MvcResult mvcResult = mockMvc.perform(
