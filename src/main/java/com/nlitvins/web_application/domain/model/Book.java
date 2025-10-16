@@ -1,14 +1,18 @@
 package com.nlitvins.web_application.domain.model;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
 @Setter
 @Getter
+@ToString
 @Builder(toBuilder = true)
+@EqualsAndHashCode
 public class Book {
 
     private int id;
