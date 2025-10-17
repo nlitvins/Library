@@ -13,8 +13,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
+import static com.nlitvins.web_application.utils.BookTestFactory.givenBook;
 import static com.nlitvins.web_application.utils.BookTestFactory.givenBookResponses;
-import static com.nlitvins.web_application.utils.BookTestFactory.givenBookWithId;
 import static com.nlitvins.web_application.utils.BookTestFactory.givenBooks;
 import static com.nlitvins.web_application.utils.BookTestFactory.givenResponseBook;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -63,7 +63,7 @@ class BookReadControllerTest extends AbstractControllerTest {
         @Test
         void returnBookById() {
             int bookId = 1;
-            Book book = givenBookWithId(bookId);
+            Book book = givenBook(bookId);
             doReturn(book).when(bookReadUseCase).getBookById(bookId);
 
             BookResponse bookResponse = controller.findBook(bookId);
@@ -98,7 +98,7 @@ class BookReadControllerTest extends AbstractControllerTest {
         @Test
         void returnBookById() throws Exception {
             int bookId = 1;
-            Book book = givenBookWithId(bookId);
+            Book book = givenBook(bookId);
             doReturn(book).when(bookReadUseCase).getBookById(bookId);
 
             MvcResult mvcResult = mockMvc.perform(

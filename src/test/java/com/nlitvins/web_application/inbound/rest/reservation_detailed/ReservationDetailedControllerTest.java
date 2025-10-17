@@ -1,7 +1,6 @@
 package com.nlitvins.web_application.inbound.rest.reservation_detailed;
 
 import com.nlitvins.web_application.domain.model.ReservationDetailed;
-import com.nlitvins.web_application.domain.repository.JwtRepository;
 import com.nlitvins.web_application.domain.usecase.reservation_detailed.ReservationDetailedUseCase;
 import com.nlitvins.web_application.inbound.model.ReservationDetailedResponse;
 import com.nlitvins.web_application.inbound.rest.AbstractControllerTest;
@@ -13,7 +12,6 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
-import static com.nlitvins.web_application.utils.ReservationDetailedTestFactory.givenReservationDetailed;
 import static com.nlitvins.web_application.utils.ReservationDetailedTestFactory.givenReservationDetailedList;
 import static com.nlitvins.web_application.utils.ReservationDetailedTestFactory.givenReservationDetailedResponseList;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -29,8 +27,6 @@ class ReservationDetailedControllerTest extends AbstractControllerTest {
 
     private final ReservationDetailedUseCase reservationDetailedUseCase = mock();
     private final ReservationDetailedController controller = new ReservationDetailedController(reservationDetailedUseCase);
-    private final JwtRepository jwtRepository = mock();
-
 
     @Override
     protected String getControllerURI() {
@@ -52,7 +48,6 @@ class ReservationDetailedControllerTest extends AbstractControllerTest {
         @Test
         void returnAllWhenFindAll() {
             List<ReservationDetailed> reservationDetailedList = givenReservationDetailedList();
-
             doReturn(reservationDetailedList).when(reservationDetailedUseCase).getAll();
 
             List<ReservationDetailedResponse> reservationDetailedResponses = controller.findAll();
@@ -81,7 +76,7 @@ class ReservationDetailedControllerTest extends AbstractControllerTest {
         @Test
         void returnAllByUserByUserId() {
             List<ReservationDetailed> reservationDetailedList = givenReservationDetailedList();
-            int userId = givenReservationDetailed().getUser().getId();
+            int userId = reservationDetailedList.getFirst().getUser().getId();
 
             doReturn(reservationDetailedList).when(reservationDetailedUseCase).getByUserId(userId);
 
@@ -143,7 +138,7 @@ class ReservationDetailedControllerTest extends AbstractControllerTest {
         @Test
         void returnAllByUserByUserId() throws Exception {
             List<ReservationDetailed> reservationDetailedList = givenReservationDetailedList();
-            int userId = givenReservationDetailed().getUser().getId();
+            int userId = reservationDetailedList.getFirst().getUser().getId();
 
             doReturn(reservationDetailedList).when(reservationDetailedUseCase).getByUserId(userId);
 

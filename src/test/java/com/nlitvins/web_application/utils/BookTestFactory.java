@@ -15,15 +15,15 @@ public class BookTestFactory {
 
     public static List<Book> givenBooks() {
         List<Book> books = new ArrayList<>();
-        books.add(givenBook());
-        books.add(givenBook());
+        books.add(givenBook(1));
+        books.add(givenBook(2));
         return books;
     }
 
     public static List<BookResponse> givenBookResponses() {
         List<BookResponse> bookResponses = new ArrayList<>();
-        bookResponses.add(givenResponseBook());
-        bookResponses.add(givenResponseBook());
+        bookResponses.add(givenResponseBook(1));
+        bookResponses.add(givenResponseBook(2));
         return bookResponses;
     }
 
@@ -72,7 +72,7 @@ public class BookTestFactory {
                 .build();
     }
 
-    public static Book givenBookWithId(int id) {
+    public static Book givenBook(int id) {
         return Book.builder()
                 .id(id)
                 .title("Test Book")

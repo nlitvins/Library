@@ -12,15 +12,15 @@ public class UserTestFactory {
 
     public static List<User> givenUsers() {
         List<User> users = new ArrayList<>();
-        users.add(givenUser());
-        users.add(givenUser());
+        users.add(givenUser(1));
+        users.add(givenUser(2));
         return users;
     }
 
     public static List<UserResponse> givenUsersResponse() {
         List<UserResponse> users = new ArrayList<>();
-        users.add(givenUserResponse());
-        users.add(givenUserResponse());
+        users.add(givenUserResponse(1));
+        users.add(givenUserResponse(2));
         return users;
     }
 
@@ -50,9 +50,36 @@ public class UserTestFactory {
                 .build();
     }
 
+    public static UserResponse givenUserResponse(int id) {
+        return UserResponse.builder()
+                .id(id)
+                .name("Bob")
+                .secondName("Bob")
+                .userName("Bob")
+                .email("bob@example.com")
+                .mobileNumber(21111111)
+                .personCode("120871-27314")
+                .role(UserRole.USER)
+                .build();
+    }
+
     public static User givenUser() {
         return User.builder()
                 .id(2)
+                .name("Bob")
+                .secondName("Bob")
+                .userName("Bob")
+                .password("bob123")
+                .email("bob@example.com")
+                .mobileNumber(21111111)
+                .personCode("120871-27314")
+                .role(UserRole.USER)
+                .build();
+    }
+
+    public static User givenUser(int id) {
+        return User.builder()
+                .id(id)
                 .name("Bob")
                 .secondName("Bob")
                 .userName("Bob")

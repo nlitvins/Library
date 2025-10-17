@@ -17,30 +17,30 @@ public class ReservationDetailedTestFactory {
 
     public static List<ReservationDetailedResponse> givenReservationDetailedResponseList() {
         List<ReservationDetailedResponse> reservationDetailedResponseList = new ArrayList<>();
-        reservationDetailedResponseList.add(givenReservationDetailedResponse());
-        reservationDetailedResponseList.add(givenReservationDetailedResponse());
+        reservationDetailedResponseList.add(givenReservationDetailedResponse(1, 2));
+        reservationDetailedResponseList.add(givenReservationDetailedResponse(2, 3));
         return reservationDetailedResponseList;
     }
 
     public static List<ReservationDetailed> givenReservationDetailedList() {
         List<ReservationDetailed> reservationDetailedList = new ArrayList<>();
-        reservationDetailedList.add(givenReservationDetailed());
-        reservationDetailedList.add(givenReservationDetailed());
+        reservationDetailedList.add(givenReservationDetailed(1, 2));
+        reservationDetailedList.add(givenReservationDetailed(2, 3));
         return reservationDetailedList;
     }
 
-    public static ReservationDetailedResponse givenReservationDetailedResponse() {
+    public static ReservationDetailedResponse givenReservationDetailedResponse(int reservationId, int bookId) {
         return ReservationDetailedResponse.builder()
-                .reservation(givenReservationResponse())
-                .book(givenResponseBook())
+                .reservation(givenReservationResponse(reservationId))
+                .book(givenResponseBook(bookId))
                 .user(givenUserResponse())
                 .build();
     }
 
-    public static ReservationDetailed givenReservationDetailed() {
+    public static ReservationDetailed givenReservationDetailed(int reservationId, int bookId) {
         return ReservationDetailed.builder()
-                .reservation(givenReservation())
-                .book(givenBook())
+                .reservation(givenReservation(reservationId))
+                .book(givenBook(bookId))
                 .user(givenUser())
                 .build();
     }

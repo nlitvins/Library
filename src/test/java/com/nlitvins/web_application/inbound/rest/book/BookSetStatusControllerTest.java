@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static com.nlitvins.web_application.utils.BookTestFactory.givenBookWithId;
+import static com.nlitvins.web_application.utils.BookTestFactory.givenBook;
 import static com.nlitvins.web_application.utils.BookTestFactory.givenResponseBook;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
@@ -46,7 +46,7 @@ class BookSetStatusControllerTest extends AbstractControllerTest {
         @Test
         void returnBookWhenSetBookStatus() {
             int bookId = 1;
-            Book book = givenBookWithId(bookId);
+            Book book = givenBook(bookId);
             doReturn(book).when(bookSetStatusUseCase).setStatus(book.getId());
 
             BookResponse bookResponse = controller.setBookStatus(book.getId());
@@ -63,7 +63,7 @@ class BookSetStatusControllerTest extends AbstractControllerTest {
         @Test
         void returnBookWhenSetBookStatus() throws Exception {
             int bookId = 1;
-            Book book = givenBookWithId(bookId);
+            Book book = givenBook(bookId);
 
             doReturn(book).when(bookSetStatusUseCase).setStatus(book.getId());
 

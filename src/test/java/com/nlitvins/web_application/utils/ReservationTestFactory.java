@@ -9,12 +9,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.nlitvins.web_application.utils.BookTestFactory.givenBook;
-
 public class ReservationTestFactory {
 
     public static List<Reservation> givenReservations() {
-        List<Reservation> reservations = new ArrayList<Reservation>();
+        List<Reservation> reservations = new ArrayList<>();
         reservations.add(givenReservation(1));
         reservations.add(givenReservation(2));
         return reservations;
@@ -31,7 +29,7 @@ public class ReservationTestFactory {
         return Reservation.builder()
                 .id(1)
                 .userId(2)
-                .bookId(givenBook().getId())
+                .bookId(3)
                 .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
                 .termDate(LocalDateTime.parse("2025-07-05T23:59:59.999999999"))
                 .status(ReservationStatus.NEW)
@@ -44,22 +42,7 @@ public class ReservationTestFactory {
         return Reservation.builder()
                 .id(id)
                 .userId(2)
-                .bookId(givenBook().getId())
-
-                .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
-                .termDate(LocalDateTime.parse("2025-07-05T23:59:59.999999999"))
-                .status(ReservationStatus.NEW)
-                .extensionCount((short) 0)
-                .updatedDate(LocalDateTime.parse("2025-06-05T23:59:59.999999999"))
-                .build();
-    }
-
-    public static Reservation givenReservationWithBookId(int bookId) {
-        return Reservation.builder()
-                .id(1)
-                .userId(2)
-                .bookId(bookId)
-
+                .bookId(3)
                 .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
                 .termDate(LocalDateTime.parse("2025-07-05T23:59:59.999999999"))
                 .status(ReservationStatus.NEW)
@@ -72,7 +55,7 @@ public class ReservationTestFactory {
         return ReservationResponse.builder()
                 .id(1)
                 .userId(2)
-                .bookId(givenBook().getId())
+                .bookId(3)
 
                 .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
                 .termDate(LocalDateTime.parse("2025-07-05T23:59:59.999999999"))
@@ -86,7 +69,7 @@ public class ReservationTestFactory {
         return ReservationResponse.builder()
                 .id(id)
                 .userId(2)
-                .bookId(givenBook().getId())
+                .bookId(3)
                 .createdDate(LocalDateTime.parse("2025-05-05T23:59:59.999999999"))
                 .termDate(LocalDateTime.parse("2025-07-05T23:59:59.999999999"))
                 .status(ReservationStatus.NEW)

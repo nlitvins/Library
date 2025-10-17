@@ -11,8 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static com.nlitvins.web_application.utils.LoginTestFactory.loginRequest;
+import static com.nlitvins.web_application.utils.LoginTestFactory.loginResponse;
 import static com.nlitvins.web_application.utils.LoginTestFactory.loginUser;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
@@ -51,8 +52,9 @@ class LoginControllerTest extends AbstractControllerTest {
 
             LoginResponse loginResponse = controller.loginUser(loginRequest);
 
-            assertEquals(testToken, loginResponse.getToken());
-
+            assertThat(loginResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(loginResponse());
         }
     }
 
@@ -75,7 +77,9 @@ class LoginControllerTest extends AbstractControllerTest {
 
             LoginResponse loginResponse = getResponseObject(mvcResult, LoginResponse.class);
 
-            assertEquals(testToken, loginResponse.getToken());
+            assertThat(loginResponse)
+                    .usingRecursiveComparison()
+                    .isEqualTo(loginResponse());
         }
     }
 
