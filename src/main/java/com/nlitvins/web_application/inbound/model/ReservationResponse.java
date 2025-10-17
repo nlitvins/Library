@@ -2,10 +2,14 @@ package com.nlitvins.web_application.inbound.model;
 
 import com.nlitvins.web_application.domain.model.ReservationStatus;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Builder
+@EqualsAndHashCode
 public class ReservationResponse {
     private int id;
     private int userId;
@@ -15,36 +19,4 @@ public class ReservationResponse {
     private LocalDateTime updatedDate;
     private ReservationStatus status;
     private short extensionCount;
-
-    public int getId() {
-        return id;
-    }
-
-    public ReservationStatus getStatus() {
-        return status;
-    }
-
-    public short getExtensionCount() {
-        return extensionCount;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public int getBookId() {
-        return bookId;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public LocalDateTime getTermDate() {
-        return termDate;
-    }
-
-    public LocalDateTime getUpdatedDate() {
-        return updatedDate;
-    }
 }

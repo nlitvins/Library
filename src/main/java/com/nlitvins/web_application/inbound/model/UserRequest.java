@@ -1,10 +1,12 @@
 package com.nlitvins.web_application.inbound.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
+@Builder
 public class UserRequest {
     private String name;
     private String secondName;
