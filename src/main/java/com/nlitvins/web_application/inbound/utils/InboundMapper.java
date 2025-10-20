@@ -1,6 +1,7 @@
 package com.nlitvins.web_application.inbound.utils;
 
 import com.nlitvins.web_application.domain.model.Book;
+import com.nlitvins.web_application.domain.model.IsbnBook;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationDetailed;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
@@ -13,6 +14,7 @@ import com.nlitvins.web_application.inbound.model.ReservationDetailedResponse;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
 import com.nlitvins.web_application.inbound.model.UserRequest;
 import com.nlitvins.web_application.inbound.model.UserResponse;
+import com.nlitvins.web_application.outbound.model.IsbnBookResponse;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
@@ -173,6 +175,21 @@ public class InboundMapper {
                 reservationDetailedResponses.add(response);
             }
             return reservationDetailedResponses;
+        }
+    }
+
+    @UtilityClass
+    public static class BookByIsbn {
+
+        public static IsbnBook toDomain(IsbnBookResponse isbnBookResponse) {
+            IsbnBook.builder()
+                    .title(isbnBookResponse.getTitle())
+                    .authors(isbnBookResponse.getAuthors())
+                    .publisher(isbnBookResponse.getPublisher())
+                    .publishedDate(isbnBookResponse.getPublishDate())
+                    .coverUrl(isbnBookResponse.getCoverUrl())
+                    .build();
+
         }
     }
 

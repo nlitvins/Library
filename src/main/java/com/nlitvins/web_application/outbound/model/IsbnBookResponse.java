@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class BookByIsbnResponse {
+public class IsbnBookResponse {
     private String title;
     private List<String> authors;
     private List<String> publisher;

@@ -1,7 +1,7 @@
-package com.nlitvins.web_application.inbound.rest.isbnBookController;
+package com.nlitvins.web_application.inbound.rest.isbnBook;
 
 import com.nlitvins.web_application.domain.model.Book;
-import com.nlitvins.web_application.outbound.rest.BookByIsbnRepository;
+import com.nlitvins.web_application.outbound.repository.BookByIsbnRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +14,10 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class IsbnBookController {
 
-    private final BookByIsbnRepository bookByISBNRepository;
+    private final BookByIsbnRepositoryImpl bookByISBNRepositoryImpl;
 
     @GetMapping
     public Book getBookByIsbn(String isbn) {
-        return bookByISBNRepository.findByIsbn(isbn);
+        bookByISBNRepositoryImpl.findByIsbn(isbn);
     }
 }

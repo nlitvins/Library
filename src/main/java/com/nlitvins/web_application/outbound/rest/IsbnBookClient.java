@@ -1,6 +1,6 @@
 package com.nlitvins.web_application.outbound.rest;
 
-import com.nlitvins.web_application.outbound.model.BookByIsbnResponse;
+import com.nlitvins.web_application.outbound.model.IsbnBookResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
         url = "http://localhost:8081/",
         configuration = FeignConfig.class
 )
-public interface Client {
+public interface IsbnBookClient {
     @GetMapping("/books/{isbn}")
-    BookByIsbnResponse getBookByIsbn(@PathVariable("isbn") String isbn);
+    IsbnBookResponse getBookByIsbn(@PathVariable("isbn") String isbn);
 }
