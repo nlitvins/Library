@@ -13,6 +13,8 @@ import java.util.List;
 
 public class BookTestFactory {
 
+    private static final String TEST_ISBN = "test ISBN";
+
     public static List<Book> givenBooks() {
         List<Book> books = new ArrayList<>();
         books.add(givenBook(1));
@@ -42,6 +44,22 @@ public class BookTestFactory {
                 .build();
     }
 
+    public static BookCreateRequest givenRequestBookWithIsbn() {
+        return BookCreateRequest.builder()
+                .title("Test Book")
+                .author("Test Author")
+                .quantity(4)
+                .creationYear(LocalDate.parse("1888-04-03"))
+                .status(BookStatus.AVAILABLE)
+                .genre(BookGenre.ADVENTURE)
+                .pages((short) 444)
+                .edition("Test-edition")
+                .releaseDate(LocalDate.parse("2021-10-09"))
+                .type(BookType.BOOK)
+                .isbn(TEST_ISBN)
+                .build();
+    }
+
     public static BookResponse givenResponseBook() {
         return BookResponse.builder()
                 .title("Test Book")
@@ -54,6 +72,22 @@ public class BookTestFactory {
                 .edition("Test-edition")
                 .releaseDate(LocalDate.parse("2021-10-09"))
                 .type(BookType.BOOK)
+                .build();
+    }
+
+    public static BookResponse givenResponseBookWithIsbn() {
+        return BookResponse.builder()
+                .title("Test Book")
+                .author("Test Author")
+                .quantity(4)
+                .creationYear(LocalDate.parse("1888-04-03"))
+                .status(BookStatus.AVAILABLE)
+                .genre(BookGenre.ADVENTURE)
+                .pages((short) 444)
+                .edition("Test-edition")
+                .releaseDate(LocalDate.parse("2021-10-09"))
+                .type(BookType.BOOK)
+                .isbn(TEST_ISBN)
                 .build();
     }
 
@@ -85,6 +119,22 @@ public class BookTestFactory {
                 .edition("Test-edition")
                 .releaseDate(LocalDate.parse("2021-10-09"))
                 .type(BookType.BOOK)
+                .build();
+    }
+
+    public static Book givenBookWithIsbn() {
+        return Book.builder()
+                .title("Test Book")
+                .author("Test Author")
+                .quantity(4)
+                .creationYear(LocalDate.parse("1888-04-03"))
+                .status(BookStatus.AVAILABLE)
+                .genre(BookGenre.ADVENTURE)
+                .pages((short) 444)
+                .edition("Test-edition")
+                .releaseDate(LocalDate.parse("2021-10-09"))
+                .type(BookType.BOOK)
+                .isbn(TEST_ISBN)
                 .build();
     }
 

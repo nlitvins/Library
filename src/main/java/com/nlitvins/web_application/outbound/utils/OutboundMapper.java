@@ -4,7 +4,6 @@ import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.BookGenre;
 import com.nlitvins.web_application.domain.model.BookStatus;
 import com.nlitvins.web_application.domain.model.BookType;
-import com.nlitvins.web_application.domain.model.IsbnBook;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;
 import com.nlitvins.web_application.domain.model.User;
@@ -35,6 +34,7 @@ public class OutboundMapper {
             bookEntity.setEdition(book.getEdition());
             bookEntity.setReleaseDate(book.getReleaseDate());
             bookEntity.setType(book.getType().id);
+            bookEntity.setIsbn(book.getIsbn());
             return bookEntity;
         }
 
@@ -52,6 +52,7 @@ public class OutboundMapper {
                     .edition(bookEntity.getEdition())
                     .releaseDate(bookEntity.getReleaseDate())
                     .type(BookType.getType(bookEntity.getType()))
+                    .isbn(bookEntity.getIsbn())
                     .build();
         }
 
@@ -153,25 +154,6 @@ public class OutboundMapper {
                 users.add(mapper);
             }
             return users;
-        }
-    }
-
-    @UtilityClass
-    public static class IsbnBooks {
-        public static BookEntity toEntity(Book book) {
-            BookEntity bookEntity = new BookEntity();
-            bookEntity.setTitle(book.getTitle());
-            bookEntity.setAuthor(book.getAuthor());
-
-            return bookEntity;
-        }
-
-        public static IsbnBook toDomain(BookEntity bookEntity) {
-            return IsbnBook.builder()
-                    .title(bookEntity.getTitle())
-                    .authors(bookEntity.getAuthor())
-                    .build();
-
         }
     }
 

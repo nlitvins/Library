@@ -31,7 +31,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
         }
         return Arrays.stream(dbData.split(SPLIT_CHAR))
                 .map(String::trim)
-                .collect(Collectors.toList());
+                .toList();
     }
 }
 
