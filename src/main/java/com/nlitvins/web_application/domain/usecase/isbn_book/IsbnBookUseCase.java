@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Component
 @RequiredArgsConstructor
@@ -25,6 +26,14 @@ public class IsbnBookUseCase {
     private void mergeBookData(Book book, IsbnBook bookByIsbn) {
         book.setTitle(bookByIsbn.getTitle());
         book.setAuthor(bookByIsbn.getAuthors().getFirst());
-        book.setReleaseDate(LocalDate.parse(bookByIsbn.getPublishedDate()));
+        book.setReleaseDate(
+                LocalDate.parse(bookByIsbn.getPublishedDate())
+        );
+
+
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd");
+        String text = date.format(formatter);
+        LocalDate parsedDate = LocalDate.parse(text, formatter);
     }
 }

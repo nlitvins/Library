@@ -26,7 +26,8 @@ public class IsbnBookRepositoryImpl implements IsbnBookRepository {
         return IsbnBook.builder()
                 .title(response.getTitle())
                 .authors(response.getAuthors())
+                .publishedDate(response.getPublishDate())
                 .build();
     }
-
+//0606170979
 }
