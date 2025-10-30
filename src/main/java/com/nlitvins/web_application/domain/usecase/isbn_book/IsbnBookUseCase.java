@@ -9,10 +9,13 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @Component
 @RequiredArgsConstructor
 public class IsbnBookUseCase {
+
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("LLL dd, yyyy", Locale.ENGLISH);
 
     private final IsbnBookRepository isbnBookRepository;
     private final BookRepository bookRepository;
@@ -26,14 +29,11 @@ public class IsbnBookUseCase {
     private void mergeBookData(Book book, IsbnBook bookByIsbn) {
         book.setTitle(bookByIsbn.getTitle());
         book.setAuthor(bookByIsbn.getAuthors().getFirst());
-        book.setReleaseDate(
-                LocalDate.parse(bookByIsbn.getPublishedDate())
-        );
+        book.setReleaseDate(getPublishedDate(bookByIsbn));
+    }
 
-
-        LocalDate date = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd");
-        String text = date.format(formatter);
-        LocalDate parsedDate = LocalDate.parse(text, formatter);
+    private LocalDate getPublishedDate(IsbnBook bookByIsbn) {
+        String date = bookByIsbn.getPublishedDate();
+        return LocalDate.parse(date, FORMATTER);
     }
 }

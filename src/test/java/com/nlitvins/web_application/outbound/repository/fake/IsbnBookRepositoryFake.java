@@ -18,8 +18,8 @@ public class IsbnBookRepositoryFake implements IsbnBookRepository {
         books.clear();
     }
 
-    public IsbnBook save(IsbnBook book) {
-        books.put(book.getIsbn(), book);
+    public IsbnBook save(IsbnBook book, String isbn) {
+        books.put(isbn, book);
         return book.toBuilder().build();
     }
 }

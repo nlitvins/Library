@@ -55,6 +55,8 @@ dependencies {
     testImplementation("org.wiremock:wiremock-standalone:3.13.0")
     testImplementation("io.github.openfeign:feign-jackson:$openFeignVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testCompileOnly("org.projectlombok:lombok:$lombokVersion")
+    testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
 }
 
 dependencyManagement {
