@@ -1,4 +1,4 @@
-package com.nlitvins.web_application.utils;
+package com.nlitvins.web_application.utils.factory;
 
 import com.nlitvins.web_application.domain.model.ReservationDetailed;
 import com.nlitvins.web_application.inbound.model.ReservationDetailedResponse;
@@ -6,12 +6,12 @@ import com.nlitvins.web_application.inbound.model.ReservationDetailedResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.nlitvins.web_application.utils.BookTestFactory.givenBook;
-import static com.nlitvins.web_application.utils.BookTestFactory.givenResponseBook;
-import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservation;
-import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservationResponse;
-import static com.nlitvins.web_application.utils.UserTestFactory.givenUser;
-import static com.nlitvins.web_application.utils.UserTestFactory.givenUserResponse;
+import static com.nlitvins.web_application.utils.factory.BookTestFactory.givenBook;
+import static com.nlitvins.web_application.utils.factory.BookTestFactory.givenResponseBook;
+import static com.nlitvins.web_application.utils.factory.ReservationTestFactory.givenReservation;
+import static com.nlitvins.web_application.utils.factory.ReservationTestFactory.givenReservationResponse;
+import static com.nlitvins.web_application.utils.factory.UserTestFactory.givenUser;
+import static com.nlitvins.web_application.utils.factory.UserTestFactory.givenUserResponse;
 
 public class ReservationDetailedTestFactory {
 

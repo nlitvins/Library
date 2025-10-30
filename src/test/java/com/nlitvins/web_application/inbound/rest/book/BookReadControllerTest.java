@@ -3,7 +3,7 @@ package com.nlitvins.web_application.inbound.rest.book;
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.usecase.book.BookReadUseCase;
 import com.nlitvins.web_application.inbound.model.BookResponse;
-import com.nlitvins.web_application.inbound.rest.AbstractControllerTest;
+import com.nlitvins.web_application.utils.AbstractControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,10 +13,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
-import static com.nlitvins.web_application.utils.BookTestFactory.givenBook;
-import static com.nlitvins.web_application.utils.BookTestFactory.givenBookResponses;
-import static com.nlitvins.web_application.utils.BookTestFactory.givenBooks;
-import static com.nlitvins.web_application.utils.BookTestFactory.givenResponseBook;
+import static com.nlitvins.web_application.utils.factory.BookTestFactory.givenBook;
+import static com.nlitvins.web_application.utils.factory.BookTestFactory.givenBookResponses;
+import static com.nlitvins.web_application.utils.factory.BookTestFactory.givenBooks;
+import static com.nlitvins.web_application.utils.factory.BookTestFactory.givenResponseBook;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;

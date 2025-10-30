@@ -3,7 +3,7 @@ package com.nlitvins.web_application.inbound.rest.user;
 import com.nlitvins.web_application.domain.model.User;
 import com.nlitvins.web_application.domain.usecase.user.UserReadUseCase;
 import com.nlitvins.web_application.inbound.model.UserResponse;
-import com.nlitvins.web_application.inbound.rest.AbstractControllerTest;
+import com.nlitvins.web_application.utils.AbstractControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,8 +13,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
-import static com.nlitvins.web_application.utils.UserTestFactory.givenUsers;
-import static com.nlitvins.web_application.utils.UserTestFactory.givenUsersResponse;
+import static com.nlitvins.web_application.utils.factory.UserTestFactory.givenUsers;
+import static com.nlitvins.web_application.utils.factory.UserTestFactory.givenUsersResponse;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
