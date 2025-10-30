@@ -3,15 +3,15 @@ package com.nlitvins.web_application.inbound.rest.reservation;
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.usecase.reservation.ReservationCheckUseCase;
 import com.nlitvins.web_application.inbound.model.ReservationResponse;
-import com.nlitvins.web_application.inbound.rest.AbstractControllerTest;
+import com.nlitvins.web_application.utils.AbstractControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservation;
-import static com.nlitvins.web_application.utils.ReservationTestFactory.givenReservationResponse;
+import static com.nlitvins.web_application.utils.factory.ReservationTestFactory.givenReservation;
+import static com.nlitvins.web_application.utils.factory.ReservationTestFactory.givenReservationResponse;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;

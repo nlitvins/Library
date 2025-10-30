@@ -1,4 +1,4 @@
-package com.nlitvins.web_application.utils;
+package com.nlitvins.web_application.utils.factory;
 
 import com.nlitvins.web_application.domain.model.Reservation;
 import com.nlitvins.web_application.domain.model.ReservationStatus;

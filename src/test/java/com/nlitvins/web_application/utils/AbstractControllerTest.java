@@ -1,4 +1,4 @@
-package com.nlitvins.web_application.inbound.rest;
+package com.nlitvins.web_application.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.MapperFeature;
