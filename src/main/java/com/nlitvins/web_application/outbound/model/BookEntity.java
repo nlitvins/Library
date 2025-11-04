@@ -47,6 +47,9 @@ public class BookEntity {
     @Column(name = "type")
     private short type;
 
+    @Column(name = "isbn", length = 20)
+    private String isbn;
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
@@ -91,6 +94,10 @@ public class BookEntity {
         this.type = type;
     }
 
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -133,5 +140,9 @@ public class BookEntity {
 
     public short getType() {
         return type;
+    }
+
+    public String getIsbn() {
+        return isbn;
     }
 }

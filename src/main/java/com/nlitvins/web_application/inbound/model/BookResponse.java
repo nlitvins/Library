@@ -24,4 +24,5 @@ public class BookResponse {
     private String edition;
     private LocalDate releaseDate;
     private BookType type;
+    private String isbn;
 }

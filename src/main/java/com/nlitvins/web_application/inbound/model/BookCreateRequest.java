@@ -23,4 +23,5 @@ public class BookCreateRequest {
     private String edition;
     private LocalDate releaseDate;
     private BookType type;
+    private String isbn;
 }

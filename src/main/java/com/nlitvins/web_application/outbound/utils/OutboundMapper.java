@@ -34,6 +34,7 @@ public class OutboundMapper {
             bookEntity.setEdition(book.getEdition());
             bookEntity.setReleaseDate(book.getReleaseDate());
             bookEntity.setType(book.getType().id);
+            bookEntity.setIsbn(book.getIsbn());
             return bookEntity;
         }
 
@@ -51,6 +52,7 @@ public class OutboundMapper {
                     .edition(bookEntity.getEdition())
                     .releaseDate(bookEntity.getReleaseDate())
                     .type(BookType.getType(bookEntity.getType()))
+                    .isbn(bookEntity.getIsbn())
                     .build();
         }
 

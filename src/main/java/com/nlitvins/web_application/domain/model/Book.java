@@ -26,4 +26,5 @@ public class Book {
     private String edition;
     private LocalDate releaseDate;
     private BookType type;
+    private String isbn;
 }

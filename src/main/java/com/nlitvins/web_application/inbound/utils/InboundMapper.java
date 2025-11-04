@@ -122,6 +122,7 @@ public class InboundMapper {
                     .edition(request.getEdition())
                     .releaseDate(request.getReleaseDate())
                     .type(request.getType())
+                    .isbn(request.getIsbn())
                     .build();
         }
 
@@ -139,6 +140,7 @@ public class InboundMapper {
                     .edition(book.getEdition())
                     .releaseDate(book.getReleaseDate())
                     .type(book.getType())
+                    .isbn(book.getIsbn())
                     .build();
         }
 
@@ -175,5 +177,4 @@ public class InboundMapper {
             return reservationDetailedResponses;
         }
     }
-
 }

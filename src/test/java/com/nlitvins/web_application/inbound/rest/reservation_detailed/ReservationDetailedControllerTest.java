@@ -144,6 +144,7 @@ class ReservationDetailedControllerTest extends AbstractControllerTest {
 
             MvcResult mvcResult = mockMvc.perform(
                             get(getControllerURI() + "/user" + "/" + userId)
+                                    //TODO
                                     .contentType(getBodyContent(2)))
                     .andDo(print()).andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
