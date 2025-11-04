@@ -15,10 +15,6 @@ val lombokVersion = "1.18.38"
 val jjwtVersion = "0.12.6"
 val springCloudVersion = "2024.0.1"
 
-//ext {
-//    set("springCloudVersion", "2024.0.1")
-//}
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
