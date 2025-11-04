@@ -13,7 +13,7 @@ import java.util.List;
 
 public class BookTestFactory {
 
-    private static final String TEST_ISBN = "test ISBN";
+    public static final String TEST_ISBN = "0606170979";
 
     public static List<Book> givenBooks() {
         List<Book> books = new ArrayList<>();
@@ -152,5 +152,22 @@ public class BookTestFactory {
                 .releaseDate(LocalDate.parse("2021-10-09"))
                 .type(BookType.BOOK)
                 .build();
+    }
+
+    public static String isbnResponse() {
+        return """
+                {
+                  "title": "Harry Potter and the Sorcerer's Stone",
+                  "authors": [
+                    "J. K. Rowling"
+                  ],
+                  "publishers": [
+                    "Brand: Demco Media",
+                    "Demco Media"
+                  ],
+                  "publishDate": "Jun 16, 1998",
+                  "coverUrl": "https://covers.openlibrary.org/b/id/10447992-M.jpg"
+                }
+                """;
     }
 }

@@ -1,5 +1,6 @@
 package com.nlitvins.web_application.domain.usecase.isbn_book;
 
+import com.nlitvins.web_application.domain.exception.IsbnBookNotFoundException;
 import com.nlitvins.web_application.domain.model.Book;
 import com.nlitvins.web_application.domain.model.IsbnBook;
 import com.nlitvins.web_application.domain.repository.BookRepository;
@@ -22,6 +23,9 @@ public class IsbnBookUseCase {
 
     public Book createBookByIsbn(Book book) {
         IsbnBook bookByIsbn = isbnBookRepository.createBookByIsbn(book.getIsbn());
+        if (bookByIsbn == null) {
+            throw new IsbnBookNotFoundException(book.getIsbn());
+        }
         mergeBookData(book, bookByIsbn);
         return bookRepository.save(book);
     }

@@ -1,9 +1,7 @@
 package com.nlitvins.web_application.domain.usecase.isbn_book;
 
+import com.nlitvins.web_application.domain.exception.IsbnBookNotFoundException;
 import com.nlitvins.web_application.domain.model.Book;
-import com.nlitvins.web_application.domain.model.BookGenre;
-import com.nlitvins.web_application.domain.model.BookStatus;
-import com.nlitvins.web_application.domain.model.BookType;
 import com.nlitvins.web_application.domain.model.IsbnBook;
 import com.nlitvins.web_application.outbound.repository.fake.BookRepositoryFake;
 import com.nlitvins.web_application.outbound.repository.fake.IsbnBookRepositoryFake;
@@ -12,11 +10,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.time.LocalDate;
 import java.util.List;
 
+import static com.nlitvins.web_application.utils.factory.BookTestFactory.givenBook;
+import static com.nlitvins.web_application.utils.factory.BookTestFactory.givenBookWithIsbn;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class IsbnBookUseCaseTest {
@@ -39,19 +39,29 @@ class IsbnBookUseCaseTest {
         bookRepository.clear();
     }
 
-
     @Test
     void saveBookWhenCorrectBookPassed() {
-        Book before = bookRepository.findById(1);
-        assertNull(before);
-        Book book = givenBook();
-        givenBookIsbn();
+        List<Book> before = bookRepository.findAll();
+        assertThat(before).isEmpty();
 
+        Book book = givenBookWithIsbn();
+        givenBookIsbn();
         Book result = sut.createBookByIsbn(book);
-        Book saved = bookRepository.findById(1);
 
         assertResult(result, book);
-        assertResult(saved, book);
+        List<Book> savedBooks = bookRepository.findAll();
+        assertThat(savedBooks).hasSize(1);
+        assertResult(savedBooks.getFirst(), book);
+    }
+
+    @Test
+    void throwExceptionWhenIsbnBookNotFound() {
+        Book book = givenBook();
+        IsbnBookNotFoundException thrown = assertThrows(
+                IsbnBookNotFoundException.class,
+                () -> sut.createBookByIsbn(book)
+        );
+        assertEquals("Book not found for ISBN: null", thrown.getMessage());
     }
 
     private static void assertResult(Book saved, Book book) {
@@ -63,26 +73,6 @@ class IsbnBookUseCaseTest {
         assertThat(book).usingRecursiveComparison()
                 .ignoringFields("title", "author", "releaseDate")
                 .isEqualTo(saved);
-    }
-
-    //TODO Exception
-
-
-    private Book givenBook() {
-        return Book.builder()
-                .id(1)
-                .title("String")
-                .author("String")
-                .quantity(11)
-                .creationYear(LocalDate.parse("2025-10-29"))
-                .status(BookStatus.AVAILABLE)
-                .genre(BookGenre.ROMANCE)
-                .pages((short) 11)
-                .edition("String")
-                .releaseDate(LocalDate.parse("2025-10-29"))
-                .type(BookType.BOOK)
-                .isbn("0606170979")
-                .build();
     }
 
     private IsbnBook givenBookIsbn() {

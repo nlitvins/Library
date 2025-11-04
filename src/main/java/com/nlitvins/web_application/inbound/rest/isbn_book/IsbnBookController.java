@@ -6,6 +6,7 @@ import com.nlitvins.web_application.inbound.model.BookCreateRequest;
 import com.nlitvins.web_application.inbound.model.BookResponse;
 import com.nlitvins.web_application.inbound.utils.InboundMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class IsbnBookController {
     private final IsbnBookUseCase isbnBookUseCase;
 
     @PostMapping("/isbn")
+    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
     public BookResponse createBookByIsbn(@RequestBody BookCreateRequest request) {
         Book book = InboundMapper.Books.toDomain(request);
         Book savedBook = isbnBookUseCase.createBookByIsbn(book);

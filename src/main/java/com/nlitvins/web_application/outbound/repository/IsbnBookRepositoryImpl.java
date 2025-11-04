@@ -29,5 +29,4 @@ public class IsbnBookRepositoryImpl implements IsbnBookRepository {
                 .publishedDate(response.getPublishDate())
                 .build();
     }
-//0606170979
 }
